@@ -50,6 +50,11 @@ return [
 }
 ```
 
+- Initialize default configuration:
+```php
+php ./bin/console config:dump-reference boson > config/packages/boson.yaml
+```
+
 ## Documentation
 
 - You can learn more [about what a Boson is](https://bosonphp.com/introduction.html).
