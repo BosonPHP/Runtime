@@ -14,6 +14,7 @@
             <directory>libs/bridge/http-bridge/tests</directory>
             <directory>libs/bridge/laravel-http-bridge/tests</directory>
             <directory>libs/bridge/psr-http-bridge/tests</directory>
+            <directory>libs/bridge/symfony-bundle/tests</directory>
             <directory>libs/bridge/symfony-http-bridge/tests</directory>
         </testsuite>
         <testsuite name="components">
@@ -40,6 +41,7 @@
             <directory>libs/bridge/http-bridge/src</directory>
             <directory>libs/bridge/laravel-http-bridge/src</directory>
             <directory>libs/bridge/psr-http-bridge/src</directory>
+            <directory>libs/bridge/symfony-bundle/src</directory>
             <directory>libs/bridge/symfony-http-bridge/src</directory>
             <!-- components -->
             <directory>libs/component/compiler/src</directory>

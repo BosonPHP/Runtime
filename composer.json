@@ -13,6 +13,7 @@
         "boson-php/http-bridge": "^0.14",
         "boson-php/laravel-http-bridge": "^0.14",
         "boson-php/psr-http-bridge": "^0.14",
+        "boson-php/symfony-bundle": "^0.14",
         "boson-php/symfony-http-bridge": "^0.14",
         "boson-php/cpu-info": "^0.14",
         "boson-php/globals-provider": "^0.14",
@@ -42,6 +43,7 @@
             "Boson\\Bridge\\Http\\Tests\\": "libs/bridge/http-bridge/tests",
             "Boson\\Bridge\\Laravel\\Http\\Tests\\": "libs/bridge/laravel-http-bridge/tests",
             "Boson\\Bridge\\Psr\\Http\\Tests\\": "libs/bridge/psr-http-bridge/tests",
+            "Boson\\Bridge\\Symfony\\Tests\\": "libs/bridge/symfony-bundle/tests",
             "Boson\\Bridge\\Symfony\\Http\\Tests\\": "libs/bridge/symfony-http-bridge/tests",
             "Boson\\Component\\Compiler\\Tests\\": "libs/component/compiler/tests",
             "Boson\\Component\\CpuInfo\\Tests\\": "libs/component/cpu-info/tests",
@@ -69,7 +71,8 @@
             "*": "dist"
         },
         "allow-plugins": {
-            "bamarni/composer-bin-plugin": true
+            "bamarni/composer-bin-plugin": true,
+            "symfony/runtime": false
         }
     },
     "scripts-aliases": {
