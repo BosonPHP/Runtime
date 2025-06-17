@@ -20,7 +20,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  *     },
  *     static: array{
  *         directory: list<non-empty-string>
- *     }
+ *     },
  *     ...
  * }
  */

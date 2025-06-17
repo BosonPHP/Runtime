@@ -39,6 +39,7 @@ final readonly class BosonRunner implements RunnerInterface
 
             if ($staticBosonResponse !== null) {
                 $e->response = $staticBosonResponse;
+
                 return;
             }
 
