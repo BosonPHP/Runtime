@@ -21,6 +21,7 @@
     "bin": ["bin/boson"],
     "require": {
         "php": "^8.4",
+        "boson-php/pe-editor": "^0.14",
         "justinrainbow/json-schema": "^6.3.1",
         "symfony/console": "^6.4|^7.0",
         "symfony/process": "^6.4|^7.0",

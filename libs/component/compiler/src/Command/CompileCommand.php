@@ -13,23 +13,27 @@ use Boson\Component\Compiler\Assembly\AssemblyEdition;
 use Boson\Component\Compiler\Assembly\AssemblyPlatform;
 use Boson\Component\Compiler\Command\PackCommand\PackApplicationWorkflowPresenter;
 use Boson\Component\Compiler\Workflow\CompileApplicationWorkflow;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'compile', description: 'Compile application to executable binary')]
 final class CompileCommand extends ConfigAwareCommand
 {
+    public function __construct(?string $name = null)
+    {
+        parent::__construct($name ?? 'compile');
+    }
+
     protected function configure(): void
     {
         parent::configure();
+
+        $this->setDescription('Compile application to executable binary');
 
         $assemblies = AssemblyCollection::createFromBuiltinAssemblies();
 
         $this->addOption(
             name: 'platform',
-            shortcut: 'p',
             mode: InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
             description: 'Target platform (OS family) to built',
             default: [],
@@ -41,7 +45,6 @@ final class CompileCommand extends ConfigAwareCommand
 
         $this->addOption(
             name: 'arch',
-            shortcut: 'a',
             mode: InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
             description: 'Target CPU architecture to built',
             default: [],
@@ -53,7 +56,6 @@ final class CompileCommand extends ConfigAwareCommand
 
         $this->addOption(
             name: 'edition',
-            shortcut: 'e',
             mode: InputOption::VALUE_REQUIRED,
             description: 'PHP edition (different set of extensions) for assembly',
             default: 'minimal',
@@ -65,7 +67,6 @@ final class CompileCommand extends ConfigAwareCommand
 
         $this->addOption(
             name: 'no-pack',
-            shortcut: 'np',
             mode: InputOption::VALUE_NONE,
             description: 'Only compilation is performed without source packing',
         );
