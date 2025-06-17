@@ -7,8 +7,6 @@ namespace Boson\Api\Dialog;
 use Boson\Api\ApplicationExtension;
 use Boson\Api\DialogApiInterface;
 use Boson\Application;
-use Boson\Dispatcher\EventListener;
-use Boson\Internal\Saucer\LibSaucer;
 use FFI\CData;
 
 /**

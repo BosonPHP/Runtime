@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Boson\Api;
 
 use Boson\Dispatcher\Event;
-use Boson\Dispatcher\EventDispatcherInterface;
 use Boson\Dispatcher\EventListener;
-use Boson\Dispatcher\EventListenerInterface;
 use Boson\Dispatcher\Intention;
 use Boson\Dispatcher\Subscription\CancellableSubscriptionInterface;
 use Boson\Internal\Saucer\LibSaucer;
