@@ -10,20 +10,20 @@
     ],
     "require": {
         "php": "^8.4",
-        "boson-php/http-bridge": "^0.14",
-        "boson-php/laravel-http-bridge": "^0.14",
-        "boson-php/psr-http-bridge": "^0.14",
-        "boson-php/symfony-bundle": "^0.14",
-        "boson-php/symfony-http-bridge": "^0.14",
         "boson-php/cpu-info": "^0.14",
         "boson-php/globals-provider": "^0.14",
         "boson-php/http": "^0.14",
         "boson-php/http-body-decoder": "^0.14",
+        "boson-php/http-bridge": "^0.14",
+        "boson-php/http-contracts": "^0.14",
         "boson-php/http-static-provider": "^0.14",
+        "boson-php/laravel-http-bridge": "^0.14",
         "boson-php/os-info": "^0.14",
+        "boson-php/psr-http-bridge": "^0.14",
         "boson-php/runtime": "^0.14",
-        "boson-php/weak-types": "^0.14",
-        "boson-php/http-contracts": "^0.14"
+        "boson-php/symfony-bundle": "^0.14",
+        "boson-php/symfony-http-bridge": "^0.14",
+        "boson-php/weak-types": "^0.14"
     },
     "require-dev": {
         "boson-php/compiler": "^0.14",
