@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Boson\WebView\Api\WebComponents;
 
-use Boson\Dispatcher\EventDispatcherInterface;
-use Boson\Dispatcher\EventListenerInterface;
+use Boson\Dispatcher\EventListener;
 use Boson\Internal\Saucer\LibSaucer;
 use Boson\WebView\Api\WebComponents\Component\HasAttributesInterface;
 use Boson\WebView\Api\WebComponents\Component\HasClassNameInterface;
@@ -126,14 +125,12 @@ final class WebViewWebComponents extends WebViewExtension implements
     public function __construct(
         LibSaucer $api,
         WebView $context,
-        EventListenerInterface $listener,
-        EventDispatcherInterface $dispatcher,
+        EventListener $listener,
     ) {
         parent::__construct(
             api: $api,
             context: $context,
             listener: $listener,
-            dispatcher: $dispatcher,
         );
 
         $this->classNamePrefix = $context->info->webComponents->classNamePrefix;

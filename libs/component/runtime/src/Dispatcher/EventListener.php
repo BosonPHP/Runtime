@@ -25,15 +25,6 @@ class EventListener implements EventListenerInterface, EventDispatcherInterface
         protected readonly IdValueGeneratorInterface $ids = new PlatformDependentIntValueGenerator(),
     ) {}
 
-    public function getListenersForEvent(object $event): iterable
-    {
-        if (!isset($this->listeners[$event::class])) {
-            return [];
-        }
-
-        return $this->listeners[$event::class];
-    }
-
     public function addEventListener(string $event, callable $listener): CancellableSubscriptionInterface
     {
         $subscription = new CancellableSubscription(
@@ -54,9 +45,26 @@ class EventListener implements EventListenerInterface, EventDispatcherInterface
         unset($this->listeners[$subscription->name][$subscription->id]);
     }
 
-    public function removeAllEventListenersForEvent(string $event): void
+    public function removeListenersForEvent(object|string $event): void
     {
+        if (!\is_string($event)) {
+            $event = $event::class;
+        }
+
         unset($this->listeners[$event]);
+    }
+
+    public function getListenersForEvent(object|string $event): array
+    {
+        if (!\is_string($event)) {
+            $event = $event::class;
+        }
+
+        if (!isset($this->listeners[$event])) {
+            return [];
+        }
+
+        return $this->listeners[$event];
     }
 
     private function dispatchStoppableEvent(StoppableEventInterface $event): void

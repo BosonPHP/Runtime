@@ -10,7 +10,6 @@ use Boson\Dispatcher\EventDispatcherInterface;
 use Boson\Dispatcher\EventListener;
 use Boson\Dispatcher\EventListenerInterface;
 use Boson\Dispatcher\EventListenerProvider;
-use Boson\Dispatcher\EventListenerProviderInterface;
 use Boson\Internal\Saucer\LibSaucer;
 use Boson\Component\WeakType\ObservableWeakSet;
 use Boson\Window\Event\WindowClosed;
@@ -30,7 +29,7 @@ use Psr\EventDispatcher\EventDispatcherInterface as PsrEventDispatcherInterface;
  * @template-implements \IteratorAggregate<array-key, Window>
  */
 final class WindowManager implements
-    EventListenerProviderInterface,
+    EventListenerInterface,
     WindowCollectionInterface,
     WindowFactoryInterface,
     \IteratorAggregate
@@ -60,15 +59,9 @@ final class WindowManager implements
     private readonly ObservableWeakSet $memory;
 
     /**
-     * Gets access to the listener of ANY window events
-     * and intention subscriptions.
+     * Windows list aware event listener & dispatcher.
      */
-    public readonly EventListenerInterface $events;
-
-    /**
-     * Windows list aware event dispatcher.
-     */
-    private readonly EventDispatcherInterface $dispatcher;
+    private readonly EventListener $listener;
 
     public function __construct(
         private readonly LibSaucer $api,
@@ -79,7 +72,7 @@ final class WindowManager implements
         // Initialization Window Manager's fields and properties
         $this->windows = self::createWindowsStorage();
         $this->memory = self::createWindowsDestructorObserver();
-        $this->events = $this->dispatcher = self::createEventListener($dispatcher);
+        $this->listener = self::createEventListener($dispatcher);
 
         // Initialization of Window Manager's API
         // ...
@@ -137,7 +130,7 @@ final class WindowManager implements
      */
     private function registerDefaultEventListeners(): void
     {
-        $this->events->addEventListener(WindowClosed::class, function (WindowClosed $event) {
+        $this->listener->addEventListener(WindowClosed::class, function (WindowClosed $event) {
             $this->windows->detach($event->subject);
 
             // Recalculate default window in case of
@@ -203,7 +196,7 @@ final class WindowManager implements
             api: $this->api,
             app: $this->app,
             info: $info,
-            dispatcher: $this->events,
+            dispatcher: $this->listener,
         );
 
         // Clearing object pointers after window object release
@@ -212,10 +205,10 @@ final class WindowManager implements
             $this->api->saucer_webview_clear_embedded($window->id->ptr);
             $this->api->saucer_free($window->id->ptr);
 
-            $this->dispatcher->dispatch(new WindowDestroyed($window));
+            $this->listener->dispatch(new WindowDestroyed($window));
         });
 
-        $this->dispatcher->dispatch(new WindowCreated($window));
+        $this->listener->dispatch(new WindowCreated($window));
 
         return $window;
     }

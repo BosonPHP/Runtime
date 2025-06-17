@@ -6,6 +6,7 @@ namespace Boson\Api;
 
 use Boson\Dispatcher\Event;
 use Boson\Dispatcher\EventDispatcherInterface;
+use Boson\Dispatcher\EventListener;
 use Boson\Dispatcher\EventListenerInterface;
 use Boson\Dispatcher\Intention;
 use Boson\Dispatcher\Subscription\CancellableSubscriptionInterface;
@@ -26,8 +27,7 @@ abstract class Extension
          * @var T
          */
         protected readonly object $context,
-        private readonly EventListenerInterface $listener,
-        private readonly EventDispatcherInterface $dispatcher,
+        private readonly EventListener $listener,
     ) {
         $this->ptr = $this->getHandle($this->context);
     }
@@ -55,7 +55,7 @@ abstract class Extension
      */
     protected function intent(object $intention): bool
     {
-        $this->dispatcher->dispatch($intention);
+        $this->listener->dispatch($intention);
 
         return $intention->isCancelled === false;
     }
@@ -65,6 +65,6 @@ abstract class Extension
      */
     protected function dispatch(object $event): void
     {
-        $this->dispatcher->dispatch($event);
+        $this->listener->dispatch($event);
     }
 }

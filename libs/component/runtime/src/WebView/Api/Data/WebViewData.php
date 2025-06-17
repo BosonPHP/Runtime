@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Boson\WebView\Api\Data;
 
 use Boson\ApplicationPollerInterface;
-use Boson\Dispatcher\EventDispatcherInterface;
-use Boson\Dispatcher\EventListenerInterface;
+use Boson\Dispatcher\EventListener;
 use Boson\Internal\Saucer\LibSaucer;
 use Boson\Shared\IdValueGenerator\IdValueGeneratorInterface;
 use Boson\Shared\Marker\BlockingOperation;
@@ -95,14 +94,12 @@ final class WebViewData extends WebViewExtension implements DataApiInterface
     public function __construct(
         LibSaucer $api,
         WebView $context,
-        EventListenerInterface $listener,
-        EventDispatcherInterface $dispatcher,
+        EventListener $listener,
     ) {
         parent::__construct(
             api: $api,
             context: $context,
             listener: $listener,
-            dispatcher: $dispatcher,
         );
 
         $this->ids = $context->info->data->ids;

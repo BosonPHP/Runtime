@@ -7,8 +7,7 @@ namespace Boson\Api\Dialog;
 use Boson\Api\ApplicationExtension;
 use Boson\Api\DialogApiInterface;
 use Boson\Application;
-use Boson\Dispatcher\EventDispatcherInterface;
-use Boson\Dispatcher\EventListenerInterface;
+use Boson\Dispatcher\EventListener;
 use Boson\Internal\Saucer\LibSaucer;
 use FFI\CData;
 
@@ -18,20 +17,6 @@ use FFI\CData;
  */
 final class ApplicationDialog extends ApplicationExtension implements DialogApiInterface
 {
-    public function __construct(
-        LibSaucer $api,
-        Application $context,
-        EventListenerInterface $listener,
-        EventDispatcherInterface $dispatcher,
-    ) {
-        parent::__construct(
-            api: $api,
-            context: $context,
-            listener: $listener,
-            dispatcher: $dispatcher,
-        );
-    }
-
     private function applyDirectory(CData $options, ?string $directory): void
     {
         $directory ??= \getcwd();

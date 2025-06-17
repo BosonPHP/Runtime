@@ -32,18 +32,18 @@ interface EventListenerInterface extends ListenerProviderInterface
     /**
      * Removes an event listeners from the specified event class/name.
      *
-     * @param class-string $event the event (class) name
+     * @param class-string|object $event
      */
-    public function removeAllEventListenersForEvent(string $event): void;
+    public function removeListenersForEvent(object|string $event): void;
 
     /**
      * @template TArgEvent of object
      *
-     * @param TArgEvent $event an event for which to return the relevant listeners
+     * @param class-string<TArgEvent>|TArgEvent $event
      *
      * @return iterable<array-key, callable(TArgEvent):void> An iterable (array,
      *         iterator, or generator) of callables. Each callable MUST be
      *         type-compatible with $event.
      */
-    public function getListenersForEvent(object $event): iterable;
+    public function getListenersForEvent(object|string $event): iterable;
 }

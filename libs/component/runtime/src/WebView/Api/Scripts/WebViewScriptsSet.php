@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Boson\WebView\Api\Scripts;
 
-use Boson\Dispatcher\EventDispatcherInterface;
-use Boson\Dispatcher\EventListenerInterface;
+use Boson\Dispatcher\EventListener;
 use Boson\Internal\Saucer\LibSaucer;
 use Boson\Internal\Saucer\SaucerLoadTime;
 use Boson\WebView\Api\ScriptsApiInterface;
@@ -33,14 +32,12 @@ final class WebViewScriptsSet extends WebViewExtension implements
     public function __construct(
         LibSaucer $api,
         WebView $context,
-        EventListenerInterface $listener,
-        EventDispatcherInterface $dispatcher,
+        EventListener $listener,
     ) {
         parent::__construct(
             api: $api,
             context: $context,
             listener: $listener,
-            dispatcher: $dispatcher,
         );
 
         $this->scripts = new \SplObjectStorage();

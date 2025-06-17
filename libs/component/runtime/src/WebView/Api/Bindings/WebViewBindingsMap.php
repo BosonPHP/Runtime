@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Boson\WebView\Api\Bindings;
 
-use Boson\Dispatcher\EventDispatcherInterface;
-use Boson\Dispatcher\EventListenerInterface;
+use Boson\Dispatcher\EventListener;
 use Boson\Internal\Saucer\LibSaucer;
 use Boson\WebView\Api\Bindings\Exception\FunctionAlreadyDefinedException;
 use Boson\WebView\Api\Bindings\Exception\InvalidFunctionException;
@@ -55,14 +54,12 @@ final class WebViewBindingsMap extends WebViewExtension implements
     public function __construct(
         LibSaucer $api,
         WebView $context,
-        EventListenerInterface $listener,
-        EventDispatcherInterface $dispatcher,
+        EventListener $listener,
     ) {
         parent::__construct(
             api: $api,
             context: $context,
             listener: $listener,
-            dispatcher: $dispatcher,
         );
 
         $this->packer = new WebViewContextPacker(

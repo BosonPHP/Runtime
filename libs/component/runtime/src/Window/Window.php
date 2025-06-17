@@ -10,7 +10,6 @@ use Boson\Dispatcher\EventDispatcherInterface;
 use Boson\Dispatcher\EventListener;
 use Boson\Dispatcher\EventListenerInterface;
 use Boson\Dispatcher\EventListenerProvider;
-use Boson\Dispatcher\EventListenerProviderInterface;
 use Boson\Internal\Saucer\LibSaucer;
 use Boson\Internal\Saucer\SaucerWindowEdge;
 use Boson\Shared\Marker\RequiresDealloc;
@@ -32,7 +31,7 @@ use Psr\EventDispatcher\EventDispatcherInterface as PsrEventDispatcherInterface;
 /**
  * @api
  */
-final class Window implements EventListenerProviderInterface
+final class Window implements EventListenerInterface
 {
     use EventListenerProvider;
 
@@ -51,15 +50,9 @@ final class Window implements EventListenerProviderInterface
     public readonly WebView $webview;
 
     /**
-     * Gets access to the listener of the window events
-     * and intention subscriptions.
+     * Window aware event listener & dispatcher.
      */
-    public readonly EventListenerInterface $events;
-
-    /**
-     * Window aware event dispatcher.
-     */
-    private readonly EventDispatcherInterface $dispatcher;
+    private readonly EventListener $listener;
 
     /**
      * The title of the specified window encoded as UTF-8.
@@ -79,7 +72,7 @@ final class Window implements EventListenerProviderInterface
         set {
             // Dispatch only if the state has changed
             if ($this->state !== $value) {
-                $this->dispatcher->dispatch(new WindowStateChanged(
+                $this->listener->dispatch(new WindowStateChanged(
                     subject: $this,
                     state: $value,
                     previous: $this->state,
@@ -136,7 +129,7 @@ final class Window implements EventListenerProviderInterface
 
             $this->updateDecoration($value);
 
-            $this->dispatcher->dispatch(new WindowDecorationChanged(
+            $this->listener->dispatch(new WindowDecorationChanged(
                 subject: $this,
                 decoration: $value,
                 previous: $this->decoration,
@@ -480,13 +473,13 @@ final class Window implements EventListenerProviderInterface
     ) {
         // Initialization Window's fields and properties
         $this->id = self::createWindowId($api, $app, $this->info);
-        $this->events = $this->dispatcher = self::createEventListener($dispatcher);
+        $this->listener = self::createEventListener($dispatcher);
         $this->size = self::createWindowSize($api, $this->id);
         $this->min = self::createWindowMinSize($api, $this->id);
         $this->max = self::createWindowMaxSize($api, $this->id);
-        $this->webview = self::createWebView($api, $this, $info, $this->dispatcher);
+        $this->webview = self::createWebView($api, $this, $info, $this->listener);
         $this->decoration = self::createWindowDecorations($info);
-        $this->handler = self::createSaucerWindowEventHandler($api, $this, $this->dispatcher);
+        $this->handler = self::createSaucerWindowEventHandler($api, $this, $this->listener);
 
         // Initialization of Window's API
         // ...
@@ -575,8 +568,7 @@ final class Window implements EventListenerProviderInterface
         return new $class(
             api: $this->api,
             context: $this,
-            listener: $this->events,
-            dispatcher: $this->dispatcher,
+            listener: $this->listener,
         );
     }
 
@@ -746,11 +738,11 @@ final class Window implements EventListenerProviderInterface
      */
     private function registerDefaultEventListeners(): void
     {
-        $this->events->addEventListener(WindowMinimized::class, function (WindowMinimized $e): void {
+        $this->listener->addEventListener(WindowMinimized::class, function (WindowMinimized $e): void {
             $this->state = $e->isMinimized ? WindowState::Minimized : WindowState::Normal;
         });
 
-        $this->events->addEventListener(WindowMaximized::class, function (WindowMaximized $e): void {
+        $this->listener->addEventListener(WindowMaximized::class, function (WindowMaximized $e): void {
             $this->state = $e->isMaximized ? WindowState::Maximized : WindowState::Normal;
         });
     }

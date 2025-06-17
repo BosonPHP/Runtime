@@ -5,13 +5,20 @@ declare(strict_types=1);
 namespace Boson\Dispatcher;
 
 use Boson\Dispatcher\Subscription\CancellableSubscriptionInterface;
+use Boson\Dispatcher\Subscription\SubscriptionInterface;
 
 /**
- * @phpstan-require-implements EventListenerProviderInterface
- * @mixin EventListenerProviderInterface
+ * @phpstan-require-implements EventListenerInterface
+ * @mixin EventListenerInterface
  */
 trait EventListenerProvider
 {
+    //
+    // PHP 8.4 does not support abstract properties in traits
+    //
+    // abstract protected EventListener $listener { get; }
+    //
+
     public function on(\Closure|string $eventOrListener, ?\Closure $listener = null): CancellableSubscriptionInterface
     {
         if ($eventOrListener instanceof \Closure) {
@@ -22,7 +29,7 @@ trait EventListenerProvider
             throw new \InvalidArgumentException('Second parameter must be a listener callback');
         }
 
-        return $this->events->addEventListener($eventOrListener, $listener);
+        return $this->addEventListener($eventOrListener, $listener);
     }
 
     /**
@@ -45,7 +52,7 @@ trait EventListenerProvider
             /** @var class-string<TArgEvent> $type */
             $type = $this->getParameterTypeName($parameter);
 
-            return $this->events->addEventListener($type, $listener);
+            return $this->addEventListener($type, $listener);
         }
 
         throw new \InvalidArgumentException(
@@ -70,5 +77,25 @@ trait EventListenerProvider
             $parameter->getPosition(),
             $parameter->getName(),
         ));
+    }
+
+    public function addEventListener(string $event, callable $listener): CancellableSubscriptionInterface
+    {
+        return $this->listener->addEventListener($event, $listener);
+    }
+
+    public function removeEventListener(SubscriptionInterface $subscription): void
+    {
+        $this->listener->removeEventListener($subscription);
+    }
+
+    public function removeListenersForEvent(object|string $event): void
+    {
+        $this->listener->removeListenersForEvent($event);
+    }
+
+    public function getListenersForEvent(object|string $event): array
+    {
+        return $this->listener->getListenersForEvent($event);
     }
 }

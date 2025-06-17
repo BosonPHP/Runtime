@@ -33,9 +33,9 @@ final readonly class EventListenerContainerStub implements
         $this->listener->removeEventListener($subscription);
     }
 
-    public function removeAllEventListenersForEvent(string $event): void
+    public function removeListenersForEvent(string $event): void
     {
-        $this->listener->removeAllEventListenersForEvent($event);
+        $this->listener->removeListenersForEvent($event);
     }
 
     public function getListenersForEvent(object $event): iterable
