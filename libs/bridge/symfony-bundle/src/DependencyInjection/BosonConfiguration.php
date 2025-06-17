@@ -17,6 +17,16 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  *          entrypoint: non-empty-string,
  *          width: int<1, max>,
  *          height: int<1, max>,
+ *          is_visible: bool,
+ *          is_resizable: bool,
+ *          is_always_on_top: bool,
+ *          is_click_through: bool,
+ *          decorations: 'default'|'dark_mode'|'frameless'|'transparent',
+ *          flags: array<array-key, mixed>,
+ *          storage: bool|non-empty-string|null,
+ *          enable_context_menu: bool|null,
+ *          enable_dev_tools: bool|null,
+ *          ...
  *     },
  *     static: array{
  *         directory: list<non-empty-string>
@@ -65,6 +75,45 @@ final class BosonConfiguration implements ConfigurationInterface
                     ->integerNode('height')
                         ->info('Initial height of the default application window')
                         ->defaultValue(WindowCreateInfo::DEFAULT_HEIGHT)
+                    ->end()
+                    ->booleanNode('is_visible')
+                        ->info('Sets the visibility of an application window after creation')
+                        ->defaultTrue()
+                    ->end()
+                    ->booleanNode('is_resizable')
+                        ->info('Allows to resize an application window')
+                        ->defaultTrue()
+                    ->end()
+                    ->booleanNode('is_always_on_top')
+                        ->info('Displays a window on top of other windows after creation')
+                        ->defaultFalse()
+                    ->end()
+                    ->booleanNode('is_click_through')
+                        ->info('Disable window response to mouse events')
+                        ->defaultFalse()
+                    ->end()
+                    ->enumNode('decorations')
+                        ->info('Sets decorations of an application window')
+                        ->values(['default', 'dark_mode', 'frameless', 'transparent'])
+                        ->defaultValue('default')
+                    ->end()
+                    ->arrayNode('flags')
+                        ->info('The WebView flags of the application')
+                        ->scalarPrototype()
+                        ->end()
+                    ->end()
+                    ->booleanNode('enable_context_menu')
+                        ->info('Enables or disabled context menu (by default depends on "debug" value)')
+                        ->defaultNull()
+                    ->end()
+                    ->booleanNode('enable_dev_tools')
+                        ->info('Enables or disabled dev tools (by default depends on "debug" value)')
+                        ->defaultNull()
+                    ->end()
+                    ->scalarNode('storage')
+                        ->info('Sets default WebView session storage directory')
+                        ->cannotBeEmpty()
+                        ->defaultFalse()
                     ->end()
                 ->end()
                 ->addDefaultsIfNotSet()

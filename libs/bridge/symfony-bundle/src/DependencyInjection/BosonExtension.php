@@ -21,6 +21,7 @@ use Boson\Component\Http\Static\Mime\MimeTypeDetectorInterface;
 use Boson\Component\Http\Static\StaticProviderInterface;
 use Boson\WebView\WebViewCreateInfo;
 use Boson\Window\WindowCreateInfo;
+use Boson\Window\WindowDecoration;
 use Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -126,10 +127,24 @@ final class BosonExtension extends Extension
     private function registerApplicationConfigServices(array $config, ContainerBuilder $container): void
     {
         $container->register(WebViewCreateInfo::class, WebViewCreateInfo::class)
+            ->setArgument('$flags', $config['window']['flags'])
+            ->setArgument('$storage', $config['window']['storage'])
+            ->setArgument('$contextMenu', $config['window']['enable_context_menu'])
+            ->setArgument('$devTools', $config['window']['enable_dev_tools'])
             ->setAutowired(true);
 
         $container->register(WindowCreateInfo::class, WindowCreateInfo::class)
             ->setArgument('$title', $config['name'])
+            ->setArgument('$visible', $config['window']['is_visible'])
+            ->setArgument('$resizable', $config['window']['is_resizable'])
+            ->setArgument('$alwaysOnTop', $config['window']['is_always_on_top'])
+            ->setArgument('$clickThrough', $config['window']['is_click_through'])
+            ->setArgument('$decoration', match ($config['window']['decorations']) {
+                'dark_mode' => WindowDecoration::DarkMode,
+                'frameless' => WindowDecoration::Frameless,
+                'transparent' => WindowDecoration::Transparent,
+                default => WindowDecoration::Default,
+            })
             ->setArgument('$width', $config['window']['width'])
             ->setArgument('$height', $config['window']['height'])
             ->setAutowired(true);
