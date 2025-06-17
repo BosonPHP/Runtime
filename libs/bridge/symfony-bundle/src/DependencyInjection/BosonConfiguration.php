@@ -26,6 +26,8 @@ final class BosonConfiguration implements ConfigurationInterface
         $tree = new TreeBuilder('boson');
 
         $root = $tree->getRootNode();
+
+        /** @phpstan-ignore-next-line : Known non-fixable issue */
         $root->children()
             ->stringNode('name')
                 ->info('The name of the boson application')

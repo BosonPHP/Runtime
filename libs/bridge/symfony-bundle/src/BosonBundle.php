@@ -13,6 +13,4 @@ final class BosonBundle extends Bundle
     {
         return new BosonExtension();
     }
-
-
 }
