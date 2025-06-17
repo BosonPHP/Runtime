@@ -12,7 +12,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  * @phpstan-type BosonConfigType array{
  *     name: non-empty-string,
  *     schemes: non-empty-list<non-empty-string>,
- *     debug: bool,
+ *     is_debug: bool,
+ *     is_quit_on_close: bool,
  *     window: array{
  *          entrypoint: non-empty-string,
  *          width: int<1, max>,
@@ -57,9 +58,13 @@ final class BosonConfiguration implements ConfigurationInterface
                 ->cannotBeEmpty()
                 ->defaultValue(['boson'])
             ->end()
-            ->booleanNode('debug')
+            ->booleanNode('is_debug')
                 ->info('Enable or disable application debug mode')
                 ->defaultValue('%kernel.debug%')
+            ->end()
+            ->booleanNode('is_quit_on_close')
+                ->info('Exits the application when all windows are closed')
+                ->defaultTrue()
             ->end()
             ->arrayNode('window')
                 ->children()

@@ -96,7 +96,7 @@ final class BosonExtension extends Extension
         $this->registerMimeDetectorServices($container);
 
         $container->register(FilesystemStaticProvider::class, FilesystemStaticProvider::class)
-            ->setArgument('$root', $config['static']['directory'])
+            ->setArgument('$root', $config['static']['directory'] ?? [])
             ->setArgument('$mimeTypeDetector', new Reference(MimeTypeDetectorInterface::class))
             ->setAutowired(true);
 
@@ -127,14 +127,16 @@ final class BosonExtension extends Extension
     private function registerApplicationConfigServices(array $config, ContainerBuilder $container): void
     {
         $container->register(WebViewCreateInfo::class, WebViewCreateInfo::class)
-            ->setArgument('$flags', $config['window']['flags'])
             ->setArgument('$storage', $config['window']['storage'])
+            ->setArgument('$flags', $config['window']['flags'])
             ->setArgument('$contextMenu', $config['window']['enable_context_menu'])
             ->setArgument('$devTools', $config['window']['enable_dev_tools'])
             ->setAutowired(true);
 
         $container->register(WindowCreateInfo::class, WindowCreateInfo::class)
             ->setArgument('$title', $config['name'])
+            ->setArgument('$width', $config['window']['width'])
+            ->setArgument('$height', $config['window']['height'])
             ->setArgument('$visible', $config['window']['is_visible'])
             ->setArgument('$resizable', $config['window']['is_resizable'])
             ->setArgument('$alwaysOnTop', $config['window']['is_always_on_top'])
@@ -145,14 +147,14 @@ final class BosonExtension extends Extension
                 'transparent' => WindowDecoration::Transparent,
                 default => WindowDecoration::Default,
             })
-            ->setArgument('$width', $config['window']['width'])
-            ->setArgument('$height', $config['window']['height'])
             ->setAutowired(true);
 
         $container->register(ApplicationCreateInfo::class, ApplicationCreateInfo::class)
             ->setArgument('$name', $config['name'])
             ->setArgument('$schemes', $config['schemes'])
-            ->setArgument('$debug', $config['debug'])
+            ->setArgument('$debug', $config['is_debug'])
+            ->setArgument('$quitOnClose', $config['is_quit_on_close'])
+            ->setArgument('$autorun', false)
             ->setAutowired(true);
     }
 
