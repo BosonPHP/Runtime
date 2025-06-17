@@ -54,6 +54,13 @@ class EventListener implements EventListenerInterface, EventDispatcherInterface
         unset($this->listeners[$event]);
     }
 
+    /**
+     * @template TArgEvent of object
+     *
+     * @param class-string<TArgEvent>|TArgEvent $event
+     *
+     * @return array<array-key, callable(TArgEvent):void>
+     */
     public function getListenersForEvent(object|string $event): array
     {
         if (!\is_string($event)) {

@@ -19,6 +19,14 @@ trait EventListenerProvider
     // abstract protected EventListener $listener { get; }
     //
 
+    /**
+     * @template TArgEvent of object
+     *
+     * @param (\Closure(TArgEvent):void)|class-string<TArgEvent> $eventOrListener
+     * @param (\Closure(TArgEvent):void)|null $listener
+     *
+     * @return CancellableSubscriptionInterface<TArgEvent>
+     */
     public function on(\Closure|string $eventOrListener, ?\Closure $listener = null): CancellableSubscriptionInterface
     {
         if ($eventOrListener instanceof \Closure) {
@@ -94,6 +102,13 @@ trait EventListenerProvider
         $this->listener->removeListenersForEvent($event);
     }
 
+    /**
+     * @template TArgEvent of object
+     *
+     * @param class-string<TArgEvent>|TArgEvent $event
+     *
+     * @return array<array-key, callable(TArgEvent):void>
+     */
     public function getListenersForEvent(object|string $event): array
     {
         return $this->listener->getListenersForEvent($event);
