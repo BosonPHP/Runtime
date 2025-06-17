@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Boson\Api;
 
+use Boson\Contracts\EventListener\Subscription\CancellableSubscriptionInterface;
 use Boson\Dispatcher\Event;
 use Boson\Dispatcher\EventListener;
 use Boson\Dispatcher\Intention;
-use Boson\Dispatcher\Subscription\CancellableSubscriptionInterface;
 use Boson\Internal\Saucer\LibSaucer;
 use Boson\WebView\WebView;
 use FFI\CData;

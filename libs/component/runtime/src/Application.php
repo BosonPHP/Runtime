@@ -7,10 +7,9 @@ namespace Boson;
 use Boson\Api\ApplicationExtension;
 use Boson\Api\Dialog\ApplicationDialog;
 use Boson\Api\DialogApiInterface;
+use Boson\Contracts\EventListener\EventListenerInterface;
 use Boson\Dispatcher\DelegateEventListener;
-use Boson\Dispatcher\EventDispatcherInterface;
 use Boson\Dispatcher\EventListener;
-use Boson\Dispatcher\EventListenerInterface;
 use Boson\Dispatcher\EventListenerProvider;
 use Boson\Event\ApplicationStarted;
 use Boson\Event\ApplicationStarting;
@@ -34,7 +33,7 @@ use Boson\Window\Event\WindowClosed;
 use Boson\Window\Manager\WindowManager;
 use Boson\Window\Window;
 use FFI\CData;
-use Psr\EventDispatcher\EventDispatcherInterface as PsrEventDispatcherInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @api
@@ -154,7 +153,7 @@ final class Application implements EventListenerInterface
     public readonly ApplicationPollerInterface $poller;
 
     /**
-     * @param PsrEventDispatcherInterface|null $dispatcher an optional event
+     * @param EventDispatcherInterface|null $dispatcher an optional event
      *        dispatcher for handling application events
      */
     public function __construct(
@@ -163,7 +162,7 @@ final class Application implements EventListenerInterface
          * with which it was created.
          */
         public readonly ApplicationCreateInfo $info = new ApplicationCreateInfo(),
-        ?PsrEventDispatcherInterface $dispatcher = null,
+        ?EventDispatcherInterface $dispatcher = null,
         /**
          * @var list<BootHandlerInterface>
          */
@@ -351,7 +350,7 @@ final class Application implements EventListenerInterface
      * Creates local (application-aware) event listener
      * based on the provided dispatcher.
      */
-    private static function createEventListener(?PsrEventDispatcherInterface $dispatcher): EventListener
+    private static function createEventListener(?EventDispatcherInterface $dispatcher): EventListener
     {
         if ($dispatcher === null) {
             return new EventListener();
@@ -481,7 +480,7 @@ final class Application implements EventListenerInterface
             return true;
         }
 
-        $intention = $this->listener->dispatch(new ApplicationStarting($this));
+        $this->listener->dispatch($intention = new ApplicationStarting($this));
 
         return $intention->isCancelled;
     }
@@ -517,7 +516,7 @@ final class Application implements EventListenerInterface
      */
     private function shouldNotStop(): bool
     {
-        $intention = $this->listener->dispatch(new ApplicationStopping($this));
+        $this->listener->dispatch($intention = new ApplicationStopping($this));
 
         return $intention->isCancelled;
     }

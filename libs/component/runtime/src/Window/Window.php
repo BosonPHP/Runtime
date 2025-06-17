@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace Boson\Window;
 
 use Boson\Application;
+use Boson\Contracts\EventListener\EventListenerInterface;
 use Boson\Dispatcher\DelegateEventListener;
-use Boson\Dispatcher\EventDispatcherInterface;
 use Boson\Dispatcher\EventListener;
-use Boson\Dispatcher\EventListenerInterface;
 use Boson\Dispatcher\EventListenerProvider;
 use Boson\Internal\Saucer\LibSaucer;
 use Boson\Internal\Saucer\SaucerWindowEdge;
@@ -26,7 +25,7 @@ use Boson\Window\Internal\Size\ManagedWindowMinBounds;
 use Boson\Window\Internal\Size\ManagedWindowSize;
 use Boson\Window\Manager\WindowFactoryInterface;
 use FFI\CData;
-use Psr\EventDispatcher\EventDispatcherInterface as PsrEventDispatcherInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @api
@@ -505,7 +504,7 @@ final class Window implements EventListenerInterface
      * Creates local (window-aware) event listener
      * based on the provided dispatcher.
      */
-    private static function createEventListener(PsrEventDispatcherInterface $dispatcher): EventListener
+    private static function createEventListener(EventDispatcherInterface $dispatcher): EventListener
     {
         return new DelegateEventListener($dispatcher);
     }

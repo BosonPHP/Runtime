@@ -31,6 +31,7 @@ parameters:
     - libs/component/runtime/src
     - libs/component/weak-types/src
     # Contracts
+    - libs/contracts/event-listener-contracts/src
     - libs/contracts/http-contracts/src
   excludePaths:
     - libs/component/runtime/src/Internal/Saucer/LibSaucer.php

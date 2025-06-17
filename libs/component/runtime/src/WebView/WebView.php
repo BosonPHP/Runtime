@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Boson\WebView;
 
+use Boson\Contracts\EventListener\EventListenerInterface;
 use Boson\Dispatcher\DelegateEventListener;
-use Boson\Dispatcher\EventDispatcherInterface;
 use Boson\Dispatcher\EventListener;
-use Boson\Dispatcher\EventListenerInterface;
 use Boson\Dispatcher\EventListenerProvider;
 use Boson\Exception\BosonException;
 use Boson\Internal\Saucer\LibSaucer;
@@ -34,7 +33,7 @@ use Boson\WebView\Internal\SaucerWebViewEventHandler;
 use Boson\Window\Window;
 use Boson\Window\WindowId;
 use JetBrains\PhpStorm\Language;
-use Psr\EventDispatcher\EventDispatcherInterface as PsrEventDispatcherInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 final class WebView implements EventListenerInterface
 {
@@ -223,7 +222,7 @@ final class WebView implements EventListenerInterface
      * Creates local (webview-aware) event listener
      * based on the provided dispatcher.
      */
-    private static function createEventListener(PsrEventDispatcherInterface $dispatcher): EventListener
+    private static function createEventListener(EventDispatcherInterface $dispatcher): EventListener
     {
         return new DelegateEventListener($dispatcher);
     }

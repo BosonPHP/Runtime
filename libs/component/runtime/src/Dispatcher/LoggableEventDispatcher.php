@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Boson\Dispatcher;
 
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 

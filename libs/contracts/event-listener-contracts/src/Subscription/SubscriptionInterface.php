@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Boson\Dispatcher\Subscription;
+namespace Boson\Contracts\EventListener\Subscription;
 
 /**
  * @template TEvent of object = object

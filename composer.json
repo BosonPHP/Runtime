@@ -53,6 +53,7 @@
             "Boson\\Component\\Http\\Static\\Tests\\": "libs/component/http-static-provider/tests",
             "Boson\\Component\\OsInfo\\Tests\\": "libs/component/os-info/tests",
             "Boson\\Component\\WeakType\\Tests\\": "libs/component/weak-types/tests",
+            "Boson\\Contracts\\EventListener\\Tests\\": "libs/contracts/event-listener-contracts/tests",
             "Boson\\Contracts\\Http\\Tests\\": "libs/contracts/http-contracts/tests"
         }
     },

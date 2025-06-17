@@ -29,6 +29,7 @@
             <directory>libs/component/weak-types/tests</directory>
         </testsuite>
         <testsuite name="contracts">
+            <directory>libs/contracts/event-listener-contracts/tests</directory>
             <directory>libs/contracts/http-contracts/tests</directory>
         </testsuite>
     </testsuites>
@@ -54,6 +55,7 @@
             <directory>libs/component/runtime/src</directory>
             <directory>libs/component/weak-types/src</directory>
             <!-- contracts -->
+            <directory>libs/contracts/event-listener-contracts/src</directory>
             <directory>libs/contracts/http-contracts/src</directory>
         </include>
     </source>

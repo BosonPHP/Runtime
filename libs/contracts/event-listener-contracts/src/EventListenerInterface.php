@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Boson\Dispatcher;
+namespace Boson\Contracts\EventListener;
 
-use Boson\Dispatcher\Subscription\CancellableSubscriptionInterface;
-use Boson\Dispatcher\Subscription\SubscriptionInterface;
+use Boson\Contracts\EventListener\Subscription\CancellableSubscriptionInterface;
+use Boson\Contracts\EventListener\Subscription\SubscriptionInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
 
 interface EventListenerInterface extends ListenerProviderInterface

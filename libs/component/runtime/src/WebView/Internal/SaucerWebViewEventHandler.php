@@ -6,7 +6,6 @@ namespace Boson\WebView\Internal;
 
 use Boson\ApplicationPollerInterface;
 use Boson\Component\Http\Request;
-use Boson\Dispatcher\EventDispatcherInterface;
 use Boson\Internal\Saucer\LibSaucer;
 use Boson\Internal\Saucer\SaucerPolicy;
 use Boson\Internal\Saucer\SaucerState;
@@ -23,6 +22,7 @@ use Boson\WebView\Event\WebViewTitleChanging;
 use Boson\WebView\WebView;
 use Boson\WebView\WebViewState;
 use FFI\CData;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @internal this is an internal library class, please do not use it in your code
@@ -110,7 +110,7 @@ final class SaucerWebViewEventHandler
 
     private function onMessageReceived(string $message): bool
     {
-        $intention = $this->dispatcher->dispatch(new WebViewMessageReceived(
+        $this->dispatcher->dispatch($intention = new WebViewMessageReceived(
             subject: $this->webview,
             message: $message,
         ));
@@ -175,7 +175,7 @@ final class SaucerWebViewEventHandler
         $url = \FFI::string($this->api->saucer_navigation_url($navigation));
 
         try {
-            $intention = $this->dispatcher->dispatch(new WebViewNavigating(
+            $this->dispatcher->dispatch($intention = new WebViewNavigating(
                 subject: $this->webview,
                 url: Request::castUrl($url),
                 isNewWindow: $this->api->saucer_navigation_new_window($navigation),
@@ -204,7 +204,7 @@ final class SaucerWebViewEventHandler
 
     private function onFaviconChanged(CData $ptr, CData $icon): void
     {
-        $intention = $this->dispatcher->dispatch(new WebViewFaviconChanging($this->webview));
+        $this->dispatcher->dispatch($intention = new WebViewFaviconChanging($this->webview));
 
         try {
             if ($intention->isCancelled) {
@@ -229,7 +229,7 @@ final class SaucerWebViewEventHandler
 
     private function onTitleChanged(CData $ptr, string $title): void
     {
-        $intention = $this->dispatcher->dispatch(new WebViewTitleChanging(
+        $this->dispatcher->dispatch($intention = new WebViewTitleChanging(
             subject: $this->webview,
             title: $title,
         ));

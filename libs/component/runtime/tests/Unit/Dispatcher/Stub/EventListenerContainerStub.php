@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Boson\Tests\Unit\Dispatcher\Stub;
 
-use Boson\Dispatcher\EventDispatcherInterface;
+use Boson\Contracts\EventListener\EventListenerInterface;
+use Boson\Contracts\EventListener\Subscription\CancellableSubscriptionInterface;
+use Boson\Contracts\EventListener\Subscription\SubscriptionInterface;
 use Boson\Dispatcher\EventListener;
-use Boson\Dispatcher\EventListenerInterface;
-use Boson\Dispatcher\Subscription\CancellableSubscriptionInterface;
-use Boson\Dispatcher\Subscription\SubscriptionInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 final readonly class EventListenerContainerStub implements
     EventListenerInterface,

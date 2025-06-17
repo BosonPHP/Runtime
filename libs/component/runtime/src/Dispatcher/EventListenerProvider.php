@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Boson\Dispatcher;
 
-use Boson\Dispatcher\Subscription\CancellableSubscriptionInterface;
-use Boson\Dispatcher\Subscription\SubscriptionInterface;
+use Boson\Contracts\EventListener\EventListenerInterface;
+use Boson\Contracts\EventListener\Subscription\CancellableSubscriptionInterface;
+use Boson\Contracts\EventListener\Subscription\SubscriptionInterface;
 
 /**
  * @phpstan-require-implements EventListenerInterface

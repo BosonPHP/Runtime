@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Boson\Window\Internal;
 
-use Boson\Dispatcher\EventDispatcherInterface;
 use Boson\Internal\Saucer\LibSaucer;
 use Boson\Internal\Saucer\SaucerPolicy;
 use Boson\Internal\Saucer\SaucerWindowEvent;
@@ -18,6 +17,7 @@ use Boson\Window\Event\WindowMinimized;
 use Boson\Window\Event\WindowResized;
 use Boson\Window\Window;
 use FFI\CData;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @internal this is an internal library class, please do not use it in your code
@@ -117,9 +117,9 @@ final readonly class SaucerWindowEventHandler
      */
     private function onClosing(CData $_): int
     {
-        $event = $this->dispatcher->dispatch(new WindowClosing($this->window));
+        $this->dispatcher->dispatch($intention = new WindowClosing($this->window));
 
-        return $event->isCancelled
+        return $intention->isCancelled
             ? SaucerPolicy::SAUCER_POLICY_BLOCK
             : SaucerPolicy::SAUCER_POLICY_ALLOW;
     }

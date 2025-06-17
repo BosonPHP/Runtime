@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Boson\Dispatcher;
 
+use Boson\Contracts\EventListener\EventListenerInterface;
+use Boson\Contracts\EventListener\Subscription\CancellableSubscriptionInterface;
+use Boson\Contracts\EventListener\Subscription\SubscriptionInterface;
 use Boson\Dispatcher\Subscription\CancellableSubscription;
-use Boson\Dispatcher\Subscription\CancellableSubscriptionInterface;
-use Boson\Dispatcher\Subscription\SubscriptionInterface;
 use Boson\Shared\IdValueGenerator\IdValueGeneratorInterface;
 use Boson\Shared\IdValueGenerator\PlatformDependentIntValueGenerator;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\StoppableEventInterface;
 
 class EventListener implements EventListenerInterface, EventDispatcherInterface

@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace Boson\Window\Manager;
 
 use Boson\Application;
+use Boson\Component\WeakType\ObservableWeakSet;
+use Boson\Contracts\EventListener\EventListenerInterface;
 use Boson\Dispatcher\DelegateEventListener;
-use Boson\Dispatcher\EventDispatcherInterface;
 use Boson\Dispatcher\EventListener;
-use Boson\Dispatcher\EventListenerInterface;
 use Boson\Dispatcher\EventListenerProvider;
 use Boson\Internal\Saucer\LibSaucer;
-use Boson\Component\WeakType\ObservableWeakSet;
 use Boson\Window\Event\WindowClosed;
 use Boson\Window\Event\WindowCreated;
 use Boson\Window\Event\WindowDestroyed;
 use Boson\Window\Window;
 use Boson\Window\WindowCreateInfo;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\EventDispatcherInterface as PsrEventDispatcherInterface;
 
 /**
