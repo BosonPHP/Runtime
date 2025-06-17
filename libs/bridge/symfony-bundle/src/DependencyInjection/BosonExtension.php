@@ -7,6 +7,9 @@ namespace Boson\Bridge\Symfony\DependencyInjection;
 use Boson\Application;
 use Boson\ApplicationCreateInfo;
 use Boson\Bridge\Symfony\Http\SymfonyHttpAdapter;
+use Boson\Component\Compiler\Command\CompileCommand;
+use Boson\Component\Compiler\Command\InitCommand;
+use Boson\Component\Compiler\Command\PackCommand;
 use Boson\Component\GlobalsProvider\CompoundServerGlobalsProvider;
 use Boson\Component\GlobalsProvider\DefaultServerGlobalsProvider;
 use Boson\Component\GlobalsProvider\ServerGlobalsProviderInterface;
@@ -56,6 +59,29 @@ final class BosonExtension extends Extension
         $this->registerParameters($configs, $container);
 
         $this->shareServices($container);
+
+        $this->registerConsoleCommands($container);
+    }
+
+    private function registerConsoleCommands(ContainerBuilder $container): void
+    {
+        if (\class_exists(InitCommand::class)) {
+            $container->register(InitCommand::class, InitCommand::class)
+                ->setArgument('$name', 'boson:init')
+                ->addTag('console.command');
+        }
+
+        if (\class_exists(CompileCommand::class)) {
+            $container->register(CompileCommand::class, CompileCommand::class)
+                ->setArgument('$name', 'boson:compile')
+                ->addTag('console.command');
+        }
+
+        if (\class_exists(PackCommand::class)) {
+            $container->register(PackCommand::class, PackCommand::class)
+                ->setArgument('$name', 'boson:pack')
+                ->addTag('console.command');
+        }
     }
 
     private function shareServices(ContainerBuilder $container): void
