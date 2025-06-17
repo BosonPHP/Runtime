@@ -49,10 +49,25 @@ final class BosonExtension extends Extension
         $configs = $this->processConfiguration(new BosonConfiguration(), $configs);
 
         $this->registerSymfonyHttpServices($container);
-        $this->registerSymfonyStaticServices($container);
+        $this->registerSymfonyStaticServices($configs, $container);
         $this->registerApplicationServices($configs, $container);
 
         $this->registerParameters($configs, $container);
+
+        $this->shareServices($container);
+    }
+
+    private function shareServices(ContainerBuilder $container): void
+    {
+        if ($container->hasDefinition(StaticProviderInterface::class)) {
+            $container->getDefinition(StaticProviderInterface::class)
+                ->setPublic(true);
+        }
+
+        if ($container->hasAlias(StaticProviderInterface::class)) {
+            $container->getAlias(StaticProviderInterface::class)
+                ->setPublic(true);
+        }
     }
 
     /**
@@ -60,7 +75,7 @@ final class BosonExtension extends Extension
      */
     private function registerParameters(array $config, ContainerBuilder $container): void
     {
-        $container->setParameter('boson.entrypoint', $config['entrypoint']);
+        $container->setParameter('boson.entrypoint', $config['window']['entrypoint']);
     }
 
     private function registerMimeDetectorServices(ContainerBuilder $container): void
@@ -72,14 +87,21 @@ final class BosonExtension extends Extension
         $container->setAlias(MimeTypeDetectorInterface::class, ExtensionMimeTypeDetector::class);
     }
 
-    private function registerSymfonyStaticServices(ContainerBuilder $container): void
+    /**
+     * @param BosonConfigType $config
+     */
+    private function registerSymfonyStaticServices(array $config, ContainerBuilder $container): void
     {
         $this->registerMimeDetectorServices($container);
 
         $container->register(FilesystemStaticProvider::class, FilesystemStaticProvider::class)
-            ->setArgument('$root', ['%kernel.project_dir%/public'])
+            ->setArgument('$root', $config['static']['directory'])
             ->setArgument('$mimeTypeDetector', new Reference(MimeTypeDetectorInterface::class))
             ->setAutowired(true);
+
+        if ($container->has(StaticProviderInterface::class)) {
+            return;
+        }
 
         $container->setAlias(StaticProviderInterface::class, FilesystemStaticProvider::class);
     }
@@ -108,8 +130,8 @@ final class BosonExtension extends Extension
 
         $container->register(WindowCreateInfo::class, WindowCreateInfo::class)
             ->setArgument('$title', $config['name'])
-            ->setArgument('$width', $config['width'])
-            ->setArgument('$height', $config['height'])
+            ->setArgument('$width', $config['window']['width'])
+            ->setArgument('$height', $config['window']['height'])
             ->setAutowired(true);
 
         $container->register(ApplicationCreateInfo::class, ApplicationCreateInfo::class)
@@ -145,6 +167,10 @@ final class BosonExtension extends Extension
             ->setArgument('$decoders', new TaggedIteratorArgument('boson.http.body_decoder'))
             ->setAutowired(true);
 
+        if ($container->has(BodyDecoderInterface::class)) {
+            return;
+        }
+
         $container->setAlias(BodyDecoderInterface::class, BodyDecoderFactory::class);
     }
 
@@ -161,6 +187,10 @@ final class BosonExtension extends Extension
         $container->register(CompoundServerGlobalsProvider::class, CompoundServerGlobalsProvider::class)
             ->setArgument('$providers', new TaggedIteratorArgument('boson.globals.server'))
             ->setAutowired(true);
+
+        if ($container->has(ServerGlobalsProviderInterface::class)) {
+            return;
+        }
 
         $container->setAlias(ServerGlobalsProviderInterface::class, CompoundServerGlobalsProvider::class);
     }

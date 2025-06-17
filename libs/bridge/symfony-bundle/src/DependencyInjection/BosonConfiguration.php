@@ -13,9 +13,14 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  *     name: non-empty-string,
  *     schemes: non-empty-list<non-empty-string>,
  *     debug: bool,
- *     entrypoint: non-empty-string,
- *     width: int<1, max>,
- *     height: int<1, max>,
+ *     window: array{
+ *          entrypoint: non-empty-string,
+ *          width: int<1, max>,
+ *          height: int<1, max>,
+ *     },
+ *     static: array{
+ *         directory: list<non-empty-string>
+ *     }
  *     ...
  * }
  */
@@ -46,18 +51,34 @@ final class BosonConfiguration implements ConfigurationInterface
                 ->info('Enable or disable application debug mode')
                 ->defaultValue('%kernel.debug%')
             ->end()
-            ->scalarNode('entrypoint')
-                ->info('The entrypoint URI of the application')
-                ->cannotBeEmpty()
-                ->defaultValue('boson://localhost')
+            ->arrayNode('window')
+                ->children()
+                    ->scalarNode('entrypoint')
+                        ->info('The entrypoint URI of the application')
+                        ->cannotBeEmpty()
+                        ->defaultValue('boson://localhost')
+                    ->end()
+                    ->integerNode('width')
+                        ->info('Initial width of the default application window')
+                        ->defaultValue(WindowCreateInfo::DEFAULT_WIDTH)
+                    ->end()
+                    ->integerNode('height')
+                        ->info('Initial height of the default application window')
+                        ->defaultValue(WindowCreateInfo::DEFAULT_HEIGHT)
+                    ->end()
+                ->end()
+                ->addDefaultsIfNotSet()
             ->end()
-            ->integerNode('width')
-                ->info('Initial width of the default application window')
-                ->defaultValue(WindowCreateInfo::DEFAULT_WIDTH)
-            ->end()
-            ->integerNode('height')
-                ->info('Initial height of the default application window')
-                ->defaultValue(WindowCreateInfo::DEFAULT_HEIGHT)
+            ->arrayNode('static')
+                ->children()
+                    ->arrayNode('directory')
+                        ->info('The directory of the static files')
+                        ->stringPrototype()
+                            ->cannotBeEmpty()
+                        ->end()
+                        ->defaultValue(['%kernel.project_dir%/public'])
+                    ->end()
+                ->end()
             ->end()
         ->end();
 

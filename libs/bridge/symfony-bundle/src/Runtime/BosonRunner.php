@@ -6,6 +6,7 @@ namespace Boson\Bridge\Symfony\Runtime;
 
 use Boson\Application;
 use Boson\Bridge\Symfony\Http\SymfonyHttpAdapter;
+use Boson\Component\Http\Static\StaticProviderInterface;
 use Boson\Event\ApplicationStarted;
 use Boson\WebView\Api\Schemes\Event\SchemeRequestReceived;
 use Symfony\Component\HttpKernel\Kernel;
@@ -30,7 +31,17 @@ final readonly class BosonRunner implements RunnerInterface
         /** @var SymfonyHttpAdapter $http */
         $http = $container->get(SymfonyHttpAdapter::class);
 
-        $app->on(function (SchemeRequestReceived $e) use ($http): void {
+        /** @var StaticProviderInterface $static */
+        $static = $container->get(StaticProviderInterface::class);
+
+        $app->on(function (SchemeRequestReceived $e) use ($http, $static): void {
+            $staticBosonResponse = $static->findFileByRequest($e->request);
+
+            if ($staticBosonResponse !== null) {
+                $e->response = $staticBosonResponse;
+                return;
+            }
+
             $symfonyRequest = $http->createRequest($e->request);
             $symfonyResponse = $this->kernel->handle($symfonyRequest);
 
