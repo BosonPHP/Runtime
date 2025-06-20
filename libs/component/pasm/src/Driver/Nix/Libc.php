@@ -7,10 +7,10 @@ namespace Boson\Component\Pasm\Driver\Nix;
 use FFI\Env\Runtime;
 
 /**
- * @internal this is an internal library class, please do not use it in your code.
- * @psalm-internal Boson\Component\Pasm\Driver
- *
  * @mixin \FFI
+ *
+ * @internal this is an internal library class, please do not use it in your code
+ * @psalm-internal Boson\Component\Pasm\Driver
  */
 final readonly class Libc
 {

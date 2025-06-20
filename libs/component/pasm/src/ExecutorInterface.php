@@ -32,7 +32,6 @@ interface ExecutorInterface
      * @param non-empty-string $code
      *
      * @return callable(mixed...):mixed
-     *
      * @throws NoAvailableDriverException in case of no available driver found
      * @throws \Throwable in case of internal error occurs
      */

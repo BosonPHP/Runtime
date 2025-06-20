@@ -101,7 +101,7 @@ class LinuxDriver implements DriverInterface
         /**
          * Cast to closure-like
          *
-         * @var CData & callable(mixed...):mixed $closure
+         * @var CData&callable(mixed...):mixed $closure
          */
         $closure = $this->libc->cast($signature, $memory);
 
@@ -111,7 +111,10 @@ class LinuxDriver implements DriverInterface
          *
          * @phpstan-ignore-next-line PHPStan false-positive, 3rd argument should be callable(CData):void
          */
-        return $this->programs->watch($closure, $memory, fn(CData $mem): null
+        return $this->programs->watch(
+            $closure,
+            $memory,
+            fn(CData $mem): null
             => $this->onRelease($mem, $length),
         );
     }

@@ -111,7 +111,7 @@ class Win32Driver implements DriverInterface
         /**
          * Cast to closure-like
          *
-         * @var CData & callable(mixed...):mixed $closure
+         * @var CData&callable(mixed...):mixed $closure
          */
         $closure = $this->kernel32->cast($signature, $memory);
 
