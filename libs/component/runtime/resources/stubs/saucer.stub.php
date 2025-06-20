@@ -24,19 +24,18 @@ use FFI\CType;
  * @phpstan-type SaucerEmbeddedFileType CData
  * @phpstan-type SaucerDesktopType CData
  * @phpstan-type SaucerPickerOptionsType CData
- *
  * @phpstan-type SaucerPoolCallbackType callable():void
  * @phpstan-type SaucerPostCallbackType callable():void
  * @phpstan-type SaucerStashLazyCallbackType callable():SaucerStashType
  * @phpstan-type SaucerSchemeHandlerType callable(SaucerHandleType,SaucerSchemeRequestType,SaucerSchemeExecutorType):void
  * @phpstan-type SaucerOnMessageType callable(string):bool
- *
  * @phpstan-type UInt8ArrayType CData
  * @phpstan-type StringArrayType CData
  * @phpstan-type StringType CData
  * @phpstan-type UnmanagedStringType CData
  *
  * @seal-properties
+ *
  * @seal-methods
  */
 final readonly class LibSaucer
@@ -88,6 +87,7 @@ final readonly class LibSaucer
 
     /**
      * @param SaucerOptionsType $options
+     *
      * @return SaucerApplicationType
      */
     public function saucer_application_init(CData $options): CData {}
@@ -152,24 +152,28 @@ final readonly class LibSaucer
 
     /**
      * @param SaucerStashType $stash
+     *
      * @return UInt8ArrayType
      */
     public function saucer_stash_data(CData $stash): CData {}
 
     /**
      * @param UInt8ArrayType $data
+     *
      * @return SaucerStashType
      */
     public function saucer_stash_from(CData $data, int $size): CData {}
 
     /**
      * @param UInt8ArrayType $data
+     *
      * @return SaucerStashType
      */
     public function saucer_stash_view(CData $data, int $size): CData {}
 
     /**
      * @param SaucerStashLazyCallbackType $callback
+     *
      * @return SaucerStashType
      */
     public function saucer_stash_lazy(callable $callback): CData {}
@@ -186,6 +190,7 @@ final readonly class LibSaucer
 
     /**
      * @param SaucerIconType $icon
+     *
      * @return SaucerStashType
      */
     public function saucer_icon_data(CData $icon): CData {}
@@ -221,6 +226,7 @@ final readonly class LibSaucer
 
     /**
      * @param SaucerNavigationType $navigation
+     *
      * @return UnmanagedStringType
      */
     public function saucer_navigation_url(CData $navigation): CData {}
@@ -242,6 +248,7 @@ final readonly class LibSaucer
 
     /**
      * @param SaucerApplicationType $app
+     *
      * @return SaucerPreferencesType
      */
     public function saucer_preferences_new(CData $app): CData {}
@@ -318,6 +325,7 @@ final readonly class LibSaucer
 
     /**
      * @param SaucerHandleType $handle
+     *
      * @return UnmanagedStringType
      */
     public function saucer_window_title(CData $handle): CData {}
@@ -456,6 +464,7 @@ final readonly class LibSaucer
 
     /**
      * @param SaucerStashType $data
+     *
      * @return SaucerSchemeResponseType
      */
     public function saucer_scheme_response_new(CData $data, string $mime): CData {}
@@ -483,18 +492,21 @@ final readonly class LibSaucer
 
     /**
      * @param SaucerSchemeRequestType $request
+     *
      * @return UnmanagedStringType
      */
     public function saucer_scheme_request_url(CData $request): CData {}
 
     /**
      * @param SaucerSchemeRequestType $request
+     *
      * @return UnmanagedStringType
      */
     public function saucer_scheme_request_method(CData $request): CData {}
 
     /**
      * @param SaucerSchemeRequestType $request
+     *
      * @return SaucerStashType
      */
     public function saucer_scheme_request_content(CData $request): CData {}
@@ -529,6 +541,7 @@ final readonly class LibSaucer
 
     /**
      * @param SaucerLoadTime::SAUCER_LOAD_TIME_* $time
+     *
      * @return SaucerScriptType
      */
     public function saucer_script_new(string $code, int $time): CData {}
@@ -562,6 +575,7 @@ final readonly class LibSaucer
 
     /**
      * @param SaucerStashType $stash
+     *
      * @return SaucerEmbeddedFileType
      */
     public function saucer_embed(CData $stash, string $mime): CData {}
@@ -573,6 +587,7 @@ final readonly class LibSaucer
 
     /**
      * @param SaucerPreferencesType $preferences
+     *
      * @return SaucerHandleType
      */
     public function saucer_new(CData $preferences): CData {}
@@ -590,12 +605,14 @@ final readonly class LibSaucer
 
     /**
      * @param SaucerHandleType $handle
+     *
      * @return SaucerIconType
      */
     public function saucer_webview_favicon(CData $handle): CData {}
 
     /**
      * @param SaucerHandleType $handle
+     *
      * @return UnmanagedStringType
      */
     public function saucer_webview_page_title(CData $handle): CData {}
@@ -607,6 +624,7 @@ final readonly class LibSaucer
 
     /**
      * @param SaucerHandleType $handle
+     *
      * @return UnmanagedStringType
      */
     public function saucer_webview_url(CData $handle): CData {}
@@ -759,6 +777,7 @@ final readonly class LibSaucer
 
     /**
      * @param SaucerApplicationType $app
+     *
      * @return SaucerDesktopType
      */
     public function saucer_desktop_new(CData $app): CData {}
@@ -796,6 +815,7 @@ final readonly class LibSaucer
     /**
      * @param SaucerDesktopType $desktop
      * @param SaucerPickerOptionsType $options
+     *
      * @return StringType
      */
     public function saucer_desktop_pick_file(CData $desktop, CData $options): ?CData {}
@@ -803,6 +823,7 @@ final readonly class LibSaucer
     /**
      * @param SaucerDesktopType $desktop
      * @param SaucerPickerOptionsType $options
+     *
      * @return StringType
      */
     public function saucer_desktop_pick_folder(CData $desktop, CData $options): ?CData {}
@@ -810,6 +831,7 @@ final readonly class LibSaucer
     /**
      * @param SaucerDesktopType $desktop
      * @param SaucerPickerOptionsType $options
+     *
      * @return StringArrayType
      */
     public function saucer_desktop_pick_files(CData $desktop, CData $options): CData {}
@@ -817,6 +839,7 @@ final readonly class LibSaucer
     /**
      * @param SaucerDesktopType $desktop
      * @param SaucerPickerOptionsType $options
+     *
      * @return StringArrayType
      */
     public function saucer_desktop_pick_folders(CData $desktop, CData $options): CData {}

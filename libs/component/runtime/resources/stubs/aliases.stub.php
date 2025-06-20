@@ -1,6 +1,3 @@
 <?php
 
-namespace Boson\WebView\Event {
-
-}
-
+namespace Boson\WebView\Event;

@@ -126,7 +126,8 @@ final class CompatibilityTest extends TestCase
 
     #[DoesNotPerformAssertions]
     public function testMutableUrlProviderCompatibility(): void
-    {new class implements MutableUrlProviderInterface {
+    {
+        new class implements MutableUrlProviderInterface {
             public string $url {
                 get => $value;
                 set(string|\Stringable $url) => $url;
@@ -139,9 +140,13 @@ final class CompatibilityTest extends TestCase
     {
         new class implements HeadersInterface, \IteratorAggregate {
             public function first(string $name, ?string $default = null): ?string {}
+
             public function all(string $name): array {}
+
             public function has(string $name): bool {}
+
             public function contains(string $name, string $value): bool {}
+
             public function count(): int {}
 
             public function getIterator(): \Traversable {}
@@ -153,16 +158,23 @@ final class CompatibilityTest extends TestCase
     {
         new class implements MutableHeadersInterface, \IteratorAggregate {
             public function first(string $name, ?string $default = null): ?string {}
+
             public function all(string $name): array {}
+
             public function has(string $name): bool {}
+
             public function contains(string $name, string $value): bool {}
+
             public function count(): int {}
 
             public function getIterator(): \Traversable {}
 
             public function set(string $name, string $value): void {}
+
             public function add(string $name, string $value): void {}
+
             public function remove(string $name): void {}
+
             public function removeAll(): void {}
         };
     }

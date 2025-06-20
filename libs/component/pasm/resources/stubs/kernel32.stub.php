@@ -11,6 +11,7 @@ use FFI\CType;
  * @mixin \FFI
  *
  * @seal-properties
+ *
  * @seal-methods
  *
  * @phpstan-type VoidPtrType CData|null
@@ -39,6 +40,7 @@ final readonly class Kernel32
      * @param VoidPtrType $lpAddress
      * @param int<0, 4294967295> $flAllocationType
      * @param int<0, 4294967295> $flProtect
+     *
      * @return VoidPtrType
      */
     public function VirtualAlloc(?CData $lpAddress, int $dwSize, int $flAllocationType, int $flProtect): ?CData {}
@@ -78,4 +80,3 @@ final readonly class Kernel32
      */
     public function GetLastError(): int {}
 }
-

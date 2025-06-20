@@ -33,5 +33,4 @@ final class CompatibilityTest extends TestCase
             public function createResponse(object $response): ResponseInterface {}
         };
     }
-
 }

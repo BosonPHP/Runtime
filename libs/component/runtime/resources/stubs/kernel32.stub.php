@@ -11,6 +11,7 @@ use FFI\CType;
  * @mixin \FFI
  *
  * @seal-properties
+ *
  * @seal-methods
  */
 final readonly class LibKernel32

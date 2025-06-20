@@ -11,6 +11,7 @@ use FFI\CType;
  * @mixin \FFI
  *
  * @seal-properties
+ *
  * @seal-methods
  *
  * @phpstan-type Int32Type int<-2147483648, 2147483647>
@@ -51,6 +52,7 @@ final readonly class Libc
      * @param Int32Type $flags
      * @param Int32Type $fd
      * @param OffTType $offset
+     *
      * @return VoidPtrType
      */
     public function mmap(?CData $addr, int $length, int $prot, int $flags, int $fd, int $offset): ?CData {}
@@ -65,6 +67,7 @@ final readonly class Libc
      * @param VoidPtrType $addr
      * @param SizeTType $length
      * @param Int32Type $prot
+     *
      * @return Int32Type
      */
     public function mprotect(?CData $addr, int $length, int $prot): int {}
@@ -81,6 +84,7 @@ final readonly class Libc
      *
      * @param VoidPtrType $addr
      * @param SizeTType $length
+     *
      * @return Int32Type
      */
     public function munmap(?CData $addr, int $length): int {}

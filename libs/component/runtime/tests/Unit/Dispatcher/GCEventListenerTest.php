@@ -6,8 +6,8 @@ namespace Boson\Tests\Unit\Dispatcher;
 
 use Boson\Dispatcher\DelegateEventListener;
 use Boson\Dispatcher\EventListener;
-use PHPUnit\Framework\Attributes\Group;
 use Boson\Tests\Unit\Dispatcher\Stub\EventListenerContainerStub;
+use PHPUnit\Framework\Attributes\Group;
 
 #[Group('dispatcher')]
 final class GCEventListenerTest extends DispatcherTestCase
