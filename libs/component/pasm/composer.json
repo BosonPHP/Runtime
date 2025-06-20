@@ -16,7 +16,8 @@
     ],
     "require": {
         "php": "^8.4",
-        "ffi/env": "^1.0"
+        "ffi/env": "^1.0",
+        "boson-php/weak-types": "^0.14"
     },
     "autoload": {
         "psr-4": {

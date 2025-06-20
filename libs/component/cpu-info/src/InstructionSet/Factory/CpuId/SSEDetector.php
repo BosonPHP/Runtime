@@ -16,7 +16,7 @@ final readonly class SSEDetector extends AMD64Detector
             signature: 'int32_t(*)()',
             code: "\xB8\x01\x00\x00\x00"      // mov    eax,0x1
                 . "\x0F\xA2"                  // cpuid
-                . "\xF7\xC2\x00\x00\x02\x00"  // test   edx,0x02000000 (1 << 25)
+                . "\xF7\xC2\x00\x00\x00\x02"  // test   edx,0x02000000 (1 << 25)
                 . "\x74\x05"                  // jz     no_sse
                 . "\xB0\x01"                  // mov    al,0x1
                 . "\xC3"                      // ret
