@@ -7,6 +7,7 @@ namespace Boson\Contracts\EventListener\Tests;
 use Boson\Contracts\EventListener\EventListenerInterface;
 use Boson\Contracts\EventListener\Subscription\CancellableSubscriptionInterface;
 use Boson\Contracts\EventListener\Subscription\SubscriptionInterface;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\Attributes\Group;
 
 /**
@@ -16,10 +17,9 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('boson-php/event-listener-contracts')]
 final class CompatibilityTest extends TestCase
 {
+    #[DoesNotPerformAssertions]
     public function testEventListenerCompatibility(): void
     {
-        self::expectNotToPerformAssertions();
-
         new class implements EventListenerInterface {
             public function addEventListener(string $event, callable $listener): CancellableSubscriptionInterface {}
 
@@ -31,10 +31,9 @@ final class CompatibilityTest extends TestCase
         };
     }
 
+    #[DoesNotPerformAssertions]
     public function testSubscriptionCompatibility(): void
     {
-        self::expectNotToPerformAssertions();
-
         new class implements SubscriptionInterface {
             public int|string $id {
                 get => '';
@@ -46,10 +45,9 @@ final class CompatibilityTest extends TestCase
         };
     }
 
+    #[DoesNotPerformAssertions]
     public function testCancellableSubscriptionCompatibility(): void
     {
-        self::expectNotToPerformAssertions();
-
         new class implements CancellableSubscriptionInterface {
             public int|string $id {
                 get => '';

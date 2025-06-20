@@ -20,6 +20,7 @@ use Boson\Contracts\Http\StatusCode\MutableStatusCodeProviderInterface;
 use Boson\Contracts\Http\StatusCode\StatusCodeProviderInterface;
 use Boson\Contracts\Http\Url\MutableUrlProviderInterface;
 use Boson\Contracts\Http\Url\UrlProviderInterface;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\Attributes\Group;
 
 /**
@@ -29,10 +30,9 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('boson-php/http-contracts')]
 final class CompatibilityTest extends TestCase
 {
+    #[DoesNotPerformAssertions]
     public function testBodyProviderCompatibility(): void
     {
-        self::expectNotToPerformAssertions();
-
         new class implements BodyProviderInterface {
             public string $body {
                 get => $value;
@@ -40,10 +40,9 @@ final class CompatibilityTest extends TestCase
         };
     }
 
+    #[DoesNotPerformAssertions]
     public function testMutableBodyProviderCompatibility(): void
     {
-        self::expectNotToPerformAssertions();
-
         new class implements MutableBodyProviderInterface {
             public string $body {
                 get => $value;
@@ -52,10 +51,9 @@ final class CompatibilityTest extends TestCase
         };
     }
 
+    #[DoesNotPerformAssertions]
     public function testHeadersProviderCompatibility(): void
     {
-        self::expectNotToPerformAssertions();
-
         new class implements HeadersProviderInterface {
             public HeadersInterface $headers {
                 get => $value;
@@ -63,10 +61,9 @@ final class CompatibilityTest extends TestCase
         };
     }
 
+    #[DoesNotPerformAssertions]
     public function testMutableHeadersProviderCompatibility(): void
     {
-        self::expectNotToPerformAssertions();
-
         new class implements MutableHeadersProviderInterface {
             public MutableHeadersInterface $headers {
                 get => $value;
@@ -75,10 +72,9 @@ final class CompatibilityTest extends TestCase
         };
     }
 
+    #[DoesNotPerformAssertions]
     public function testMethodProviderCompatibility(): void
     {
-        self::expectNotToPerformAssertions();
-
         new class implements MethodProviderInterface {
             public string $method {
                 get => $value;
@@ -86,10 +82,9 @@ final class CompatibilityTest extends TestCase
         };
     }
 
+    #[DoesNotPerformAssertions]
     public function testMutableMethodProviderCompatibility(): void
     {
-        self::expectNotToPerformAssertions();
-
         new class implements MutableMethodProviderInterface {
             public string $method {
                 get => $value;
@@ -98,10 +93,9 @@ final class CompatibilityTest extends TestCase
         };
     }
 
+    #[DoesNotPerformAssertions]
     public function testStatusCodeProviderCompatibility(): void
     {
-        self::expectNotToPerformAssertions();
-
         new class implements StatusCodeProviderInterface {
             public int $status {
                 get => $value;
@@ -109,10 +103,9 @@ final class CompatibilityTest extends TestCase
         };
     }
 
+    #[DoesNotPerformAssertions]
     public function testMutableStatusCodeProviderCompatibility(): void
     {
-        self::expectNotToPerformAssertions();
-
         new class implements MutableStatusCodeProviderInterface {
             public int $status {
                 get => $value;
@@ -121,10 +114,9 @@ final class CompatibilityTest extends TestCase
         };
     }
 
+    #[DoesNotPerformAssertions]
     public function testUrlProviderCompatibility(): void
     {
-        self::expectNotToPerformAssertions();
-
         new class implements UrlProviderInterface {
             public string $url {
                 get => $value;
@@ -132,11 +124,9 @@ final class CompatibilityTest extends TestCase
         };
     }
 
+    #[DoesNotPerformAssertions]
     public function testMutableUrlProviderCompatibility(): void
-    {
-        self::expectNotToPerformAssertions();
-
-        new class implements MutableUrlProviderInterface {
+    {new class implements MutableUrlProviderInterface {
             public string $url {
                 get => $value;
                 set(string|\Stringable $url) => $url;
@@ -144,10 +134,9 @@ final class CompatibilityTest extends TestCase
         };
     }
 
+    #[DoesNotPerformAssertions]
     public function testHeadersCompatibility(): void
     {
-        self::expectNotToPerformAssertions();
-
         new class implements HeadersInterface, \IteratorAggregate {
             public function first(string $name, ?string $default = null): ?string {}
             public function all(string $name): array {}
@@ -159,10 +148,9 @@ final class CompatibilityTest extends TestCase
         };
     }
 
+    #[DoesNotPerformAssertions]
     public function testMutableHeadersCompatibility(): void
     {
-        self::expectNotToPerformAssertions();
-
         new class implements MutableHeadersInterface, \IteratorAggregate {
             public function first(string $name, ?string $default = null): ?string {}
             public function all(string $name): array {}
@@ -179,10 +167,9 @@ final class CompatibilityTest extends TestCase
         };
     }
 
+    #[DoesNotPerformAssertions]
     public function testRequestCompatibility(): void
     {
-        self::expectNotToPerformAssertions();
-
         new class implements RequestInterface {
             public string $body {
                 get => $value;
@@ -202,10 +189,9 @@ final class CompatibilityTest extends TestCase
         };
     }
 
+    #[DoesNotPerformAssertions]
     public function testMutableRequestCompatibility(): void
     {
-        self::expectNotToPerformAssertions();
-
         new class implements MutableRequestInterface {
             public string $body {
                 get => $value;
@@ -229,10 +215,9 @@ final class CompatibilityTest extends TestCase
         };
     }
 
+    #[DoesNotPerformAssertions]
     public function testResponseCompatibility(): void
     {
-        self::expectNotToPerformAssertions();
-
         new class implements ResponseInterface {
             public string $body {
                 get => $value;
@@ -248,10 +233,9 @@ final class CompatibilityTest extends TestCase
         };
     }
 
+    #[DoesNotPerformAssertions]
     public function testMutableResponseCompatibility(): void
     {
-        self::expectNotToPerformAssertions();
-
         new class implements MutableResponseInterface {
             public string $body {
                 get => $value;
