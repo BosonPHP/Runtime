@@ -17,7 +17,7 @@
     "require": {
         "php": "^8.4",
         "ffi/env": "^1.0",
-        "boson-php/pasm": "^0.14"
+        "boson-php/pasm": "^0.15"
     },
     "autoload": {
         "psr-4": {
@@ -34,8 +34,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.14.x-dev",
-            "dev-main": "0.14.x-dev"
+            "dev-master": "0.15.x-dev",
+            "dev-main": "0.15.x-dev"
         }
     },
     "config": {

@@ -16,9 +16,9 @@
     ],
     "require": {
         "php": "^8.4",
-        "boson-php/http-static-provider": "^0.14",
-        "boson-php/runtime": "^0.14",
-        "boson-php/symfony-http-bridge": "^0.14",
+        "boson-php/http-static-provider": "^0.15",
+        "boson-php/runtime": "^0.15",
+        "boson-php/symfony-http-bridge": "^0.15",
         "symfony/config": "^6.4|^7.0",
         "symfony/dependency-injection": "^6.4|^7.0",
         "symfony/http-kernel": "^6.4|^7.0",
@@ -39,8 +39,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.14.x-dev",
-            "dev-main": "0.14.x-dev"
+            "dev-master": "0.15.x-dev",
+            "dev-main": "0.15.x-dev"
         }
     },
     "config": {

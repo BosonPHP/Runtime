@@ -10,23 +10,23 @@
     ],
     "require": {
         "php": "^8.4",
-        "boson-php/cpu-info": "^0.14",
-        "boson-php/globals-provider": "^0.14",
-        "boson-php/http": "^0.14",
-        "boson-php/http-body-decoder": "^0.14",
-        "boson-php/http-bridge": "^0.14",
-        "boson-php/http-contracts": "^0.14",
-        "boson-php/http-static-provider": "^0.14",
-        "boson-php/laravel-http-bridge": "^0.14",
-        "boson-php/os-info": "^0.14",
-        "boson-php/psr-http-bridge": "^0.14",
-        "boson-php/runtime": "^0.14",
-        "boson-php/symfony-bundle": "^0.14",
-        "boson-php/symfony-http-bridge": "^0.14",
-        "boson-php/weak-types": "^0.14"
+        "boson-php/cpu-info": "^0.15",
+        "boson-php/globals-provider": "^0.15",
+        "boson-php/http": "^0.15",
+        "boson-php/http-body-decoder": "^0.15",
+        "boson-php/http-bridge": "^0.15",
+        "boson-php/http-contracts": "^0.15",
+        "boson-php/http-static-provider": "^0.15",
+        "boson-php/laravel-http-bridge": "^0.15",
+        "boson-php/os-info": "^0.15",
+        "boson-php/psr-http-bridge": "^0.15",
+        "boson-php/runtime": "^0.15",
+        "boson-php/symfony-bundle": "^0.15",
+        "boson-php/symfony-http-bridge": "^0.15",
+        "boson-php/weak-types": "^0.15"
     },
     "require-dev": {
-        "boson-php/compiler": "^0.14",
+        "boson-php/compiler": "^0.15",
         "ffi/var-dumper": "^1.0",
         "friendsofphp/php-cs-fixer": "^3.75",
         "jetbrains/phpstorm-attributes": "^1.2",
@@ -59,8 +59,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.14.x-dev",
-            "dev-main": "0.14.x-dev"
+            "dev-master": "0.15.x-dev",
+            "dev-main": "0.15.x-dev"
         }
     },
     "config": {
