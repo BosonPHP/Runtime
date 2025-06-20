@@ -50,6 +50,9 @@
         "optimize-autoloader": true,
         "preferred-install": {
             "*": "dist"
+        },
+        "allow-plugins": {
+            "symfony/runtime": true
         }
     },
     "minimum-stability": "dev",
