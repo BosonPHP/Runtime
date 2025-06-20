@@ -47,6 +47,8 @@ jobs:
             split_repository: 'http-static-provider'
           - local_path: 'component/os-info'
             split_repository: 'os-info'
+          - local_path: 'component/pasm'
+            split_repository: 'pasm'
           - local_path: 'component/weak-types'
             split_repository: 'weak-types'
           # Contracts

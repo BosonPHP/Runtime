@@ -16,7 +16,6 @@ final class DefaultInstructionSetFactory implements InstructionSetFactoryInterfa
         $this->default = new LinuxProcCpuInfoInstructionSetFactory(
             delegate: new CpuIdInstructionSetFactory(
                 delegate: new GenericInstructionSetFactory(),
-                osFamilyFactory: $osFamilyFactory,
             ),
             osFamilyFactory: $osFamilyFactory,
         );

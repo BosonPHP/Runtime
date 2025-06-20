@@ -1,12 +1,12 @@
 {
-    "name": "boson-php/cpu-info",
-    "description": "Provides object-oriented interfaces to detect CPU",
+    "name": "boson-php/pasm",
+    "description": "Provides lightweight PHP assembly executor",
     "type": "library",
     "license": "MIT",
     "homepage": "https://bosonphp.com",
     "support": {
         "issues": "https://github.com/boson-php/boson/issues",
-        "source": "https://github.com/boson-php/cpu-info"
+        "source": "https://github.com/boson-php/pasm"
     },
     "authors": [
         {
@@ -16,12 +16,11 @@
     ],
     "require": {
         "php": "^8.4",
-        "ffi/env": "^1.0",
-        "boson-php/pasm": "^0.14"
+        "ffi/env": "^1.0"
     },
     "autoload": {
         "psr-4": {
-            "Boson\\Component\\CpuInfo\\": "src"
+            "Boson\\Component\\Pasm\\": "src"
         }
     },
     "require-dev": {
@@ -29,7 +28,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Boson\\Component\\CpuInfo\\Tests\\": "tests"
+            "Boson\\Component\\Pasm\\Tests\\": "tests"
         }
     },
     "extra": {
