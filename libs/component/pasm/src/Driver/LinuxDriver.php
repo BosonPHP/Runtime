@@ -111,12 +111,8 @@ class LinuxDriver implements DriverInterface
          *
          * @phpstan-ignore-next-line PHPStan false-positive, 3rd argument should be callable(CData):void
          */
-        return $this->programs->watch(
-            $closure,
-            $memory,
-            fn(CData $mem): null
-            => $this->onRelease($mem, $length),
-        );
+        return $this->programs->watch($closure, $memory, fn(CData $mem): null
+            => $this->onRelease($mem, $length));
     }
 
     /**
