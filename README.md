@@ -17,10 +17,10 @@
 Why Boson? Because it's not an [Electron](https://www.electronjs.org)!
 And much easier than that =)
 
-By the way, there is more information about the project 
+By the way, there is more information about the project
 [in the documentation](https://bosonphp.com/introduction.html).
 
-> Also, this repository contains included high level PHP bindings 
+> Also, this repository contains included high level PHP bindings
 > [for Saucer v6.0](https://github.com/saucer/saucer).
 
 ## Application Example
@@ -37,7 +37,7 @@ $app->webview->bind('foo', var_dump(...));
 
 ## Installation
 
-Boson package is available as Composer repository and can 
+Boson package is available as Composer repository and can
 be installed using the following command in a root of your project:
 
 ```bash
@@ -47,19 +47,19 @@ composer require boson-php/runtime
 ## Documentation
 
 - You can learn more [about what a Boson is](https://bosonphp.com/introduction.html).
-- Information [about the configs](https://bosonphp.com/configuration.html) is 
+- Information [about the configs](https://bosonphp.com/configuration.html) is
   available on the [corresponding pages](https://bosonphp.com/application-configuration.html).
-- A more detailed description of working with the [application](https://bosonphp.com/application.html), 
-  [windows](https://bosonphp.com/window.html) and [webview](https://bosonphp.com/webview.html) 
+- A more detailed description of working with the [application](https://bosonphp.com/application.html),
+  [windows](https://bosonphp.com/window.html) and [webview](https://bosonphp.com/webview.html)
   is also available.
-- Also, do not miss the detailed guide on additional apps for working with 
+- Also, do not miss the detailed guide on additional apps for working with
   [function bindings](https://bosonphp.com/bindings-api.html),
   [scripts](https://bosonphp.com/scripts-api.html),
   [request interception](https://bosonphp.com/schemes-api.html), and more.
-- If you want to build an application based on 
-  [Symfony](https://bosonphp.com/symfony-adapter.html), 
-  [Laravel](https://bosonphp.com/laravel-adapter.html) and 
-  [others](https://bosonphp.com/psr7-adapter.html), 
+- If you want to build an application based on
+  [Symfony](https://bosonphp.com/symfony-adapter.html),
+  [Laravel](https://bosonphp.com/laravel-adapter.html) and
+  [others](https://bosonphp.com/psr7-adapter.html),
   then similar functionality is also available.
 
 ## Components
@@ -74,21 +74,23 @@ composer require boson-php/runtime
 | [boson-php/compiler](https://packagist.org/packages/boson-php/compiler)                                 | Allows you to compile a project into a executable                         | ![version](https://poser.pugx.org/boson-php/compiler/version?style=flat-square) [![tests](https://img.shields.io/github/actions/workflow/status/boson-php/compiler/tests.yml?label=Tests&style=flat-square&logo=unpkg)](https://github.com/boson-php/compiler/actions/workflows/tests.yml)                                                 |
 | [boson-php/cpu-info](https://packagist.org/packages/boson-php/cpu-info)                                 | Provides general information about the CPU                                | ![version](https://poser.pugx.org/boson-php/cpu-info/version?style=flat-square) [![tests](https://img.shields.io/github/actions/workflow/status/boson-php/cpu-info/tests.yml?label=Tests&style=flat-square&logo=unpkg)](https://github.com/boson-php/cpu-info/actions/workflows/tests.yml)                                                 |
 | [boson-php/globals-provider](https://packagist.org/packages/boson-php/globals-provider)                 | Emulates the behavior of global PHP variables                             | ![version](https://poser.pugx.org/boson-php/globals-provider/version?style=flat-square) [![tests](https://img.shields.io/github/actions/workflow/status/boson-php/globals-provider/tests.yml?label=Tests&style=flat-square&logo=unpkg)](https://github.com/boson-php/globals-provider/actions/workflows/tests.yml)                         |
-| [boson-php/runtime](https://packagist.org/packages/boson-php/runtime)                                   | Core component for running applications                                   | ![version](https://poser.pugx.org/boson-php/runtime/version?style=flat-square) [![tests](https://img.shields.io/github/actions/workflow/status/boson-php/runtime/tests.yml?label=Tests&style=flat-square&logo=unpkg)](https://github.com/boson-php/runtime/actions/workflows/tests.yml)                                                    |
 | [boson-php/http](https://packagist.org/packages/boson-php/http)                                         | Provides basic HTTP structure                                             | ![version](https://poser.pugx.org/boson-php/http/version?style=flat-square) [![tests](https://img.shields.io/github/actions/workflow/status/boson-php/http/tests.yml?label=Tests&style=flat-square&logo=unpkg)](https://github.com/boson-php/http/actions/workflows/tests.yml)                                                             |
 | [boson-php/http-body-decoder](https://packagist.org/packages/boson-php/http-body-decoder)               | Decoder for HTTP request body                                             | ![version](https://poser.pugx.org/boson-php/http-body-decoder/version?style=flat-square) [![tests](https://img.shields.io/github/actions/workflow/status/boson-php/http-body-decoder/tests.yml?label=Tests&style=flat-square&logo=unpkg)](https://github.com/boson-php/http-body-decoder/actions/workflows/tests.yml)                      |
 | [boson-php/http-static-provider](https://packagist.org/packages/boson-php/http-static-provider)         | Provides the ability to easily handle static files                        | ![version](https://poser.pugx.org/boson-php/http-static-provider/version?style=flat-square) [![tests](https://img.shields.io/github/actions/workflow/status/boson-php/http-static-provider/tests.yml?label=Tests&style=flat-square&logo=unpkg)](https://github.com/boson-php/http-static-provider/actions/workflows/tests.yml)             |
 | [boson-php/os-info](https://packagist.org/packages/boson-php/os-info)                                   | Provides general information about the operating system                   | ![version](https://poser.pugx.org/boson-php/os-info/version?style=flat-square) [![tests](https://img.shields.io/github/actions/workflow/status/boson-php/os-info/tests.yml?label=Tests&style=flat-square&logo=unpkg)](https://github.com/boson-php/os-info/actions/workflows/tests.yml)                                                    |
+| [boson-php/pasm](https://packagist.org/packages/boson-php/pasm)                                         | Provides cross-platform implementation of the PHP asm executor            | ![version](https://poser.pugx.org/boson-php/pasm/version?style=flat-square) [![tests](https://img.shields.io/github/actions/workflow/status/boson-php/pasm/tests.yml?label=Tests&style=flat-square&logo=unpkg)](https://github.com/boson-php/pasm/actions/workflows/tests.yml)                                                             |
+| [boson-php/runtime](https://packagist.org/packages/boson-php/runtime)                                   | Core component for running applications                                   | ![version](https://poser.pugx.org/boson-php/runtime/version?style=flat-square) [![tests](https://img.shields.io/github/actions/workflow/status/boson-php/runtime/tests.yml?label=Tests&style=flat-square&logo=unpkg)](https://github.com/boson-php/runtime/actions/workflows/tests.yml)                                                    |
 | [boson-php/weak-types](https://packagist.org/packages/boson-php/weak-types)                             | Provides data types for working with weak references                      | ![version](https://poser.pugx.org/boson-php/weak-types/version?style=flat-square) [![tests](https://img.shields.io/github/actions/workflow/status/boson-php/weak-types/tests.yml?label=Tests&style=flat-square&logo=unpkg)](https://github.com/boson-php/weak-types/actions/workflows/tests.yml)                                           |
-| [boson-php/http-contracts](https://packagist.org/packages/boson-php/http-contracts)                     | Interfaces for HTTP components                                            | ![version](https://poser.pugx.org/boson-php/http-contracts/version?style=flat-square) [![tests](https://img.shields.io/github/actions/workflow/status/boson-php/http-contracts/tests.yml?label=Tests&style=flat-square&logo=unpkg)](https://github.com/boson-php/http-contracts/actions/workflows/tests.yml)                               |
+| [boson-php/event-listener-contracts](https://packagist.org/packages/boson-php/event-listener-contracts) | Generic event listener component interfaces                               | ![version](https://poser.pugx.org/boson-php/event-listener-contracts/version?style=flat-square) [![tests](https://img.shields.io/github/actions/workflow/status/boson-php/event-listener-contracts/tests.yml?label=Tests&style=flat-square&logo=unpkg)](https://github.com/boson-php/event-listener-contracts/actions/workflows/tests.yml) |
+| [boson-php/http-contracts](https://packagist.org/packages/boson-php/http-contracts)                     | Generic HTTP component interfaces                                         | ![version](https://poser.pugx.org/boson-php/http-contracts/version?style=flat-square) [![tests](https://img.shields.io/github/actions/workflow/status/boson-php/http-contracts/tests.yml?label=Tests&style=flat-square&logo=unpkg)](https://github.com/boson-php/http-contracts/actions/workflows/tests.yml)                               |
 
 ## Community
 
-- Any questions left? You can ask them 
+- Any questions left? You can ask them
   [in the chat `t.me/boson_php`](https://t.me/boson_php)!
 
 ## Contributing
 
-Boson is an Open Source, [community-driven project](https://github.com/boson-php/boson/graphs/contributors). 
+Boson is an Open Source, [community-driven project](https://github.com/boson-php/boson/graphs/contributors).
 Join them [contributing code](https://bosonphp.com/contribution.html).
 
