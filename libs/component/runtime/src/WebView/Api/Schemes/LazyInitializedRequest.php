@@ -77,20 +77,20 @@ final class LazyInitializedRequest implements RequestInterface
      */
     private function fetchRawHeadersIterable(): iterable
     {
-        $headers = $this->api->new('char**');
-        $values = $this->api->new('char**');
-        $sizes = $this->api->new('size_t');
+        $names = $this->api->new('char[32][256]');
+        $values = $this->api->new('char[32][4096]');
+        $count = $this->api->new('size_t');
 
         $this->api->saucer_scheme_request_headers(
             $this->ptr,
-            \FFI::addr($headers),
+            \FFI::addr($names),
             \FFI::addr($values),
-            \FFI::addr($sizes),
+            \FFI::addr($count),
         );
 
-        for ($i = 0; $i < $sizes->cdata; ++$i) {
+        for ($i = 0; $i < $count->cdata; ++$i) {
             /** @phpstan-ignore-next-line : PHPStan false-positive */
-            $header = \FFI::string($headers[$i]);
+            $header = \FFI::string($names[$i]);
 
             if ($header !== '') {
                 /** @phpstan-ignore-next-line : PHPStan false-positive */
