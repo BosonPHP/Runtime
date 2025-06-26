@@ -89,9 +89,9 @@ final readonly class EnvStandardsFactory implements StandardsFactoryInterface
     }
 
     /**
-     * @return non-empty-list<StandardInterface>
+     * @return iterable<array-key, StandardInterface>
      */
-    public function createStandards(FamilyInterface $family): array
+    public function createStandards(FamilyInterface $family): iterable
     {
         $standardStringValues = $this->tryGetStandardsFromEnvironment();
 
