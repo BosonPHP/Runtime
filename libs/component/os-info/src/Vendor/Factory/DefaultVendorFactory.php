@@ -13,13 +13,15 @@ final readonly class DefaultVendorFactory implements VendorFactoryInterface
 
     public function __construct()
     {
-        $this->default = new CompoundVendorFactory(
-            default: new GenericVendorFactory(),
-            factories: [
-                new LinuxVendorFactory(),
-                new Win32VendorFactory(),
-                new MacOSVendorFactory(),
-            ]
+        $this->default = EnvVendorFactory::createForOverrideEnvVariables(
+            delegate: new CompoundVendorFactory(
+                default: new GenericVendorFactory(),
+                factories: [
+                    new LinuxVendorFactory(),
+                    new Win32VendorFactory(),
+                    new MacOSVendorFactory(),
+                ],
+            ),
         );
     }
 

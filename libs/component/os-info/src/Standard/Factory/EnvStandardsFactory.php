@@ -16,7 +16,7 @@ final readonly class EnvStandardsFactory implements StandardsFactoryInterface
     /**
      * @var non-empty-string
      */
-    public const string DEFAULT_OVERRIDE_ENV_NAME = 'BOSON_OS_STANDARDS';
+    public const string DEFAULT_OVERRIDE_ENV_STANDARDS = 'BOSON_OS_STANDARDS';
 
     public function __construct(
         /**
@@ -36,14 +36,14 @@ final readonly class EnvStandardsFactory implements StandardsFactoryInterface
     public static function createForOverrideEnvVariables(StandardsFactoryInterface $delegate): self
     {
         return new self($delegate, [
-            self::DEFAULT_OVERRIDE_ENV_NAME,
+            self::DEFAULT_OVERRIDE_ENV_STANDARDS,
         ]);
     }
 
     /**
      * @return non-empty-string|null
      */
-    private function tryGetValueFromEnvironment(): ?string
+    private function tryGetStandardsFromEnvironmentAsString(): ?string
     {
         foreach ($this->envVariableNames as $name) {
             $server = $_SERVER[$name] ?? null;
@@ -59,9 +59,9 @@ final readonly class EnvStandardsFactory implements StandardsFactoryInterface
     /**
      * @return non-empty-list<non-empty-string>|null
      */
-    private function tryGetStandardsFromEnvironment(): ?array
+    private function tryGetStandardsFromEnvironmentAsStringArray(): ?array
     {
-        $standardsStringValue = $this->tryGetValueFromEnvironment();
+        $standardsStringValue = $this->tryGetStandardsFromEnvironmentAsString();
 
         if ($standardsStringValue === null) {
             return null;
@@ -89,19 +89,19 @@ final readonly class EnvStandardsFactory implements StandardsFactoryInterface
     }
 
     /**
-     * @return iterable<array-key, StandardInterface>
+     * @return non-empty-list<StandardInterface>|null
      */
-    public function createStandards(FamilyInterface $family): iterable
+    private function tryGetStandardsFromEnvironmentAsEnumArray(): ?array
     {
-        $standardStringValues = $this->tryGetStandardsFromEnvironment();
+        $standardStrings = $this->tryGetStandardsFromEnvironmentAsStringArray();
 
-        if ($standardStringValues === null) {
-            return $this->delegate->createStandards($family);
+        if ($standardStrings === null) {
+            return null;
         }
 
         $standardInstances = [];
 
-        foreach ($standardStringValues as $standardStringValue) {
+        foreach ($standardStrings as $standardStringValue) {
             $standardInstance = Standard::tryFrom($standardStringValue);
 
             if ($standardInstance instanceof StandardInterface) {
@@ -109,10 +109,20 @@ final readonly class EnvStandardsFactory implements StandardsFactoryInterface
             }
         }
 
-        if ($standardInstances === []) {
+        return $standardInstances === [] ? null : $standardInstances;
+    }
+
+    /**
+     * @return iterable<array-key, StandardInterface>
+     */
+    public function createStandards(FamilyInterface $family): iterable
+    {
+        $standards = $this->tryGetStandardsFromEnvironmentAsEnumArray();
+
+        if ($standards === null) {
             return $this->delegate->createStandards($family);
         }
 
-        return $standardInstances;
+        return $standards;
     }
 }
