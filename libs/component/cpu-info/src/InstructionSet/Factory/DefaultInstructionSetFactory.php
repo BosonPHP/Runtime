@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Boson\Component\CpuInfo\InstructionSet\Factory;
 
 use Boson\Component\CpuInfo\ArchitectureInterface;
+use Boson\Component\CpuInfo\InstructionSetInterface;
 
 final class DefaultInstructionSetFactory implements InstructionSetFactoryInterface
 {
@@ -21,7 +22,10 @@ final class DefaultInstructionSetFactory implements InstructionSetFactoryInterfa
         );
     }
 
-    public function createInstructionSets(ArchitectureInterface $arch): array
+    /**
+     * @return iterable<array-key, InstructionSetInterface>
+     */
+    public function createInstructionSets(ArchitectureInterface $arch): iterable
     {
         return $this->default->createInstructionSets($arch);
     }

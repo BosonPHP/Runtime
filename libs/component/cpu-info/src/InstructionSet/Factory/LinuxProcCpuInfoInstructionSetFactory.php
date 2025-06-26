@@ -11,6 +11,9 @@ use Boson\Component\CpuInfo\Internal\LinuxProcCpuInfo;
 
 final readonly class LinuxProcCpuInfoInstructionSetFactory implements OptionalInstructionSetFactoryInterface
 {
+    /**
+     * @return list<InstructionSetInterface>
+     */
     public function createInstructionSets(ArchitectureInterface $arch): ?array
     {
         if (!LinuxProcCpuInfo::isReadable()) {
