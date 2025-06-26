@@ -48,7 +48,7 @@ final readonly class OperatingSystem extends VendorInfo
     /**
      * @api
      */
-    public static function createFromGlobals(): OperatingSystem
+    public static function createFromGlobals(): self
     {
         /** @phpstan-var InMemoryOperatingSystemFactory $factory */
         static $factory = new InMemoryOperatingSystemFactory(

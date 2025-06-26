@@ -6,7 +6,7 @@ namespace Boson\Component\OsInfo\Factory;
 
 use Boson\Component\OsInfo\OperatingSystem;
 
-interface OperatingSystemFactoryInterface
+interface OperatingSystemFactoryInterface extends OptionalOperatingSystemFactoryInterface
 {
     public function createOperatingSystem(): OperatingSystem;
 }

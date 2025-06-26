@@ -1,0 +1,9 @@
+NAME=FreeBSD
+VERSION="13.2-RELEASE"
+VERSION_ID="13.2"
+ID=freebsd
+ANSI_COLOR="0;31"
+PRETTY_NAME="FreeBSD 13.2-RELEASE"
+CPE_NAME="cpe:/o:freebsd:freebsd:13.2"
+HOME_URL="https://FreeBSD.org/"
+BUG_REPORT_URL="https://bugs.FreeBSD.org/"

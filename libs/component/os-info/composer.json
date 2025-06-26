@@ -16,6 +16,8 @@
     ],
     "require": {
         "php": "^8.4",
+        "ext-pcre": "*",
+        "ext-ffi": "*",
         "ffi/env": "^1.0"
     },
     "autoload": {

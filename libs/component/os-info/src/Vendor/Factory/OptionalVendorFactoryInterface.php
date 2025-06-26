@@ -7,7 +7,7 @@ namespace Boson\Component\OsInfo\Vendor\Factory;
 use Boson\Component\OsInfo\FamilyInterface;
 use Boson\Component\OsInfo\Vendor\VendorInfo;
 
-interface VendorFactoryInterface extends OptionalVendorFactoryInterface
+interface OptionalVendorFactoryInterface
 {
-    public function createVendor(FamilyInterface $family): VendorInfo;
+    public function createVendor(FamilyInterface $family): ?VendorInfo;
 }

@@ -4,26 +4,33 @@ declare(strict_types=1);
 
 namespace Boson\Component\OsInfo\Family\Factory;
 
+use Boson\Component\OsInfo\Family;
 use Boson\Component\OsInfo\FamilyInterface;
 
-final readonly class EnvFamilyFactory extends FamilyByNameFactory
+/**
+ * Factory that attempts to detect the OS family from environment variables.
+ */
+final readonly class EnvFamilyFactory implements OptionalFamilyFactoryInterface
 {
     /**
      * @var non-empty-string
      */
-    public const string DEFAULT_OVERRIDE_ENV_NAME = 'BOSON_OS_NAME';
+    public const string DEFAULT_OVERRIDE_ENV_NAME = 'BOSON_OS_FAMILY';
 
     public function __construct(
-        private FamilyFactoryInterface $delegate,
         /**
          * @var list<non-empty-string>
          */
         private array $envVariableNames = [],
     ) {}
 
-    public static function createForOverrideEnvVariables(FamilyFactoryInterface $delegate): self
+    /**
+     * Creates an instance configured to use the default override
+     * environment variable.
+     */
+    public static function createForOverrideEnvVariables(): self
     {
-        return new self($delegate, [
+        return new self([
             self::DEFAULT_OVERRIDE_ENV_NAME,
         ]);
     }
@@ -44,14 +51,14 @@ final readonly class EnvFamilyFactory extends FamilyByNameFactory
         return null;
     }
 
-    public function createFamily(): FamilyInterface
+    public function createFamily(): ?FamilyInterface
     {
         $name = $this->tryGetNameFromEnvironment();
 
         if ($name === null) {
-            return $this->delegate->createFamily();
+            return null;
         }
 
-        return $this->createFromName($name);
+        return Family::tryFrom($name);
     }
 }

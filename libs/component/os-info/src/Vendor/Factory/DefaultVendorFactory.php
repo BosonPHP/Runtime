@@ -9,18 +9,17 @@ use Boson\Component\OsInfo\Vendor\VendorInfo;
 
 final readonly class DefaultVendorFactory implements VendorFactoryInterface
 {
-    private VendorFactoryInterface $default;
+    private OptionalVendorFactoryInterface $default;
 
     public function __construct()
     {
-        $this->default = new LinuxOSReleaseVendorFactory(
-            delegate: new Win32RegistryVendorFactory(
-                delegate: new Win32WmiVendorFactory(
-                    delegate: new Win32GenericVendorFactory(
-                        delegate: new GenericVendorFactory(),
-                    )
-                )
-            )
+        $this->default = new CompoundVendorFactory(
+            default: new GenericVendorFactory(),
+            factories: [
+                new LinuxVendorFactory(),
+                new Win32VendorFactory(),
+                new MacOSVendorFactory(),
+            ]
         );
     }
 

@@ -78,7 +78,7 @@
     },
     "scripts-aliases": {
         "test:unit": ["test", "phpunit", "unit"],
-        "linter:check": ["linter", "phpstan", "stan"],
+        "linter:check": ["linter", "stan"],
         "phpcs:check": ["phpcs", "cs", "psr", "per"]
     },
     "scripts": {
