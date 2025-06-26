@@ -17,10 +17,8 @@ final readonly class SSE2Detector extends AMD64Detector
             code: "\xB8\x01\x00\x00\x00"     // mov eax, 0x1
                 . "\x0F\xA2"                 // cpuid
                 . "\xF7\xC2\x00\x00\x00\x04" // test edx, 0x04000000 (1 << 26)
-                . "\x74\x05"                 // jz no_sse2
-                . "\xB0\x01"                 // mov al,0x1
-                . "\xC3"                     // ret
-                . "\x30\xC0"                 // xor al, al
+                . "\x0F\x94\xC0"             // setz al
+                . "\x34\x01"                 // xor al, 1
                 . "\xC3"                     // ret
         );
 
