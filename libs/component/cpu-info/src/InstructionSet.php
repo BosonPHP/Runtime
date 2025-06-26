@@ -97,6 +97,34 @@ final class InstructionSet implements InstructionSetInterface
     public const InstructionSetInterface AVX512F = InstructionSet\AVX512F;
 
     /**
+     * Advanced Encryption Standard New Instructions (AES-NI) instruction set
+     *
+     * @noinspection PhpUndefinedConstantInspection
+     */
+    public const InstructionSetInterface AES = InstructionSet\AES;
+
+    /**
+     * Intel Extended Memory 64 Technology (EM64T) instruction set
+     *
+     * @noinspection PhpUndefinedConstantInspection
+     */
+    public const InstructionSetInterface EM64T = InstructionSet\EM64T;
+
+    /**
+     * Population Count (POPCNT) instruction set
+     *
+     * @noinspection PhpUndefinedConstantInspection
+     */
+    public const InstructionSetInterface POPCNT = InstructionSet\POPCNT;
+
+    /**
+     * Half-Precision Floating-Point Conversion (F16C) instruction set
+     *
+     * @noinspection PhpUndefinedConstantInspection
+     */
+    public const InstructionSetInterface F16C = InstructionSet\F16C;
+
+    /**
      * @var non-empty-array<non-empty-lowercase-string, InstructionSetInterface>
      */
     private const array CASES = [
@@ -111,6 +139,10 @@ final class InstructionSet implements InstructionSetInterface
         'avx' => self::AVX,
         'avx2' => self::AVX2,
         'avx512f' => self::AVX512F,
+        'aes' => self::AES,
+        'em64t' => self::EM64T,
+        'popcnt' => self::POPCNT,
+        'f16c' => self::F16C,
     ];
 
     /**

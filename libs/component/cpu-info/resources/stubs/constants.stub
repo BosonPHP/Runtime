@@ -31,5 +31,9 @@ namespace Boson\Component\CpuInfo\InstructionSet {
     const AVX = new BuiltinInstructionSet('avx');
     const AVX2 = new BuiltinInstructionSet('avx2');
     const AVX512F = new BuiltinInstructionSet('avx512f');
+    const AES = new BuiltinInstructionSet('aes');
+    const EM64T = new BuiltinInstructionSet('em64t');
+    const POPCNT = new BuiltinInstructionSet('popcnt');
+    const F16C = new BuiltinInstructionSet('f16c');
 
 }

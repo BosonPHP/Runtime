@@ -30,4 +30,12 @@ define($name = 'Boson\Component\CpuInfo\InstructionSet\AVX2', new BuiltinInstruc
 
 define($name = 'Boson\Component\CpuInfo\InstructionSet\AVX512F', new BuiltinInstructionSet('avx512f'));
 
+define($name = 'Boson\Component\CpuInfo\InstructionSet\AES', new BuiltinInstructionSet('aes'));
+
+define($name = 'Boson\Component\CpuInfo\InstructionSet\EM64T', new BuiltinInstructionSet('em64t'));
+
+define($name = 'Boson\Component\CpuInfo\InstructionSet\POPCNT', new BuiltinInstructionSet('popcnt'));
+
+define($name = 'Boson\Component\CpuInfo\InstructionSet\F16C', new BuiltinInstructionSet('f16c'));
+
 unset($name);
