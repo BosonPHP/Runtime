@@ -10,7 +10,6 @@ use FFI\CData;
  * @psalm-internal Boson\Internal\WebView
  *
  * @seal-properties
- *
  * @seal-methods
  */
 final class CSaucerWebViewEventsStruct extends CData

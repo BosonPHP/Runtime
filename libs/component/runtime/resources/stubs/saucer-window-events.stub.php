@@ -9,7 +9,6 @@ use FFI\CData;
  * @psalm-internal Boson\Internal\Window
  *
  * @seal-properties
- *
  * @seal-methods
  */
 final class CSaucerWindowEventsStruct extends CData

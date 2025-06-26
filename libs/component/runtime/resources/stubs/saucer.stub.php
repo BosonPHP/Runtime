@@ -35,7 +35,6 @@ use FFI\CType;
  * @phpstan-type UnmanagedStringType CData
  *
  * @seal-properties
- *
  * @seal-methods
  */
 final readonly class LibSaucer

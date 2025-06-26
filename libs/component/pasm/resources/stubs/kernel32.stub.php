@@ -11,7 +11,6 @@ use FFI\CType;
  * @mixin \FFI
  *
  * @seal-properties
- *
  * @seal-methods
  *
  * @phpstan-type VoidPtrType CData|null

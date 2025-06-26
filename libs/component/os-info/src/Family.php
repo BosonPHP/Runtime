@@ -108,6 +108,7 @@ final readonly class Family implements FamilyInterface
      * @api
      *
      * @param non-empty-string $value
+     *
      * @throws \ValueError if there is no matching case defined
      */
     public static function from(string $value): FamilyInterface
