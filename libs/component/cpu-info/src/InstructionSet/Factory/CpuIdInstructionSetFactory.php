@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace Boson\Component\CpuInfo\InstructionSet\Factory;
 
 use Boson\Component\CpuInfo\ArchitectureInterface;
+use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\AESDetector;
 use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\AVX2Detector;
 use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\AVX512FDetector;
 use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\AVXDetector;
 use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\DetectorInterface;
+use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\EM64TDetector;
+use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\F16CDetector;
 use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\FMA3Detector;
 use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\MMXDetector;
+use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\POPCNTDetector;
 use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\SSE2Detector;
 use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\SSE3Detector;
 use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\SSE41Detector;
@@ -55,6 +59,10 @@ final readonly class CpuIdInstructionSetFactory implements InstructionSetFactory
             new AVXDetector(),
             new AVX2Detector(),
             new AVX512FDetector(),
+            new AESDetector(),
+            new EM64TDetector(),
+            new POPCNTDetector(),
+            new F16CDetector(),
         ];
     }
 
