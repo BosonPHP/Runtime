@@ -7,12 +7,12 @@ namespace Boson\Component\OsInfo\Vendor\Factory;
 use Boson\Component\OsInfo\FamilyInterface;
 use Boson\Component\OsInfo\Vendor\VendorInfo;
 
-final class CompoundVendorFactory implements VendorFactoryInterface
+final readonly class CompoundVendorFactory implements VendorFactoryInterface
 {
     /**
      * @var list<OptionalVendorFactoryInterface>
      */
-    private array $factories = [];
+    private array $factories;
 
     /**
      * @param iterable<mixed, OptionalVendorFactoryInterface> $factories
@@ -22,7 +22,7 @@ final class CompoundVendorFactory implements VendorFactoryInterface
         /**
          * Default factory to use if none succeed
          */
-        private readonly VendorFactoryInterface $default,
+        private VendorFactoryInterface $default,
         iterable $factories = [],
     ) {
         $this->factories = \iterator_to_array($factories, false);

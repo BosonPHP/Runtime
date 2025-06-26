@@ -11,7 +11,7 @@ use Boson\Component\OsInfo\StandardInterface;
 /**
  * Factory that attempts to detect standards from environment variables.
  */
-final readonly class EnvStandardsFactory implements OptionalStandardsFactoryInterface
+final readonly class EnvStandardsFactory implements StandardsFactoryInterface
 {
     /**
      * @var non-empty-string
@@ -19,6 +19,10 @@ final readonly class EnvStandardsFactory implements OptionalStandardsFactoryInte
     public const string DEFAULT_OVERRIDE_ENV_NAME = 'BOSON_OS_STANDARDS';
 
     public function __construct(
+        /**
+         * Default standards factory delegate to
+         */
+        private StandardsFactoryInterface $delegate,
         /**
          * @var list<non-empty-string>
          */
@@ -29,9 +33,9 @@ final readonly class EnvStandardsFactory implements OptionalStandardsFactoryInte
      * Creates an instance configured to use the default override
      * environment variable.
      */
-    public static function createForOverrideEnvVariables(): self
+    public static function createForOverrideEnvVariables(StandardsFactoryInterface $delegate): self
     {
-        return new self([
+        return new self($delegate, [
             self::DEFAULT_OVERRIDE_ENV_NAME,
         ]);
     }
@@ -85,14 +89,14 @@ final readonly class EnvStandardsFactory implements OptionalStandardsFactoryInte
     }
 
     /**
-     * @return non-empty-list<StandardInterface>|null
+     * @return non-empty-list<StandardInterface>
      */
-    public function createStandards(FamilyInterface $family): ?array
+    public function createStandards(FamilyInterface $family): array
     {
         $standardStringValues = $this->tryGetStandardsFromEnvironment();
 
         if ($standardStringValues === null) {
-            return null;
+            return $this->delegate->createStandards($family);
         }
 
         $standardInstances = [];
@@ -106,7 +110,7 @@ final readonly class EnvStandardsFactory implements OptionalStandardsFactoryInte
         }
 
         if ($standardInstances === []) {
-            return null;
+            return $this->delegate->createStandards($family);
         }
 
         return $standardInstances;

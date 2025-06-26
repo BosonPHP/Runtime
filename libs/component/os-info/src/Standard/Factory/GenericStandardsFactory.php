@@ -12,7 +12,7 @@ use Boson\Component\OsInfo\StandardInterface;
 /**
  * Factory that creates a default set of standards for a given OS family.
  */
-final class GenericStandardsFactory implements StandardsFactoryInterface
+final readonly class GenericStandardsFactory implements StandardsFactoryInterface
 {
     /**
      * @return list<StandardInterface>

@@ -17,11 +17,8 @@ final readonly class DefaultStandardsFactory implements StandardsFactoryInterfac
 
     public function __construct()
     {
-        $this->default = new CompoundStandardsFactory(
-            default: new GenericStandardsFactory(),
-            factories: [
-                EnvStandardsFactory::createForOverrideEnvVariables(),
-            ],
+        $this->default = EnvStandardsFactory::createForOverrideEnvVariables(
+            delegate: new GenericStandardsFactory(),
         );
     }
 

@@ -11,12 +11,12 @@ use Boson\Component\OsInfo\FamilyInterface;
  * implementations in order, returning the first successful standards list, or
  * a default if none succeed.
  */
-final class CompoundStandardsFactory implements StandardsFactoryInterface
+final readonly class CompoundStandardsFactory implements StandardsFactoryInterface
 {
     /**
      * @var list<OptionalStandardsFactoryInterface>
      */
-    private array $factories = [];
+    private array $factories;
 
     /**
      * @param iterable<mixed, OptionalStandardsFactoryInterface> $factories
@@ -26,7 +26,7 @@ final class CompoundStandardsFactory implements StandardsFactoryInterface
         /**
          * Default factory to use if none succeed
          */
-        private readonly StandardsFactoryInterface $default,
+        private StandardsFactoryInterface $default,
         iterable $factories = [],
     ) {
         $this->factories = \iterator_to_array($factories, false);

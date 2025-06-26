@@ -11,12 +11,12 @@ use Boson\Component\OsInfo\FamilyInterface;
  * implementations in order, returning the first successful
  * {@see FamilyInterface} instance, or a default if none succeed.
  */
-final class CompoundFamilyFactory implements FamilyFactoryInterface
+final readonly class CompoundFamilyFactory implements FamilyFactoryInterface
 {
     /**
      * @var list<OptionalFamilyFactoryInterface>
      */
-    private array $factories = [];
+    private array $factories;
 
     /**
      * @param iterable<mixed, OptionalFamilyFactoryInterface> $factories
@@ -26,7 +26,7 @@ final class CompoundFamilyFactory implements FamilyFactoryInterface
         /**
          * Default factory to use if none succeed.
          */
-        private readonly FamilyFactoryInterface $default,
+        private FamilyFactoryInterface $default,
         iterable $factories = [],
     ) {
         $this->factories = \iterator_to_array($factories, false);
