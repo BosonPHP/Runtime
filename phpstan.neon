@@ -4,6 +4,7 @@ includes:
 parameters:
   level: max
   scanFiles:
+    - libs/component/cpu-info/resources/stubs/constants.stub
     - libs/component/os-info/resources/stubs/advapi32.stub.php
     - libs/component/os-info/resources/stubs/constants.stub
     - libs/component/pasm/resources/stubs/kernel32.stub.php

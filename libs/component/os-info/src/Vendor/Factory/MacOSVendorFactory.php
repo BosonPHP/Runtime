@@ -133,6 +133,7 @@ final readonly class MacOSVendorFactory implements OptionalVendorFactoryInterfac
 
     /**
      * @param non-empty-string $version
+     *
      * @return non-empty-string|null
      */
     private function fetchCodename(string $version): ?string

@@ -74,6 +74,7 @@ final readonly class Standard implements StandardInterface
      * @api
      *
      * @param non-empty-string $value
+     *
      * @throws \ValueError if there is no matching case defined
      */
     public static function from(string $value): StandardInterface

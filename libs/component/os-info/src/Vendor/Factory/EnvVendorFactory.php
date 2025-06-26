@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace Boson\Component\OsInfo\Vendor\Factory;
 
 use Boson\Component\OsInfo\FamilyInterface;
-use Boson\Component\OsInfo\Standard;
-use Boson\Component\OsInfo\Standard\Factory\StandardsFactoryInterface;
-use Boson\Component\OsInfo\StandardInterface;
 use Boson\Component\OsInfo\Vendor\VendorInfo;
 
 /**
@@ -75,6 +72,7 @@ final readonly class EnvVendorFactory implements VendorFactoryInterface
 
     /**
      * @param iterable<mixed, non-empty-string> $envVariables
+     *
      * @return non-empty-string|null
      */
     private function tryGetEnvironmentAsString(iterable $envVariables): ?string

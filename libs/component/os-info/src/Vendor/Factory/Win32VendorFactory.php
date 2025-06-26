@@ -107,6 +107,7 @@ final readonly class Win32VendorFactory implements OptionalVendorFactoryInterfac
 
     /**
      * @param non-empty-string $version
+     *
      * @return non-empty-string|null
      */
     private function fetchName(Advapi32 $advapi32, string $version): ?string
@@ -202,6 +203,7 @@ final readonly class Win32VendorFactory implements OptionalVendorFactoryInterfac
 
     /**
      * @param int<0, 4294967295> $type
+     *
      * @return int<0, 4294967295>
      */
     private function getKey(Advapi32 $advapi32, string $name, int $type, CData $buffer): int

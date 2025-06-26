@@ -24,6 +24,6 @@ final readonly class AVX512FDetector extends AMD64Detector
         );
 
         /** @phpstan-ignore-next-line : Known ignored issue */
-        return $detector() ? InstructionSet::AVX512 : null;
+        return $detector() ? InstructionSet::AVX512F : null;
     }
 }

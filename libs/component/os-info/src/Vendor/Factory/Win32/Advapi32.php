@@ -9,7 +9,7 @@ use FFI\Env\Runtime;
 /**
  * @mixin \FFI
  *
- * @internal this is an internal library class, please do not use it in your code.
+ * @internal this is an internal library class, please do not use it in your code
  * @psalm-internal Boson\Component\OsInfo\Vendor\Factory
  */
 final readonly class Advapi32

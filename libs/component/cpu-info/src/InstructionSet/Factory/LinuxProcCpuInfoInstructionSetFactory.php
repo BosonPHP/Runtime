@@ -81,7 +81,7 @@ final readonly class LinuxProcCpuInfoInstructionSetFactory implements Instructio
                 'sse4_2' => InstructionSet::SSE4_2,
                 'avx' => InstructionSet::AVX,
                 'avx2' => InstructionSet::AVX2,
-                'avx512f' => InstructionSet::AVX512,
+                'avx512f' => InstructionSet::AVX512F,
                 default => null,
             };
 
