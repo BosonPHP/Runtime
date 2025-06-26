@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace Boson\Component\CpuInfo\InstructionSet\Factory;
 
 use Boson\Component\CpuInfo\ArchitectureInterface;
-use Boson\Component\OsInfo\Family\Factory\FamilyFactoryInterface;
 
 final class DefaultInstructionSetFactory implements InstructionSetFactoryInterface
 {
     private InstructionSetFactoryInterface $default;
 
-    public function __construct(?FamilyFactoryInterface $osFamilyFactory = null)
+    public function __construct()
     {
-        $this->default = new LinuxProcCpuInfoInstructionSetFactory(
-            delegate: new CpuIdInstructionSetFactory(
-                delegate: new GenericInstructionSetFactory(),
-            ),
-            osFamilyFactory: $osFamilyFactory,
+        $this->default = new CompoundInstructionSetFactory(
+            default: new GenericInstructionSetFactory(),
+            factories: [
+                new LinuxProcCpuInfoInstructionSetFactory(),
+                new CpuIdInstructionSetFactory(),
+            ],
         );
     }
 

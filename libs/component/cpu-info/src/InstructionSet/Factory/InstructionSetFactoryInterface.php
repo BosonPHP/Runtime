@@ -7,10 +7,10 @@ namespace Boson\Component\CpuInfo\InstructionSet\Factory;
 use Boson\Component\CpuInfo\ArchitectureInterface;
 use Boson\Component\CpuInfo\InstructionSetInterface;
 
-interface InstructionSetFactoryInterface
+interface InstructionSetFactoryInterface extends OptionalInstructionSetFactoryInterface
 {
     /**
-     * @return list<InstructionSetInterface>
+     * @return iterable<array-key, InstructionSetInterface>
      */
-    public function createInstructionSets(ArchitectureInterface $arch): array;
+    public function createInstructionSets(ArchitectureInterface $arch): iterable;
 }
