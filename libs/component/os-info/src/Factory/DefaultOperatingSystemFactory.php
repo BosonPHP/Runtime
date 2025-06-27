@@ -12,7 +12,7 @@ final readonly class DefaultOperatingSystemFactory implements OperatingSystemFac
 
     public function __construct()
     {
-        $this->default = new DefaultOperatingSystemFactory();
+        $this->default = new GenericOperatingSystemFactory();
     }
 
     public function createOperatingSystem(): OperatingSystem
