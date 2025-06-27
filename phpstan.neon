@@ -44,7 +44,7 @@ parameters:
     - libs/component/pasm/src/Driver/Win32/Kernel32.php
     - libs/component/pasm/src/Driver/Nix/Libc.php
     - libs/component/runtime/src/Internal/Saucer/LibSaucer.php
-    - libs/component/runtime/src/Internal/Win32/LibKernel32.php
+    - libs/component/runtime/src/Internal/Win32/Kernel32.php
   tmpDir: vendor/.cache.phpstan
   reportUnmatchedIgnoredErrors: true
   treatPhpDocTypesAsCertain: false

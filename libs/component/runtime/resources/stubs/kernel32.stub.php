@@ -13,7 +13,7 @@ use FFI\CType;
  * @seal-properties
  * @seal-methods
  */
-final readonly class LibKernel32
+final readonly class Kernel32
 {
     /**
      * @param CType|non-empty-string $type

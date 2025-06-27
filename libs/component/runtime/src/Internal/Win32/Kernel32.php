@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Boson\Component\OsInfo\Vendor\Factory\Win32;
+namespace Boson\Internal\Win32;
 
 use FFI\Env\Runtime;
 
@@ -10,9 +10,9 @@ use FFI\Env\Runtime;
  * @mixin \FFI
  *
  * @internal this is an internal library class, please do not use it in your code
- * @psalm-internal Boson\Component\OsInfo\Vendor\Factory
+ * @psalm-internal Boson
  */
-final readonly class Advapi32
+final readonly class Kernel32
 {
     private \FFI $ffi;
 
@@ -23,7 +23,7 @@ final readonly class Advapi32
         $this->ffi = \FFI::cdef((string) @\file_get_contents(
             filename: __FILE__,
             offset: __COMPILER_HALT_OFFSET__,
-        ), 'advapi32.dll');
+        ), 'kernel32.dll');
     }
 
     /**
@@ -42,26 +42,4 @@ final readonly class Advapi32
 
 __halt_compiler();
 
-typedef unsigned short wchar_t;
-typedef intptr_t LONG_PTR;
-typedef wchar_t WCHAR;
-typedef char CHAR;
-typedef long LONG;
-typedef unsigned long DWORD;
-typedef void *PVOID;
-typedef const CHAR *LPCSTR;
-typedef const WCHAR *LPCWSTR;
-typedef PVOID HANDLE;
-typedef HANDLE HKEY;
-typedef LONG LSTATUS;
-typedef DWORD *LPDWORD;
-
-LSTATUS RegGetValueA(
-    HKEY    hKey,
-    LPCSTR  lpSubKey,
-    LPCSTR  lpValue,
-    DWORD   dwFlags,
-    LPDWORD pdwType,
-    PVOID   pvData,
-    LPDWORD pcbData
-);
+bool FreeConsole(void);
