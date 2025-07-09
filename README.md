@@ -86,8 +86,10 @@ composer require boson-php/runtime
 
 ## Community
 
-- Any questions left? You can ask them
-  [in the chat `t.me/boson_php`](https://t.me/boson_php)!
+Any questions left? You can ask them:
+  - [in Telegram](https://t.me/boson_php)
+  - [in Discord](https://discord.gg/vCg52Jdwvc)
+
 
 ## Contributing
 
