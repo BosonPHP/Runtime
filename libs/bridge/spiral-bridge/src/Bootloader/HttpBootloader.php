@@ -65,6 +65,7 @@ final class HttpBootloader extends SpiralBootloader
                     return $http->handle($request);
                 } catch (\Throwable $e) {
                     $exceptionHandler->report($e);
+
                     return null;
                 } finally {
                     $finalizer->finalize();

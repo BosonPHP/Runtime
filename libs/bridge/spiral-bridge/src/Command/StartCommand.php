@@ -16,7 +16,7 @@ final class StartCommand extends \Spiral\Console\Command
 {
     public function __invoke(Container $core): int
     {
-        # Set time limit to unlimited
+        // Set time limit to unlimited
         \set_time_limit(0);
 
         $core->runScope(

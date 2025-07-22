@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Boson\Bridge\Spiral\Internal;
 
 use Spiral\Core\Container;
@@ -31,15 +30,14 @@ final readonly class ScopeHandler
      * @template TReq
      * @template TRes
      *
-     * @param Container $container Core container.
-     * @param string|\BackedEnum|null $scope Container scope name.
+     * @param Container $container core container
+     * @param string|\BackedEnum|null $scope container scope name
      * @param \Closure(mixed ...): (callable(TReq): TRes) $factory Handler factory that returns an instance of
      *        a handler. The ScopeHandler doesn't process exceptions from the handler, so you should handle them
      *        yourself.
      *
      * @return static<TReq, TRes>
-     *
-     * @throws \Throwable Exception from the factory.
+     * @throws \Throwable exception from the factory
      */
     public static function create(
         Container $container,
@@ -80,10 +78,10 @@ final readonly class ScopeHandler
      *
      * Sends the request to the handler and waits for a response.
      *
-     * @param TRequest $request The request object.
-     * @return TResponse The response object.
+     * @param TRequest $request the request object
      *
-     * @throws \Throwable If an error occurs during request handling.
+     * @return TResponse the response object
+     * @throws \Throwable if an error occurs during request handling
      */
     public function __invoke(mixed $request): mixed
     {

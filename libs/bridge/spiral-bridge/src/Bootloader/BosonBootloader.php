@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Boson\Bridge\Spiral\Bootloader;
 
-use Boson\Bridge\Spiral\BosonScope;
 use Boson\Application;
 use Boson\ApplicationCreateInfo;
+use Boson\Bridge\Spiral\BosonScope;
 use Boson\Bridge\Spiral\Command\StartCommand;
 use Boson\WebView\WebViewCreateInfo;
 use Boson\Window\WindowCreateInfo;
