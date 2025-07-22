@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Boson\Bridge\Laravel\Provider;
 
+use Boson\Application as Boson;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Laravel\Octane\ApplicationFactory;
@@ -16,7 +17,6 @@ use Laravel\Octane\Events\WorkerStarting;
 use Laravel\Octane\Events\WorkerStopping;
 use Laravel\Octane\RequestContext;
 use Symfony\Component\HttpFoundation\Response;
-use Boson\Application as Boson;
 
 class Worker implements WorkerContract
 {
