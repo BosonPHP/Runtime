@@ -19,7 +19,7 @@
         }
     ],
     "require": {
-        "php": ">=8.4",
+        "php": "^8.4",
         "boson-php/http-static-provider": "^0.15",
         "boson-php/psr-http-bridge": "^0.15",
         "boson-php/runtime": "^0.15",
@@ -54,9 +54,6 @@
         "optimize-autoloader": true,
         "preferred-install": {
             "*": "dist"
-        },
-        "allow-plugins": {
-            "spiral/composer-publish-plugin": false
         }
     },
     "minimum-stability": "dev",

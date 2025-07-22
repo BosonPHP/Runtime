@@ -23,6 +23,7 @@ parameters:
     - libs/bridge/http-bridge/src
     - libs/bridge/laravel-http-bridge/src
     - libs/bridge/psr-http-bridge/src
+    - libs/bridge/spiral-bridge/src
     - libs/bridge/symfony-bundle/src
     - libs/bridge/symfony-http-bridge/src
     # Components

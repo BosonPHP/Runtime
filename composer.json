@@ -21,6 +21,7 @@
         "boson-php/os-info": "^0.15",
         "boson-php/psr-http-bridge": "^0.15",
         "boson-php/runtime": "^0.15",
+        "boson-php/spiral-bridge": "^0.15",
         "boson-php/symfony-bundle": "^0.15",
         "boson-php/symfony-http-bridge": "^0.15",
         "boson-php/weak-types": "^0.15"
@@ -28,7 +29,7 @@
     "require-dev": {
         "boson-php/compiler": "^0.15",
         "ffi/var-dumper": "^1.0",
-        "friendsofphp/php-cs-fixer": "^3.75",
+        "friendsofphp/php-cs-fixer": "^3.84",
         "jetbrains/phpstorm-attributes": "^1.2",
         "nyholm/psr7": "^1.8",
         "phpstan/phpstan": "^2.1",
@@ -43,6 +44,7 @@
             "Boson\\Bridge\\Http\\Tests\\": "libs/bridge/http-bridge/tests",
             "Boson\\Bridge\\Laravel\\Http\\Tests\\": "libs/bridge/laravel-http-bridge/tests",
             "Boson\\Bridge\\Psr\\Http\\Tests\\": "libs/bridge/psr-http-bridge/tests",
+            "Boson\\Bridge\\Spiral\\Tests\\": "libs/bridge/spiral-bridge/tests",
             "Boson\\Bridge\\Symfony\\Tests\\": "libs/bridge/symfony-bundle/tests",
             "Boson\\Bridge\\Symfony\\Http\\Tests\\": "libs/bridge/symfony-http-bridge/tests",
             "Boson\\Component\\Compiler\\Tests\\": "libs/component/compiler/tests",
@@ -73,6 +75,7 @@
         },
         "allow-plugins": {
             "bamarni/composer-bin-plugin": true,
+            "spiral/composer-publish-plugin": false,
             "symfony/runtime": false
         }
     },

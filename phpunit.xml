@@ -43,6 +43,7 @@
             <directory>libs/bridge/http-bridge/src</directory>
             <directory>libs/bridge/laravel-http-bridge/src</directory>
             <directory>libs/bridge/psr-http-bridge/src</directory>
+            <directory>libs/bridge/spiral-bridge/src</directory>
             <directory>libs/bridge/symfony-bundle/src</directory>
             <directory>libs/bridge/symfony-http-bridge/src</directory>
             <!-- components -->
