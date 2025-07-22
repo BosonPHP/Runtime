@@ -8,6 +8,7 @@ use Boson\Shared\IdValueGenerator\Exception\IdOverflowException;
 
 /**
  * @template TIntValue of int
+ *
  * @template-implements IntIdValueGeneratorInterface<TIntValue>
  */
 abstract class IntValueGenerator implements IntIdValueGeneratorInterface

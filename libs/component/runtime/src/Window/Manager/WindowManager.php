@@ -159,7 +159,7 @@ final class WindowManager implements
     {
         /** @var Window */
         return new \ReflectionClass(Window::class)
-            ->newLazyProxy(function() use ($info): Window {
+            ->newLazyProxy(function () use ($info): Window {
                 $instance = $this->createWindowInstance($info);
 
                 $this->swapWindowProxy($info, $instance);
