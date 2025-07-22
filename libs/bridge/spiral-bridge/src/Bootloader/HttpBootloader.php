@@ -48,11 +48,11 @@ final class HttpBootloader extends SpiralBootloader
             requestFactory: $factory,
         );
 
-        /** @var \Closure(ServerRequestInterface $request): ResponseInterface $httpHandler */
-        $httpHandler = ScopeHandler::create(
-            $container,
-            Spiral::Http,
-            static fn(
+        /**
+         * @var callable(ServerRequestInterface): ResponseInterface $httpHandler
+         * @phpstan-ignore-next-line : Known usage of internal enum case
+         */
+        $httpHandler = ScopeHandler::create($container, Spiral::Http, static fn(
                 Http $http,
                 ExceptionHandlerInterface $exceptionHandler,
                 FinalizerInterface $finalizer,
@@ -77,7 +77,10 @@ final class HttpBootloader extends SpiralBootloader
         $app->on(static function (SchemeRequestReceived $e) use ($psr7, $httpHandler): void {
             $request = $psr7->createRequest($e->request);
             $response = $httpHandler($request);
-            $response === null or $e->response = $psr7->createResponse($response);
+
+            if ($response !== null) {
+                $e->response = $psr7->createResponse($response);
+            }
         });
 
         return $app;
