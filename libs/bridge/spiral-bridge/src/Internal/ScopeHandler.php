@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace Boson\Bridge\Spiral\Internal;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Spiral\Core\Container;
 use Spiral\Core\Scope;
 
 /**
  * Exposes an ability to act in a specific Container scope without exiting the scope.
  *
- * @template TRequest of ServerRequestInterface
- * @template-covariant TResponse of ResponseInterface
+ * @template TRequest of mixed
+ * @template-covariant TResponse of mixed
  *
  * @internal this is an internal library class, please do not use it in your code
  * @psalm-internal Boson\Bridge\Spiral
@@ -96,7 +94,7 @@ final readonly class ScopeHandler
      * @return TResponse|null the response object
      * @throws \Throwable if an error occurs during request handling
      */
-    public function __invoke(ServerRequestInterface $request): ?ResponseInterface
+    public function __invoke(mixed $request): mixed
     {
         return $this->fiber->resume($request);
     }
