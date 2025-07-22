@@ -86,7 +86,7 @@
     },
     "scripts": {
         "test:unit": "phpunit --testdox",
-        "linter:check": "phpstan analyse --configuration phpstan.neon",
+        "linter:check": "phpstan analyse --configuration phpstan.neon --memory-limit 256M",
         "linter:baseline": "@linter:check --generate-baseline",
         "phpcs:check": "@phpcs:fix --dry-run",
         "phpcs:fix": "php-cs-fixer fix --config=.php-cs-fixer.php --allow-risky=yes --verbose --diff"
