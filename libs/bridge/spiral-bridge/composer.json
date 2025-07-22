@@ -1,0 +1,57 @@
+{
+    "name": "boson-php/spiral-bridge",
+    "description": "Boson Runtime for Symfony Framework",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://bosonphp.com",
+    "support": {
+        "issues": "https://github.com/boson-php/boson/issues",
+        "source": "https://github.com/boson-php/spiral-bridge"
+    },
+    "authors": [
+        {
+            "name": "Kirill Nesmeyanov",
+            "email": "nesk@xakep.ru"
+        },
+        {
+            "name": "Aleksei Gagarin",
+            "homepage": "https://github.com/roxblnfk"
+        }
+    ],
+    "require": {
+        "php": ">=8.4",
+        "boson-php/http-static-provider": "^0.15",
+        "boson-php/runtime": "^0.15",
+        "boson-php/psr-http-bridge": "^0.15"
+    },
+    "autoload": {
+        "psr-4": {
+            "Boson\\Bridge\\Spiral\\": "src"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^12.0"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Boson\\Bridge\\Spiral\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.15.x-dev",
+            "dev-main": "0.15.x-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "platform-check": true,
+        "bin-compat": "full",
+        "optimize-autoloader": true,
+        "preferred-install": {
+            "*": "dist"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
