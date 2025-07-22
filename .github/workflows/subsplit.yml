@@ -22,6 +22,8 @@ jobs:
           # Bridges
           - local_path: 'bridge/http-bridge'
             split_repository: 'http-bridge'
+          - local_path: 'bridge/spiral-bridge'
+            split_repository: 'spiral-bridge'
           - local_path: 'bridge/laravel-http-bridge'
             split_repository: 'laravel-http-bridge'
           - local_path: 'bridge/psr-http-bridge'

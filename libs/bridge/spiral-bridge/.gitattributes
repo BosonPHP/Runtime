@@ -1,0 +1,11 @@
+* text=auto eol=lf
+
+.*              export-ignore
+
+# Tools
+*.dist                 export-ignore
+*.yaml                 export-ignore
+*.xml                  export-ignore
+*.neon                 export-ignore
+
+/tests export-ignore
