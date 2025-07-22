@@ -4,31 +4,33 @@
     "type": "library",
     "license": "MIT",
     "repositories": [
-        {"type": "path", "url": "libs/bridge/*", "options": {"canonical": false}},
-        {"type": "path", "url": "libs/component/*", "options": {"canonical": false}},
-        {"type": "path", "url": "libs/contracts/*", "options": {"canonical": false}}
+        {"type": "path", "url": "libs/bridge/*"},
+        {"type": "path", "url": "libs/component/*"},
+        {"type": "path", "url": "libs/contracts/*"}
     ],
     "require": {
         "php": "^8.4",
-        "boson-php/http-bridge": "^0.13",
-        "boson-php/laravel-http-bridge": "^0.13",
+        "boson-php/cpu-info": "^0.15",
+        "boson-php/globals-provider": "^0.15",
+        "boson-php/http": "^0.15",
         "boson-php/laravel-provider": "^0.13",
-        "boson-php/psr-http-bridge": "^0.13",
-        "boson-php/symfony-http-bridge": "^0.13",
-        "boson-php/cpu-info": "^0.13",
-        "boson-php/globals-provider": "^0.13",
-        "boson-php/http": "^0.13",
-        "boson-php/http-body-decoder": "^0.13",
-        "boson-php/http-static-provider": "^0.13",
-        "boson-php/os-info": "^0.13",
-        "boson-php/runtime": "^0.13",
-        "boson-php/weak-types": "^0.13",
-        "boson-php/http-contracts": "^0.13"
+        "boson-php/http-body-decoder": "^0.15",
+        "boson-php/http-bridge": "^0.15",
+        "boson-php/http-contracts": "^0.15",
+        "boson-php/http-static-provider": "^0.15",
+        "boson-php/laravel-http-bridge": "^0.15",
+        "boson-php/os-info": "^0.15",
+        "boson-php/psr-http-bridge": "^0.15",
+        "boson-php/runtime": "^0.15",
+        "boson-php/spiral-bridge": "^0.15",
+        "boson-php/symfony-bundle": "^0.15",
+        "boson-php/symfony-http-bridge": "^0.15",
+        "boson-php/weak-types": "^0.15"
     },
     "require-dev": {
-        "boson-php/compiler": "^0.13",
+        "boson-php/compiler": "^0.15",
         "ffi/var-dumper": "^1.0",
-        "friendsofphp/php-cs-fixer": "^3.75",
+        "friendsofphp/php-cs-fixer": "^3.84",
         "jetbrains/phpstorm-attributes": "^1.2",
         "nyholm/psr7": "^1.8",
         "phpstan/phpstan": "^2.1",
@@ -44,6 +46,8 @@
             "Boson\\Bridge\\Laravel\\Http\\Tests\\": "libs/bridge/laravel-http-bridge/tests",
             "Boson\\Bridge\\Laravel\\Provider\\Tests\\": "libs/bridge/laravel-provider/tests",
             "Boson\\Bridge\\Psr\\Http\\Tests\\": "libs/bridge/psr-http-bridge/tests",
+            "Boson\\Bridge\\Spiral\\Tests\\": "libs/bridge/spiral-bridge/tests",
+            "Boson\\Bridge\\Symfony\\Tests\\": "libs/bridge/symfony-bundle/tests",
             "Boson\\Bridge\\Symfony\\Http\\Tests\\": "libs/bridge/symfony-http-bridge/tests",
             "Boson\\Component\\Compiler\\Tests\\": "libs/component/compiler/tests",
             "Boson\\Component\\CpuInfo\\Tests\\": "libs/component/cpu-info/tests",
@@ -53,13 +57,14 @@
             "Boson\\Component\\Http\\Static\\Tests\\": "libs/component/http-static-provider/tests",
             "Boson\\Component\\OsInfo\\Tests\\": "libs/component/os-info/tests",
             "Boson\\Component\\WeakType\\Tests\\": "libs/component/weak-types/tests",
+            "Boson\\Contracts\\EventListener\\Tests\\": "libs/contracts/event-listener-contracts/tests",
             "Boson\\Contracts\\Http\\Tests\\": "libs/contracts/http-contracts/tests"
         }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.13.x-dev",
-            "dev-main": "0.13.x-dev"
+            "dev-master": "0.15.x-dev",
+            "dev-main": "0.15.x-dev"
         }
     },
     "config": {
@@ -71,17 +76,19 @@
             "*": "dist"
         },
         "allow-plugins": {
-            "bamarni/composer-bin-plugin": true
+            "bamarni/composer-bin-plugin": true,
+            "spiral/composer-publish-plugin": false,
+            "symfony/runtime": false
         }
     },
     "scripts-aliases": {
         "test:unit": ["test", "phpunit", "unit"],
-        "linter:check": ["linter", "phpstan", "stan"],
+        "linter:check": ["linter", "stan"],
         "phpcs:check": ["phpcs", "cs", "psr", "per"]
     },
     "scripts": {
         "test:unit": "phpunit --testdox",
-        "linter:check": "phpstan analyse --configuration phpstan.neon",
+        "linter:check": "phpstan analyse --configuration phpstan.neon --memory-limit 256M",
         "linter:baseline": "@linter:check --generate-baseline",
         "phpcs:check": "@phpcs:fix --dry-run",
         "phpcs:fix": "php-cs-fixer fix --config=.php-cs-fixer.php --allow-risky=yes --verbose --diff"

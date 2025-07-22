@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Boson\Tests\Unit\Dispatcher\Stub;
 
-use Boson\Dispatcher\EventDispatcherInterface;
+use Boson\Contracts\EventListener\EventListenerInterface;
+use Boson\Contracts\EventListener\Subscription\CancellableSubscriptionInterface;
+use Boson\Contracts\EventListener\Subscription\SubscriptionInterface;
 use Boson\Dispatcher\EventListener;
-use Boson\Dispatcher\EventListenerInterface;
-use Boson\Dispatcher\Subscription\CancellableSubscriptionInterface;
-use Boson\Dispatcher\Subscription\SubscriptionInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 final readonly class EventListenerContainerStub implements
     EventListenerInterface,
@@ -33,12 +33,12 @@ final readonly class EventListenerContainerStub implements
         $this->listener->removeEventListener($subscription);
     }
 
-    public function removeAllEventListenersForEvent(string $event): void
+    public function removeListenersForEvent(string|object $event): void
     {
-        $this->listener->removeAllEventListenersForEvent($event);
+        $this->listener->removeListenersForEvent($event);
     }
 
-    public function getListenersForEvent(object $event): iterable
+    public function getListenersForEvent(string|object $event): iterable
     {
         return $this->listener->getListenersForEvent($event);
     }

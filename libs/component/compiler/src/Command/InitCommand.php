@@ -4,15 +4,25 @@ declare(strict_types=1);
 
 namespace Boson\Component\Compiler\Command;
 
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-#[AsCommand(name: 'init', description: 'Initialize configuration')]
 final class InitCommand extends ConfigAwareCommand
 {
+    public function __construct(?string $name = null)
+    {
+        parent::__construct($name ?? 'init');
+    }
+
+    protected function configure(): void
+    {
+        parent::configure();
+
+        $this->setDescription('Initialize Boson configuration');
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $config = $this->getConfiguration($input);
@@ -57,6 +67,10 @@ final class InitCommand extends ConfigAwareCommand
                     [
                         'directory' => 'vendor',
                         'name' => '*.php',
+                    ],
+                    [
+                        'directory' => 'vendor/boson-php/runtime/resources/dist',
+                        'name' => '*.js',
                     ],
                 ],
             ],

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Boson\WebView\Api\Scripts;
 
-use Boson\Dispatcher\EventDispatcherInterface;
+use Boson\Dispatcher\EventListener;
 use Boson\Internal\Saucer\LibSaucer;
 use Boson\Internal\Saucer\SaucerLoadTime;
 use Boson\WebView\Api\ScriptsApiInterface;
-use Boson\WebView\Api\WebViewApi;
+use Boson\WebView\Api\WebViewExtension;
 use Boson\WebView\WebView;
 use JetBrains\PhpStorm\Language;
 
@@ -18,7 +18,7 @@ use JetBrains\PhpStorm\Language;
  * @internal this is an internal library class, please do not use it in your code
  * @psalm-internal Boson\WebView
  */
-final class WebViewScriptsSet extends WebViewApi implements
+final class WebViewScriptsSet extends WebViewExtension implements
     ScriptsApiInterface,
     \IteratorAggregate
 {
@@ -29,11 +29,18 @@ final class WebViewScriptsSet extends WebViewApi implements
      */
     private readonly \SplObjectStorage $scripts;
 
-    public function __construct(LibSaucer $api, WebView $webview, EventDispatcherInterface $dispatcher)
-    {
-        $this->scripts = new \SplObjectStorage();
+    public function __construct(
+        LibSaucer $api,
+        WebView $context,
+        EventListener $listener,
+    ) {
+        parent::__construct(
+            api: $api,
+            context: $context,
+            listener: $listener,
+        );
 
-        parent::__construct($api, $webview, $dispatcher);
+        $this->scripts = new \SplObjectStorage();
     }
 
     public function eval(#[Language('JavaScript')] string $code): void

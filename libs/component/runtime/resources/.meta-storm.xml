@@ -15,7 +15,7 @@
             <stopCompletion />
         </classMethod>
 
-        <classMethod class="\Boson\Dispatcher\EventListenerInterface" method="removeAllEventListenersForEvent" argument="0">
+        <classMethod class="\Boson\Dispatcher\EventListenerInterface" method="removeListenersForEvent" argument="0">
             <collection name="Application [event]" />
             <collection name="Application [intention]" />
             <collection name="Window [event]" />
@@ -35,7 +35,7 @@
             <stopCompletion />
         </classMethod>
 
-        <classMethod class="\Boson\Dispatcher\EventListener" method="removeAllEventListenersForEvent" argument="0">
+        <classMethod class="\Boson\Dispatcher\EventListener" method="removeListenersForEvent" argument="0">
             <collection name="Application [event]" />
             <collection name="Application [intention]" />
             <collection name="Window [event]" />
@@ -55,7 +55,7 @@
             <stopCompletion />
         </classMethod>
 
-        <classMethod class="\Boson\Dispatcher\DelegateEventListener" method="removeAllEventListenersForEvent" argument="0">
+        <classMethod class="\Boson\Dispatcher\DelegateEventListener" method="removeListenersForEvent" argument="0">
             <collection name="Application [event]" />
             <collection name="Application [intention]" />
             <collection name="Window [event]" />

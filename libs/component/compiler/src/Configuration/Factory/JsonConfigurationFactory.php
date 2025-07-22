@@ -13,8 +13,10 @@ use JsonSchema\Validator;
 
 /**
  * @phpstan-type RawFinderInclusionType object{
- *     directory: non-empty-string,
- *     name: non-empty-string
+ *     directory: non-empty-string|non-empty-list<non-empty-string>,
+ *     not-directory?: non-empty-string|list<non-empty-string>,
+ *     name?: non-empty-string|list<non-empty-string>,
+ *     not-name?: non-empty-string|list<non-empty-string>
  * }
  * @phpstan-type RawFileInclusionType non-empty-string
  * @phpstan-type RawDirectoryInclusionType non-empty-string
@@ -24,6 +26,8 @@ use JsonSchema\Validator;
  *     output?: non-empty-string,
  *     root?: non-empty-string,
  *     box-version?: non-empty-string,
+ *     arch?: list<non-empty-string>,
+ *     platform?: list<non-empty-string>,
  *     build?: object{
  *         files: list<RawFileInclusionType>,
  *         directories: list<RawDirectoryInclusionType>,
@@ -222,13 +226,19 @@ final class JsonConfigurationFactory implements ConfigurationFactoryInterface
 
             if (\property_exists($data->build, 'finder')) {
                 foreach ($data->build->finder as $finder) {
-                    $inclusion = $this->createFinderInclusion($finder);
-
-                    if ($inclusion !== null) {
-                        $config = $config->withAddedBuildInclusion($inclusion);
-                    }
+                    $config = $config->withAddedBuildInclusion(
+                        config: $this->createFinderInclusion($finder),
+                    );
                 }
             }
+        }
+
+        if (\property_exists($data, 'arch')) {
+            $config = $config->withArchitectures($data->arch);
+        }
+
+        if (\property_exists($data, 'platform')) {
+            $config = $config->withPlatforms($data->platform);
         }
 
         if (\property_exists($data, 'ini')) {
@@ -247,18 +257,32 @@ final class JsonConfigurationFactory implements ConfigurationFactoryInterface
     /**
      * @param RawFinderInclusionType $inclusion
      */
-    private function createFinderInclusion(object $inclusion): ?IncludeConfiguration
+    private function createFinderInclusion(object $inclusion): IncludeConfiguration
     {
-        $directory = $inclusion->directory ?? null;
-        $name = $inclusion->name ?? null;
+        $directories = $inclusion->directory;
 
-        if ($directory === null && $name === null) {
-            return null;
-        }
+        /**
+         * @phpstan-var non-empty-string|list<non-empty-string> $notDirectories
+         *
+         * @phpstan-ignore-next-line : False-positive; null-coalescence using
+         */
+        $notDirectories = $inclusion->{'not-directory'} ?? [];
+
+        /** @phpstan-ignore-next-line : False-positive; null-coalescence using */
+        $names = $inclusion->name ?? [];
+
+        /**
+         * @phpstan-var non-empty-string|list<non-empty-string> $notNames
+         *
+         * @phpstan-ignore-next-line : False-positive; null-coalescence using
+         */
+        $notNames = $inclusion->{'not-name'} ?? [];
 
         return new FinderIncludeConfiguration(
-            directory: $directory,
-            name: $name,
+            directories: \is_string($directories) ? [$directories] : $directories,
+            notDirectories: \is_string($notDirectories) ? [$notDirectories] : $notDirectories,
+            names: \is_string($names) ? [$names] : $names,
+            notNames: \is_string($notNames) ? [$notNames] : $notNames,
         );
     }
 

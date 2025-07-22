@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Boson\WebView;
 
+use Boson\Contracts\EventListener\EventListenerInterface;
 use Boson\Dispatcher\DelegateEventListener;
-use Boson\Dispatcher\EventDispatcherInterface;
-use Boson\Dispatcher\EventListenerInterface;
+use Boson\Dispatcher\EventListener;
 use Boson\Dispatcher\EventListenerProvider;
-use Boson\Dispatcher\EventListenerProviderInterface;
 use Boson\Exception\BosonException;
 use Boson\Internal\Saucer\LibSaucer;
 use Boson\Shared\Marker\BlockingOperation;
@@ -29,13 +28,14 @@ use Boson\WebView\Api\WebComponents\Exception\ComponentAlreadyDefinedException;
 use Boson\WebView\Api\WebComponents\Exception\WebComponentsApiException;
 use Boson\WebView\Api\WebComponents\WebViewWebComponents;
 use Boson\WebView\Api\WebComponentsApiInterface;
-use Boson\WebView\Api\WebViewApi;
-use Boson\WebView\Internal\WebViewEventHandler;
+use Boson\WebView\Api\WebViewExtension;
+use Boson\WebView\Internal\SaucerWebViewEventHandler;
 use Boson\Window\Window;
-use FFI\CData;
+use Boson\Window\WindowId;
 use JetBrains\PhpStorm\Language;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
-final class WebView implements EventListenerProviderInterface
+final class WebView implements EventListenerInterface
 {
     use EventListenerProvider;
 
@@ -45,15 +45,17 @@ final class WebView implements EventListenerProviderInterface
     private const string PRELOADED_SCRIPTS_DIRECTORY = __DIR__ . '/../../resources/dist';
 
     /**
-     * Gets access to the listener of the webview events
-     * and intention subscriptions.
+     * The webview identifier.
+     *
+     * In terms of implementation, it is equals to
+     * the {@see WindowId} Window's ID.
      */
-    public readonly EventListenerInterface $events;
+    public readonly WebViewId $id;
 
     /**
-     * WebView-aware event dispatcher.
+     * WebView-aware event listener & dispatcher.
      */
-    private readonly EventDispatcherInterface $dispatcher;
+    private readonly EventListener $listener;
 
     /**
      * Gets access to the Scripts API of the webview.
@@ -111,7 +113,7 @@ final class WebView implements EventListenerProviderInterface
          * ```
          */
         get {
-            $result = $this->api->saucer_webview_url($this->ptr);
+            $result = $this->api->saucer_webview_url($this->id->ptr);
 
             try {
                 return \FFI::string($result);
@@ -129,7 +131,7 @@ final class WebView implements EventListenerProviderInterface
          * ```
          */
         set(\Stringable|string $value) {
-            $this->api->saucer_webview_set_url($this->ptr, (string) $value);
+            $this->api->saucer_webview_set_url($this->id->ptr, (string) $value);
         }
     }
 
@@ -150,17 +152,12 @@ final class WebView implements EventListenerProviderInterface
     public private(set) WebViewState $state = WebViewState::Loading;
 
     /**
-     * Internal window's webview pointer (handle).
-     */
-    private readonly CData $ptr;
-
-    /**
      * Contains an internal bridge between {@see LibSaucer} events system
      * and the PSR {@see WebView::$events} dispatcher.
      *
      * @phpstan-ignore property.onlyWritten
      */
-    private readonly WebViewEventHandler $internalWebViewEventHandler;
+    private readonly SaucerWebViewEventHandler $handler;
 
     /**
      * @internal Please do not use the constructor directly. There is a
@@ -193,47 +190,88 @@ final class WebView implements EventListenerProviderInterface
         public readonly WebViewCreateInfo $info,
         EventDispatcherInterface $dispatcher,
     ) {
-        $this->events = $this->dispatcher = new DelegateEventListener($dispatcher);
-        // The WebView handle pointer is the same as the Window pointer.
-        $this->ptr = $this->window->id->ptr;
+        // Initialization WebView's fields and properties
+        $this->id = self::createWebViewId($this->window);
+        $this->listener = self::createEventListener($dispatcher);
 
-        $this->scripts = $this->createApi(WebViewScriptsSet::class);
-        $this->bindings = $this->createApi(WebViewBindingsMap::class);
-        $this->data = $this->createApi(WebViewData::class);
-        $this->security = $this->createApi(WebViewSecurity::class);
-        $this->components = $this->createApi(WebViewWebComponents::class);
-        $this->battery = $this->createApi(WebViewBattery::class);
-        $this->schemes = $this->createApi(WebViewSchemeHandler::class);
+        // Initialization of WebView's API
+        $this->scripts = $this->createWebViewExtension(WebViewScriptsSet::class);
+        $this->bindings = $this->createWebViewExtension(WebViewBindingsMap::class);
+        $this->data = $this->createWebViewExtension(WebViewData::class);
+        $this->security = $this->createWebViewExtension(WebViewSecurity::class);
+        $this->components = $this->createWebViewExtension(WebViewWebComponents::class);
+        $this->battery = $this->createWebViewExtension(WebViewBattery::class);
+        $this->schemes = $this->createWebViewExtension(WebViewSchemeHandler::class);
+        $this->handler = self::createWebViewEventHandler($api, $this, $this->listener, $this->state);
 
-        $this->internalWebViewEventHandler = $this->createWebViewEventHandler();
+        // Register WebView's subsystems
 
-        $this->loadRuntimeScripts();
+        // Boot the WebView
+        $this->boot();
     }
 
     /**
-     * @template TArgApiProvider of WebViewApi
+     * Creates webview ID
+     */
+    private static function createWebViewId(Window $window): WebViewId
+    {
+        return WebViewId::fromWindowId($window->id);
+    }
+
+    /**
+     * Creates local (webview-aware) event listener
+     * based on the provided dispatcher.
+     */
+    private static function createEventListener(EventDispatcherInterface $dispatcher): EventListener
+    {
+        return new DelegateEventListener($dispatcher);
+    }
+
+    /**
+     * Creates a new instance of {@see SaucerWebViewEventHandler} that manages
+     * the webview's native event handling and bridges them to the Saucer's
+     * event system.
+     *
+     * This method initializes an event handler that translates native webview
+     * events (like DOM ready, navigation, title changes) into application
+     * events that can be handled by the event dispatcher.
+     */
+    private static function createWebViewEventHandler(
+        LibSaucer $api,
+        WebView $webview,
+        EventDispatcherInterface $dispatcher,
+        WebViewState &$state,
+    ): SaucerWebViewEventHandler {
+        return new SaucerWebViewEventHandler(
+            api: $api,
+            webview: $webview,
+            dispatcher: $dispatcher,
+            state: $state,
+        );
+    }
+
+    /**
+     * @template TArgApiProvider of WebViewExtension
      *
      * @param class-string<TArgApiProvider> $class
      *
      * @return TArgApiProvider
      */
-    private function createApi(string $class): WebViewApi
+    private function createWebViewExtension(string $class): WebViewExtension
     {
         return new $class(
             api: $this->api,
-            webview: $this,
-            dispatcher: $this->dispatcher,
+            context: $this,
+            listener: $this->listener,
         );
     }
 
-    private function createWebViewEventHandler(): WebViewEventHandler
+    /**
+     * Boot the webview.
+     */
+    private function boot(): void
     {
-        return new WebViewEventHandler(
-            api: $this->api,
-            webview: $this,
-            dispatcher: $this->events,
-            state: $this->state,
-        );
+        $this->loadRuntimeScripts();
     }
 
     /**
@@ -340,7 +378,7 @@ final class WebView implements EventListenerProviderInterface
      */
     public function forward(): void
     {
-        $this->api->saucer_webview_forward($this->ptr);
+        $this->api->saucer_webview_forward($this->id->ptr);
     }
 
     /**
@@ -350,7 +388,7 @@ final class WebView implements EventListenerProviderInterface
      */
     public function back(): void
     {
-        $this->api->saucer_webview_back($this->ptr);
+        $this->api->saucer_webview_back($this->id->ptr);
     }
 
     /**
@@ -360,6 +398,6 @@ final class WebView implements EventListenerProviderInterface
      */
     public function reload(): void
     {
-        $this->api->saucer_webview_reload($this->ptr);
+        $this->api->saucer_webview_reload($this->id->ptr);
     }
 }

@@ -51,6 +51,7 @@ readonly class ComponentAttributeMap implements AttributeMapInterface, \Iterator
         );
 
         foreach ($attributes as [$name, $value]) {
+            /** @var non-empty-string $name */
             yield $name => $value;
         }
     }

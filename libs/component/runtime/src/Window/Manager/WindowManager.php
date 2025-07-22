@@ -5,17 +5,19 @@ declare(strict_types=1);
 namespace Boson\Window\Manager;
 
 use Boson\Application;
-use Boson\Dispatcher\DelegateEventListener;
-use Boson\Dispatcher\EventDispatcherInterface;
-use Boson\Dispatcher\EventListenerInterface;
-use Boson\Dispatcher\EventListenerProvider;
-use Boson\Dispatcher\EventListenerProviderInterface;
-use Boson\Internal\Saucer\LibSaucer;
 use Boson\Component\WeakType\ObservableWeakSet;
+use Boson\Contracts\EventListener\EventListenerInterface;
+use Boson\Dispatcher\DelegateEventListener;
+use Boson\Dispatcher\EventListener;
+use Boson\Dispatcher\EventListenerProvider;
+use Boson\Internal\Saucer\LibSaucer;
 use Boson\Window\Event\WindowClosed;
 use Boson\Window\Event\WindowCreated;
+use Boson\Window\Event\WindowDestroyed;
 use Boson\Window\Window;
 use Boson\Window\WindowCreateInfo;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\EventDispatcherInterface as PsrEventDispatcherInterface;
 
 /**
  * Manages the lifecycle and collection of windows in the application.
@@ -27,7 +29,7 @@ use Boson\Window\WindowCreateInfo;
  * @template-implements \IteratorAggregate<array-key, Window>
  */
 final class WindowManager implements
-    EventListenerProviderInterface,
+    EventListenerInterface,
     WindowCollectionInterface,
     WindowFactoryInterface,
     \IteratorAggregate
@@ -57,15 +59,9 @@ final class WindowManager implements
     private readonly ObservableWeakSet $memory;
 
     /**
-     * Gets access to the listener of ANY window events
-     * and intention subscriptions.
+     * Windows list aware event listener & dispatcher.
      */
-    public readonly EventListenerInterface $events;
-
-    /**
-     * Windows list aware event dispatcher.
-     */
-    private readonly EventDispatcherInterface $dispatcher;
+    private readonly EventListener $listener;
 
     public function __construct(
         private readonly LibSaucer $api,
@@ -73,19 +69,68 @@ final class WindowManager implements
         WindowCreateInfo $info,
         EventDispatcherInterface $dispatcher,
     ) {
-        $this->windows = new \SplObjectStorage();
-        $this->memory = new ObservableWeakSet();
+        // Initialization Window Manager's fields and properties
+        $this->windows = self::createWindowsStorage();
+        $this->memory = self::createWindowsDestructorObserver();
+        $this->listener = self::createEventListener($dispatcher);
 
-        $this->events = $this->dispatcher = new DelegateEventListener($dispatcher);
+        // Initialization of Window Manager's API
+        // ...
 
+        // Register Window Manager's subsystems
         $this->registerDefaultEventListeners();
 
+        // Create default Window proxy instance
         $this->default = $this->create($info, true);
     }
 
+    /**
+     * Creates a new instance of {@see \SplObjectStorage} for storing window
+     * instances.
+     *
+     * This storage is required to keep all window objects in memory.
+     *
+     * @return \SplObjectStorage<Window, mixed>
+     */
+    private static function createWindowsStorage(): \SplObjectStorage
+    {
+        /** @var \SplObjectStorage<Window, mixed> */
+        return new \SplObjectStorage();
+    }
+
+    /**
+     * Creates a new instance of {@see ObservableWeakSet} for tracking window
+     * destruction.
+     *
+     * This set does NOT store objects in memory, but references the main
+     * storage created by {@see createWindowsStorage()}.
+     *
+     * @return ObservableWeakSet<Window>
+     */
+    private static function createWindowsDestructorObserver(): ObservableWeakSet
+    {
+        /** @var ObservableWeakSet<Window> */
+        return new ObservableWeakSet();
+    }
+
+    /**
+     * Creates local (windows-aware) event listener
+     * based on the provided dispatcher.
+     */
+    private static function createEventListener(PsrEventDispatcherInterface $dispatcher): EventListener
+    {
+        return new DelegateEventListener($dispatcher);
+    }
+
+    /**
+     * Registers default event listeners for the window manager.
+     *
+     * This method sets up handlers for window lifecycle events, such as
+     * window closure and default window recalculation.
+     */
     private function registerDefaultEventListeners(): void
     {
-        $this->events->addEventListener(WindowClosed::class, function (WindowClosed $event) {
+        $this->listener->addEventListener(WindowClosed::class, function (WindowClosed $event) {
             $this->windows->detach($event->subject);
 
             // Recalculate default window in case of
@@ -151,16 +196,19 @@ final class WindowManager implements
             api: $this->api,
             app: $this->app,
             info: $info,
-            dispatcher: $this->events,
+            dispatcher: $this->listener,
         );
 
+        // Clearing object pointers after window object release
         $this->memory->watch($window, function (Window $window): void {
             $this->api->saucer_webview_clear_scripts($window->id->ptr);
             $this->api->saucer_webview_clear_embedded($window->id->ptr);
             $this->api->saucer_free($window->id->ptr);
+
+            $this->listener->dispatch(new WindowDestroyed($window));
         });
 
-        $this->dispatcher->dispatch(new WindowCreated($window));
+        $this->listener->dispatch(new WindowCreated($window));
 
         return $window;
     }

@@ -2,8 +2,8 @@
 
 namespace Boson\Internal\WebView;
 
-use FFI\CData;
 use Boson\Internal\Saucer\SaucerState;
+use FFI\CData;
 
 /**
  * @internal this is an INTERNAL STRUCT for PHPStan only, please do not use it in your code

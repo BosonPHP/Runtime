@@ -4,28 +4,34 @@ declare(strict_types=1);
 
 namespace Boson\Component\CpuInfo\Architecture;
 
-const X86 = new BuiltinArchitecture('x86');
+//
+// This "$name" hack removes these constants from IDE autocomplete.
+//
 
-const AMD64 = new BuiltinArchitecture('amd64', X86);
+define($name = 'Boson\Component\CpuInfo\Architecture\X86', new BuiltinArchitecture('x86'));
 
-const ARM = new BuiltinArchitecture('arm');
+define($name = 'Boson\Component\CpuInfo\Architecture\AMD64', new BuiltinArchitecture('amd64', X86));
 
-const ARM64 = new BuiltinArchitecture('aarch64', ARM);
+define($name = 'Boson\Component\CpuInfo\Architecture\ARM', new BuiltinArchitecture('arm'));
 
-const ITANIUM = new BuiltinArchitecture('ia64');
+define($name = 'Boson\Component\CpuInfo\Architecture\ARM64', new BuiltinArchitecture('aarch64', ARM));
 
-const RISCV32 = new BuiltinArchitecture('riscv32');
+define($name = 'Boson\Component\CpuInfo\Architecture\ITANIUM', new BuiltinArchitecture('ia64'));
 
-const RISCV64 = new BuiltinArchitecture('riscv64', RISCV32);
+define($name = 'Boson\Component\CpuInfo\Architecture\RISCV32', new BuiltinArchitecture('riscv32'));
 
-const MIPS = new BuiltinArchitecture('mips');
+define($name = 'Boson\Component\CpuInfo\Architecture\RISCV64', new BuiltinArchitecture('riscv64', RISCV32));
 
-const MIPS64 = new BuiltinArchitecture('mips64', MIPS);
+define($name = 'Boson\Component\CpuInfo\Architecture\MIPS', new BuiltinArchitecture('mips'));
 
-const PPC = new BuiltinArchitecture('ppc');
+define($name = 'Boson\Component\CpuInfo\Architecture\MIPS64', new BuiltinArchitecture('mips64', MIPS));
 
-const PPC64 = new BuiltinArchitecture('ppc64', PPC);
+define($name = 'Boson\Component\CpuInfo\Architecture\PPC', new BuiltinArchitecture('ppc'));
 
-const SPARC = new BuiltinArchitecture('sparc');
+define($name = 'Boson\Component\CpuInfo\Architecture\PPC64', new BuiltinArchitecture('ppc64', PPC));
 
-const SPARC64 = new BuiltinArchitecture('sparc64', SPARC);
+define($name = 'Boson\Component\CpuInfo\Architecture\SPARC', new BuiltinArchitecture('sparc'));
+
+define($name = 'Boson\Component\CpuInfo\Architecture\SPARC64', new BuiltinArchitecture('sparc64', SPARC));
+
+unset($name);

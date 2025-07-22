@@ -69,7 +69,7 @@ final class FormUrlEncodedDecoderTest extends TestCase
         self::assertSame(
             [
                 'key1' => 'value1',
-                'key2' => 'value2'
+                'key2' => 'value2',
             ],
             $result
         );
@@ -86,7 +86,7 @@ final class FormUrlEncodedDecoderTest extends TestCase
 
         self::assertSame(
             [
-                'items' => ['1', '2', '3']
+                'items' => ['1', '2', '3'],
             ],
             $result
         );
@@ -105,8 +105,8 @@ final class FormUrlEncodedDecoderTest extends TestCase
             [
                 'user' => [
                     'name' => 'John',
-                    'age' => '30'
-                ]
+                    'age' => '30',
+                ],
             ],
             $result
         );

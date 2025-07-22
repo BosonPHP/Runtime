@@ -4,6 +4,11 @@ includes:
 parameters:
   level: max
   scanFiles:
+    - libs/component/cpu-info/resources/stubs/constants.stub
+    - libs/component/os-info/resources/stubs/advapi32.stub.php
+    - libs/component/os-info/resources/stubs/constants.stub
+    - libs/component/pasm/resources/stubs/kernel32.stub.php
+    - libs/component/pasm/resources/stubs/libc.stub.php
     - libs/component/runtime/resources/stubs/aliases.stub.php
     - libs/component/runtime/resources/stubs/saucer.stub.php
     - libs/component/runtime/resources/stubs/saucer-webview-events.stub.php
@@ -19,6 +24,8 @@ parameters:
     - libs/bridge/laravel-http-bridge/src
     - libs/bridge/laravel-provider/src
     - libs/bridge/psr-http-bridge/src
+    - libs/bridge/spiral-bridge/src
+    - libs/bridge/symfony-bundle/src
     - libs/bridge/symfony-http-bridge/src
     # Components
     - libs/component/compiler/src
@@ -28,13 +35,18 @@ parameters:
     - libs/component/http-body-decoder/src
     - libs/component/http-static-provider/src
     - libs/component/os-info/src
+    - libs/component/pasm/src
     - libs/component/runtime/src
     - libs/component/weak-types/src
     # Contracts
+    - libs/contracts/event-listener-contracts/src
     - libs/contracts/http-contracts/src
   excludePaths:
+    - libs/component/os-info/src/Vendor/Factory/Win32/Advapi32.php
+    - libs/component/pasm/src/Driver/Win32/Kernel32.php
+    - libs/component/pasm/src/Driver/Nix/Libc.php
     - libs/component/runtime/src/Internal/Saucer/LibSaucer.php
-    - libs/component/runtime/src/Internal/Win32/LibKernel32.php
+    - libs/component/runtime/src/Internal/Win32/Kernel32.php
   tmpDir: vendor/.cache.phpstan
   reportUnmatchedIgnoredErrors: true
   treatPhpDocTypesAsCertain: false

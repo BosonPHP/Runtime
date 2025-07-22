@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Boson\WebView\Api\Bindings;
 
-use Boson\Dispatcher\EventDispatcherInterface;
+use Boson\Dispatcher\EventListener;
 use Boson\Internal\Saucer\LibSaucer;
 use Boson\WebView\Api\Bindings\Exception\FunctionAlreadyDefinedException;
 use Boson\WebView\Api\Bindings\Exception\InvalidFunctionException;
 use Boson\WebView\Api\BindingsApiCreateInfo;
 use Boson\WebView\Api\BindingsApiInterface;
-use Boson\WebView\Api\WebViewApi;
+use Boson\WebView\Api\WebViewExtension;
 use Boson\WebView\Event\WebViewMessageReceived;
 use Boson\WebView\Internal\Rpc\DefaultRpcResponder;
 use Boson\WebView\Internal\Rpc\RpcResponderInterface;
@@ -23,7 +23,7 @@ use Boson\WebView\WebView;
  * @internal this is an internal library class, please do not use it in your code
  * @psalm-internal Boson\WebView
  */
-final class WebViewBindingsMap extends WebViewApi implements
+final class WebViewBindingsMap extends WebViewExtension implements
     BindingsApiInterface,
     \IteratorAggregate
 {
@@ -53,19 +53,23 @@ final class WebViewBindingsMap extends WebViewApi implements
 
     public function __construct(
         LibSaucer $api,
-        WebView $webview,
-        EventDispatcherInterface $dispatcher,
+        WebView $context,
+        EventListener $listener,
     ) {
-        parent::__construct($api, $webview, $dispatcher);
+        parent::__construct(
+            api: $api,
+            context: $context,
+            listener: $listener,
+        );
 
         $this->packer = new WebViewContextPacker(
-            delimiter: $webview->info->bindings->functionDelimiter,
-            context: $webview->info->bindings->functionContext,
+            delimiter: $context->info->bindings->functionDelimiter,
+            context: $context->info->bindings->functionContext,
         );
 
         $this->responder = new DefaultRpcResponder(
-            scriptsApi: $this->webview->scripts,
-            context: $this->rpcContext = $webview->info->bindings->rpcContext,
+            scriptsApi: $context->scripts,
+            context: $this->rpcContext = $context->info->bindings->rpcContext,
         );
 
         $this->registerDefaultEventListeners();
@@ -167,7 +171,7 @@ final class WebViewBindingsMap extends WebViewApi implements
      */
     private function registerClientFunction(string $name): void
     {
-        $this->webview->scripts->add($this->packer->pack(
+        $this->context->scripts->add($this->packer->pack(
             path: $name,
             code: $this->packFunction($name),
         ));

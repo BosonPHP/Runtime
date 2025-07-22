@@ -6,6 +6,12 @@ namespace Boson\Component\OsInfo\Family\Factory;
 
 use Boson\Component\OsInfo\FamilyInterface;
 
+/**
+ * Default implementation of {@see FamilyFactoryInterface}.
+ *
+ * Uses a chain of factories to determine the OS family, falling
+ * back to a generic implementation.
+ */
 final readonly class DefaultFamilyFactory implements FamilyFactoryInterface
 {
     private FamilyFactoryInterface $default;

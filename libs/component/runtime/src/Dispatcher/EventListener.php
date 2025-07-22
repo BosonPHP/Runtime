@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Boson\Dispatcher;
 
+use Boson\Contracts\EventListener\EventListenerInterface;
+use Boson\Contracts\EventListener\Subscription\CancellableSubscriptionInterface;
+use Boson\Contracts\EventListener\Subscription\SubscriptionInterface;
 use Boson\Dispatcher\Subscription\CancellableSubscription;
-use Boson\Dispatcher\Subscription\CancellableSubscriptionInterface;
-use Boson\Dispatcher\Subscription\SubscriptionInterface;
 use Boson\Shared\IdValueGenerator\IdValueGeneratorInterface;
 use Boson\Shared\IdValueGenerator\PlatformDependentIntValueGenerator;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\StoppableEventInterface;
 
 class EventListener implements EventListenerInterface, EventDispatcherInterface
@@ -24,15 +26,6 @@ class EventListener implements EventListenerInterface, EventDispatcherInterface
          */
         protected readonly IdValueGeneratorInterface $ids = new PlatformDependentIntValueGenerator(),
     ) {}
-
-    public function getListenersForEvent(object $event): iterable
-    {
-        if (!isset($this->listeners[$event::class])) {
-            return [];
-        }
-
-        return $this->listeners[$event::class];
-    }
 
     public function addEventListener(string $event, callable $listener): CancellableSubscriptionInterface
     {
@@ -54,9 +47,33 @@ class EventListener implements EventListenerInterface, EventDispatcherInterface
         unset($this->listeners[$subscription->name][$subscription->id]);
     }
 
-    public function removeAllEventListenersForEvent(string $event): void
+    public function removeListenersForEvent(object|string $event): void
     {
+        if (!\is_string($event)) {
+            $event = $event::class;
+        }
+
         unset($this->listeners[$event]);
+    }
+
+    /**
+     * @template TArgEvent of object
+     *
+     * @param class-string<TArgEvent>|TArgEvent $event
+     *
+     * @return array<array-key, callable(TArgEvent):void>
+     */
+    public function getListenersForEvent(object|string $event): array
+    {
+        if (!\is_string($event)) {
+            $event = $event::class;
+        }
+
+        if (!isset($this->listeners[$event])) {
+            return [];
+        }
+
+        return $this->listeners[$event];
     }
 
     private function dispatchStoppableEvent(StoppableEventInterface $event): void

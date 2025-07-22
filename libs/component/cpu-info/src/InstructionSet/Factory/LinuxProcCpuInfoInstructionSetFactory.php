@@ -8,38 +8,18 @@ use Boson\Component\CpuInfo\ArchitectureInterface;
 use Boson\Component\CpuInfo\InstructionSet;
 use Boson\Component\CpuInfo\InstructionSetInterface;
 use Boson\Component\CpuInfo\Internal\LinuxProcCpuInfo;
-use Boson\Component\OsInfo\Family;
-use Boson\Component\OsInfo\Family\Factory\FamilyFactoryInterface;
 
-final readonly class LinuxProcCpuInfoInstructionSetFactory implements InstructionSetFactoryInterface
+final readonly class LinuxProcCpuInfoInstructionSetFactory implements OptionalInstructionSetFactoryInterface
 {
-    public function __construct(
-        private InstructionSetFactoryInterface $delegate,
-        private ?FamilyFactoryInterface $osFamilyFactory = null,
-    ) {}
-
-    public function createInstructionSets(ArchitectureInterface $arch): array
-    {
-        $family = $this->osFamilyFactory?->createFamily()
-            ?? Family::createFromGlobals();
-
-        $fallback = $this->delegate->createInstructionSets($arch);
-
-        if (!$family->is(Family::Linux) || !LinuxProcCpuInfo::isReadable()) {
-            return $fallback;
-        }
-
-        return \array_values(\array_unique([
-            ...$fallback,
-            ...$this->tryCreateFromProcCpuInfo($arch),
-        ]));
-    }
-
     /**
      * @return list<InstructionSetInterface>
      */
-    private function tryCreateFromProcCpuInfo(ArchitectureInterface $arch): array
+    public function createInstructionSets(ArchitectureInterface $arch): ?array
     {
+        if (!LinuxProcCpuInfo::isReadable()) {
+            return null;
+        }
+
         $processors = new LinuxProcCpuInfo()
             ->getSegmentsByPhysicalId();
 
@@ -81,7 +61,11 @@ final readonly class LinuxProcCpuInfoInstructionSetFactory implements Instructio
                 'sse4_2' => InstructionSet::SSE4_2,
                 'avx' => InstructionSet::AVX,
                 'avx2' => InstructionSet::AVX2,
-                'avx512f' => InstructionSet::AVX512,
+                'avx512f' => InstructionSet::AVX512F,
+                'aes' => InstructionSet::AES,
+                'popcnt' => InstructionSet::POPCNT,
+                'f16c' => InstructionSet::F16C,
+                'lm' => InstructionSet::EM64T,
                 default => null,
             };
 

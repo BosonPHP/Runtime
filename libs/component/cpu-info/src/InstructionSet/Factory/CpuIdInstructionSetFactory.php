@@ -5,109 +5,77 @@ declare(strict_types=1);
 namespace Boson\Component\CpuInfo\InstructionSet\Factory;
 
 use Boson\Component\CpuInfo\ArchitectureInterface;
-use Boson\Component\CpuInfo\InstructionSet;
-use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\AVX2Assembly;
-use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\AVX512FAssembly;
-use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\AVXAssembly;
-use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\CpuIdExecutorInterface;
-use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\FMA3Assembly;
-use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\MMXAssembly;
-use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\SSE2Assembly;
-use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\SSE3Assembly;
-use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\SSE41Assembly;
-use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\SSE42Assembly;
-use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\SSEAssembly;
-use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\SSSE3Assembly;
-use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\Win32CpuIdExecutor;
+use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\AESDetector;
+use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\AVX2Detector;
+use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\AVX512FDetector;
+use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\AVXDetector;
+use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\DetectorInterface;
+use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\EM64TDetector;
+use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\F16CDetector;
+use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\FMA3Detector;
+use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\MMXDetector;
+use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\POPCNTDetector;
+use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\SSE2Detector;
+use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\SSE3Detector;
+use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\SSE41Detector;
+use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\SSE42Detector;
+use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\SSEDetector;
+use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\SSSE3Detector;
 use Boson\Component\CpuInfo\InstructionSetInterface;
-use Boson\Component\OsInfo\Family;
-use Boson\Component\OsInfo\Family\Factory\FamilyFactoryInterface;
+use Boson\Component\Pasm\Executor;
+use Boson\Component\Pasm\ExecutorInterface;
 
-final readonly class CpuIdInstructionSetFactory implements InstructionSetFactoryInterface
+final readonly class CpuIdInstructionSetFactory implements OptionalInstructionSetFactoryInterface
 {
     public function __construct(
-        private InstructionSetFactoryInterface $delegate,
-        private ?FamilyFactoryInterface $osFamilyFactory = null,
+        private ExecutorInterface $executor = new Executor(),
     ) {}
 
-    private function getCpuIdExecutor(): ?CpuIdExecutorInterface
-    {
-        $family = $this->osFamilyFactory?->createFamily()
-            ?? Family::createFromGlobals();
-
-        return match (true) {
-            $family->is(Family::Windows) => new Win32CpuIdExecutor(),
-            default => null,
-        };
-    }
-
-    public function createInstructionSets(ArchitectureInterface $arch): array
-    {
-        $fallback = $this->delegate->createInstructionSets($arch);
-
-        $executor = $this->getCpuIdExecutor();
-
-        if ($executor === null) {
-            return $fallback;
-        }
-
-        return \array_values(\array_unique([
-            ...$fallback,
-            ...$this->tryCreateFromCpuId($executor),
-        ]));
-    }
-
     /**
-     * @return list<InstructionSetInterface>
+     * @return non-empty-list<InstructionSetInterface>
      */
-    private function tryCreateFromCpuId(CpuIdExecutorInterface $executor): array
+    public function createInstructionSets(ArchitectureInterface $arch): ?array
     {
         $result = [];
 
-        if ($executor->execute(new MMXAssembly())) {
-            $result[] = InstructionSet::MMX;
+        foreach ($this->getDetectors() as $detector) {
+            if ($detector->isSupported($arch)) {
+                $instructionSet = $detector->detect($this->executor);
+
+                if ($instructionSet !== null) {
+                    $result[] = $instructionSet;
+                }
+            }
         }
 
-        if ($executor->execute(new SSEAssembly())) {
-            $result[] = InstructionSet::SSE;
-        }
-
-        if ($executor->execute(new SSE2Assembly())) {
-            $result[] = InstructionSet::SSE2;
-        }
-
-        if ($executor->execute(new SSE3Assembly())) {
-            $result[] = InstructionSet::SSE3;
-        }
-
-        if ($executor->execute(new SSSE3Assembly())) {
-            $result[] = InstructionSet::SSSE3;
-        }
-
-        if ($executor->execute(new SSE41Assembly())) {
-            $result[] = InstructionSet::SSE4_1;
-        }
-
-        if ($executor->execute(new SSE42Assembly())) {
-            $result[] = InstructionSet::SSE4_2;
-        }
-
-        if ($executor->execute(new FMA3Assembly())) {
-            $result[] = InstructionSet::FMA3;
-        }
-
-        if ($executor->execute(new AVXAssembly())) {
-            $result[] = InstructionSet::AVX;
-        }
-
-        if ($executor->execute(new AVX2Assembly())) {
-            $result[] = InstructionSet::AVX2;
-        }
-
-        if ($executor->execute(new AVX512FAssembly())) {
-            $result[] = InstructionSet::AVX512;
+        if ($result === []) {
+            return null;
         }
 
         return $result;
+    }
+
+    /**
+     * @return list<DetectorInterface>
+     */
+    private function getDetectors(): array
+    {
+        return [
+            new MMXDetector(),
+            new SSEDetector(),
+            new SSE2Detector(),
+            new SSE3Detector(),
+            new SSSE3Detector(),
+            new SSE41Detector(),
+            new SSE42Detector(),
+            new FMA3Detector(),
+            new AVXDetector(),
+            new AVX2Detector(),
+            new AVX512FDetector(),
+            new AESDetector(),
+            new EM64TDetector(),
+            new POPCNTDetector(),
+            new F16CDetector(),
+        ];
     }
 }

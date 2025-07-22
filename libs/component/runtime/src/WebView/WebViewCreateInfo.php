@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Boson\WebView;
 
 use Boson\Application;
+use Boson\WebView\Api\BatteryApiCreateInfo;
 use Boson\WebView\Api\BindingsApiCreateInfo;
 use Boson\WebView\Api\DataApiCreateInfo;
 use Boson\WebView\Api\WebComponentsCreateInfo;
@@ -111,6 +112,10 @@ final readonly class WebViewCreateInfo
          *  - Dev Tools will bew disabled if debug mode is disabled.
          */
         public ?bool $devTools = null,
+        /**
+         * Contains Battery API configuration options.
+         */
+        public BatteryApiCreateInfo $battery = new BatteryApiCreateInfo(),
         /**
          * Contains Bindings API configuration options.
          */

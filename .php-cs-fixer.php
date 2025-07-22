@@ -7,6 +7,8 @@ $files = PhpCsFixer\Finder::create()
         __DIR__ . '/libs/bridge/laravel-http-bridge/src',
         __DIR__ . '/libs/bridge/laravel-provider/src',
         __DIR__ . '/libs/bridge/psr-http-bridge/src',
+        __DIR__ . '/libs/bridge/spiral-bridge/src',
+        __DIR__ . '/libs/bridge/symfony-bundle/src',
         __DIR__ . '/libs/bridge/symfony-http-bridge/src',
         // Components
         __DIR__ . '/libs/component/compiler/src',
@@ -16,6 +18,7 @@ $files = PhpCsFixer\Finder::create()
         __DIR__ . '/libs/component/http-body-decoder/src',
         __DIR__ . '/libs/component/http-static-provider/src',
         __DIR__ . '/libs/component/os-info/src',
+        __DIR__ . '/libs/component/pasm/src',
         __DIR__ . '/libs/component/runtime/src',
         __DIR__ . '/libs/component/weak-types/src',
         // Contracts
@@ -35,10 +38,6 @@ return new PhpCsFixer\Config()
     ->setRules([
         '@PER-CS2.0' => true,
         '@PER-CS2.0:risky' => true,
-        // broken in v3.70.2 (`$property { get; set; }` -> `$property { get; }`)
-        'no_empty_statement' => false,
-        // broken in v3.70.2 (`public private(set) Some $x` -> `public private(set) public Some $x`)
-        'visibility_required' => false,
         'strict_param' => true,
         'align_multiline_comment' => true,
         'array_syntax' => [
@@ -222,10 +221,12 @@ return new PhpCsFixer\Config()
                     'psalm-require-extends',
                     'phpstan-require-extends',
                     'mixin',
+                    'seal-properties',
+                    'seal-methods',
                 ],
                 ['psalm-taint-sink', 'param'],
                 ['return', 'throws'],
-                ['psalm-suppress'],
+                ['psalm-suppress', 'noinspection', 'phpstan-ignore'],
             ],
         ],
         'phpdoc_single_line_var_spacing' => true,

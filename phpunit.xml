@@ -15,6 +15,7 @@
             <directory>libs/bridge/laravel-http-bridge/tests</directory>
             <directory>libs/bridge/laravel-provider/tests</directory>
             <directory>libs/bridge/psr-http-bridge/tests</directory>
+            <directory>libs/bridge/symfony-bundle/tests</directory>
             <directory>libs/bridge/symfony-http-bridge/tests</directory>
         </testsuite>
         <testsuite name="components">
@@ -25,10 +26,12 @@
             <directory>libs/component/http-body-decoder/tests</directory>
             <directory>libs/component/http-static-provider/tests</directory>
             <directory>libs/component/os-info/tests</directory>
+            <directory>libs/component/pasm/tests</directory>
             <directory>libs/component/runtime/tests</directory>
             <directory>libs/component/weak-types/tests</directory>
         </testsuite>
         <testsuite name="contracts">
+            <directory>libs/contracts/event-listener-contracts/tests</directory>
             <directory>libs/contracts/http-contracts/tests</directory>
         </testsuite>
     </testsuites>
@@ -42,6 +45,8 @@
             <directory>libs/bridge/laravel-http-bridge/src</directory>
             <directory>libs/bridge/laravel-provider/src</directory>
             <directory>libs/bridge/psr-http-bridge/src</directory>
+            <directory>libs/bridge/spiral-bridge/src</directory>
+            <directory>libs/bridge/symfony-bundle/src</directory>
             <directory>libs/bridge/symfony-http-bridge/src</directory>
             <!-- components -->
             <directory>libs/component/compiler/src</directory>
@@ -51,9 +56,11 @@
             <directory>libs/component/http-body-decoder/src</directory>
             <directory>libs/component/http-static-provider/src</directory>
             <directory>libs/component/os-info/src</directory>
+            <directory>libs/component/pasm/src</directory>
             <directory>libs/component/runtime/src</directory>
             <directory>libs/component/weak-types/src</directory>
             <!-- contracts -->
+            <directory>libs/contracts/event-listener-contracts/src</directory>
             <directory>libs/contracts/http-contracts/src</directory>
         </include>
     </source>

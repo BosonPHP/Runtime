@@ -16,6 +16,8 @@
     ],
     "require": {
         "php": "^8.4",
+        "ext-pcre": "*",
+        "ext-ffi": "*",
         "ffi/env": "^1.0"
     },
     "autoload": {
@@ -33,8 +35,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.13.x-dev",
-            "dev-main": "0.13.x-dev"
+            "dev-master": "0.15.x-dev",
+            "dev-main": "0.15.x-dev"
         }
     },
     "config": {

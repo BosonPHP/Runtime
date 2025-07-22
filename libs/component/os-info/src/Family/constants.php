@@ -4,14 +4,20 @@ declare(strict_types=1);
 
 namespace Boson\Component\OsInfo\Family;
 
-const WINDOWS = new BuiltinFamily('Windows');
+//
+// This "$name" hack removes these constants from IDE autocomplete.
+//
 
-const UNIX = new BuiltinFamily('Unix');
+define($name = 'Boson\Component\OsInfo\Family\WINDOWS', new BuiltinFamily('Windows'));
 
-const LINUX = new BuiltinFamily('Linux', UNIX);
+define($name = 'Boson\Component\OsInfo\Family\UNIX', new BuiltinFamily('Unix'));
 
-const BSD = new BuiltinFamily('BSD', UNIX);
+define($name = 'Boson\Component\OsInfo\Family\LINUX', new BuiltinFamily('Linux', UNIX));
 
-const SOLARIS = new BuiltinFamily('Solaris', BSD);
+define($name = 'Boson\Component\OsInfo\Family\BSD', new BuiltinFamily('BSD', UNIX));
 
-const DARWIN = new BuiltinFamily('Darwin', BSD);
+define($name = 'Boson\Component\OsInfo\Family\SOLARIS', new BuiltinFamily('Solaris', BSD));
+
+define($name = 'Boson\Component\OsInfo\Family\DARWIN', new BuiltinFamily('Darwin', BSD));
+
+unset($name);

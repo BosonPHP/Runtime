@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace Boson;
 
+use Boson\Api\ApplicationExtension;
+use Boson\Api\Dialog\ApplicationDialog;
+use Boson\Api\DialogApiInterface;
+use Boson\Contracts\EventListener\EventListenerInterface;
 use Boson\Dispatcher\DelegateEventListener;
-use Boson\Dispatcher\EventDispatcherInterface;
 use Boson\Dispatcher\EventListener;
-use Boson\Dispatcher\EventListenerInterface;
 use Boson\Dispatcher\EventListenerProvider;
-use Boson\Dispatcher\EventListenerProviderInterface;
 use Boson\Event\ApplicationStarted;
 use Boson\Event\ApplicationStarting;
 use Boson\Event\ApplicationStopped;
 use Boson\Event\ApplicationStopping;
 use Boson\Exception\NoDefaultWindowException;
+use Boson\Internal\ApplicationPoller;
 use Boson\Internal\BootHandler\BootHandlerInterface;
 use Boson\Internal\BootHandler\WindowsDetachConsoleBootHandler;
-use Boson\Internal\DebugEnvResolver;
 use Boson\Internal\DeferRunner\DeferRunnerInterface;
 use Boson\Internal\DeferRunner\NativeShutdownFunctionRunner;
-use Boson\Internal\ProcessUnlockPlaceholder;
 use Boson\Internal\QuitHandler\PcntlQuitHandler;
 use Boson\Internal\QuitHandler\QuitHandlerInterface;
 use Boson\Internal\QuitHandler\WindowsQuitHandler;
@@ -33,12 +33,12 @@ use Boson\Window\Event\WindowClosed;
 use Boson\Window\Manager\WindowManager;
 use Boson\Window\Window;
 use FFI\CData;
-use Psr\EventDispatcher\EventDispatcherInterface as PsrEventDispatcherInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @api
  */
-final class Application implements EventListenerProviderInterface
+final class Application implements EventListenerInterface
 {
     use EventListenerProvider;
 
@@ -71,15 +71,14 @@ final class Application implements EventListenerProviderInterface
     public readonly WindowManager $windows;
 
     /**
-     * Gets access to the listener of the window events
-     * and intention subscriptions.
+     * Application-aware event listener & dispatcher.
      */
-    public readonly EventListenerInterface $events;
+    private readonly EventListener $listener;
 
     /**
-     * Application-aware event dispatcher.
+     * Gets access to the Dialog API of the application.
      */
-    private readonly EventDispatcherInterface $dispatcher;
+    public readonly DialogApiInterface $dialog;
 
     /**
      * Provides more convenient and faster access to the
@@ -148,23 +147,13 @@ final class Application implements EventListenerProviderInterface
     public readonly LibSaucer $api;
 
     /**
-     * Gets status of quit handler registration.
-     */
-    private bool $quitHandlerIsRegistered = false;
-
-    /**
-     * Gets status of defer runner registration.
-     */
-    private bool $deferRunnerIsRegistered = false;
-
-    /**
      * Gets an internal application poller to unlock the
      * webview process workflow.
      */
     public readonly ApplicationPollerInterface $poller;
 
     /**
-     * @param PsrEventDispatcherInterface|null $dispatcher an optional event
+     * @param EventDispatcherInterface|null $dispatcher an optional event
      *        dispatcher for handling application events
      */
     public function __construct(
@@ -173,46 +162,120 @@ final class Application implements EventListenerProviderInterface
          * with which it was created.
          */
         public readonly ApplicationCreateInfo $info = new ApplicationCreateInfo(),
-        ?PsrEventDispatcherInterface $dispatcher = null,
+        ?EventDispatcherInterface $dispatcher = null,
+        /**
+         * @var list<BootHandlerInterface>
+         */
+        private readonly array $bootHandlers = [
+            new WindowsDetachConsoleBootHandler(),
+        ],
+        /**
+         * @var list<QuitHandlerInterface>
+         */
+        private readonly array $quitHandlers = [
+            new WindowsQuitHandler(),
+            new PcntlQuitHandler(),
+        ],
+        /**
+         * @var list<DeferRunnerInterface>
+         */
+        private readonly array $deferRunners = [
+            new NativeShutdownFunctionRunner(),
+        ],
     ) {
-        $this->boot();
+        // Initialization Application's fields and properties
+        $this->api = self::createLibSaucer($info->library);
+        $this->isDebug = self::createIsDebugParameter($info->debug);
+        $this->listener = self::createEventListener($dispatcher);
+        $this->id = self::createApplicationId($this->api, $this->info->name, $this->info->threads);
+        $this->poller = self::createApplicationPoller($this->api, $this);
+        $this->windows = self::createWindowManager($this->api, $this, $info, $this->listener);
 
-        $this->api = new LibSaucer($this->info->library);
-        $this->isDebug = DebugEnvResolver::resolve($this->info->debug);
-        $this->events = $this->dispatcher = $this->createEventListener($dispatcher);
-        $this->id = $this->createApplicationId($this->info->name, $this->info->threads);
+        // Initialization of Application's API
+        $this->dialog = $this->createApplicationExtension(ApplicationDialog::class);
 
-        $this->poller = new ProcessUnlockPlaceholder(
-            api: $this->api,
-            app: $this,
-        );
-
+        // Register Application's subsystems
         $this->registerSchemes();
         $this->registerDefaultEventListeners();
+        $this->registerQuitHandlers();
+        $this->registerDeferRunner();
 
-        $this->windows = $this->createWindowManager();
-
-        if ($this->info->autorun) {
-            $this->registerDeferRunnerIfNotRegistered();
-        }
+        // Boot the Application
+        $this->boot();
     }
 
     /**
-     * Returns a list of boot handlers for the application.
+     * Creates a new instance of {@see LibSaucer} that provides access to the
+     * native WebView API library. The returned object allows interacting with
+     * the underlying WebView (Saucer) functionality through FFI bindings.
      *
-     * @return iterable<array-key, BootHandlerInterface>
+     * The library path can be automatically detected if not explicitly specified.
+     *
+     * This method is responsible for initializing the core WebView functionality
+     * that powers the application's window and web content capabilities.
+     *
+     * @param non-empty-string|null $library Optional path to the WebView library
      */
-    private function getBootHandlers(): iterable
+    private static function createLibSaucer(?string $library): LibSaucer
     {
-        yield new WindowsDetachConsoleBootHandler();
+        return new LibSaucer($library);
     }
 
     /**
-     * Boot application handlers.
+     * Resolves the debug mode state for the application based on the provided
+     * configuration and environment settings.
+     *
+     * This method uses php.ini dev mode detection to determine the actual debug
+     * state, taking into account both explicit configuration and automatic
+     * environment detection.
+     */
+    private static function createIsDebugParameter(?bool $debug): bool
+    {
+        if ($debug === null) {
+            $debug = false;
+
+            /**
+             * Enable debug mode if "zend.assertions" is 1.
+             *
+             * @link https://www.php.net/manual/en/function.assert.php
+             */
+            assert($debug = true);
+        }
+
+        return $debug;
+    }
+
+    /**
+     * Creates a new instance of {@see ApplicationPollerInterface} that manages
+     * the application's event loop and process workflow.
+     */
+    private function createApplicationPoller(LibSaucer $api, Application $ctx): ApplicationPollerInterface
+    {
+        return new ApplicationPoller($api, $ctx);
+    }
+
+    /**
+     * @template TArgApiProvider of ApplicationExtension
+     *
+     * @param class-string<TArgApiProvider> $class
+     *
+     * @return TArgApiProvider
+     */
+    private function createApplicationExtension(string $class): ApplicationExtension
+    {
+        return new $class(
+            api: $this->api,
+            context: $this,
+            listener: $this->listener,
+        );
+    }
+
+    /**
+     * Boot the application.
      */
     private function boot(): void
     {
-        foreach ($this->getBootHandlers() as $handler) {
+        foreach ($this->bootHandlers as $handler) {
             $handler->boot();
         }
     }
@@ -223,13 +286,17 @@ final class Application implements EventListenerProviderInterface
      * This method initializes and returns a {@see WindowManager} object
      * that is responsible for managing all application windows.
      */
-    private function createWindowManager(): WindowManager
-    {
+    private static function createWindowManager(
+        LibSaucer $api,
+        Application $app,
+        ApplicationCreateInfo $info,
+        EventDispatcherInterface $dispatcher,
+    ): WindowManager {
         return new WindowManager(
-            api: $this->api,
-            app: $this,
-            info: $this->info->window,
-            dispatcher: $this->dispatcher,
+            api: $api,
+            app: $app,
+            info: $info->window,
+            dispatcher: $dispatcher,
         );
     }
 
@@ -251,7 +318,8 @@ final class Application implements EventListenerProviderInterface
      */
     private function registerDefaultEventListeners(): void
     {
-        $this->events->addEventListener(WindowClosed::class, $this->onWindowClose(...));
+        $this->listener->addEventListener(WindowClosed::class, $this->onWindowClose(...));
+        $this->listener->addEventListener(ApplicationStarted::class, $this->onApplicationStarted(...));
     }
 
     /**
@@ -268,10 +336,21 @@ final class Application implements EventListenerProviderInterface
     }
 
     /**
+     * Handles an application started event.
+     *
+     * Resolve main window lazy proxy (facade).
+     */
+    private function onApplicationStarted(): void
+    {
+        // Resolve main window lazy proxy (facade)
+        $_ = $this->window->isClosed;
+    }
+
+    /**
      * Creates local (application-aware) event listener
      * based on the provided dispatcher.
      */
-    private function createEventListener(?PsrEventDispatcherInterface $dispatcher): EventListener
+    private static function createEventListener(?EventDispatcherInterface $dispatcher): EventListener
     {
         if ($dispatcher === null) {
             return new EventListener();
@@ -286,11 +365,11 @@ final class Application implements EventListenerProviderInterface
      * @param non-empty-string $name
      * @param int<1, max>|null $threads
      */
-    private function createApplicationId(string $name, ?int $threads): ApplicationId
+    private static function createApplicationId(LibSaucer $api, string $name, ?int $threads): ApplicationId
     {
         return ApplicationId::fromAppHandle(
-            api: $this->api,
-            handle: $this->createApplicationPointer($name, $threads),
+            api: $api,
+            handle: self::createApplicationPointer($api, $name, $threads),
             name: $name,
         );
     }
@@ -302,14 +381,14 @@ final class Application implements EventListenerProviderInterface
      * @param int<1, max>|null $threads
      */
     #[RequiresDealloc]
-    private function createApplicationPointer(string $name, ?int $threads): CData
+    private static function createApplicationPointer(LibSaucer $api, string $name, ?int $threads): CData
     {
-        $options = $this->createApplicationOptionsPointer($name, $threads);
+        $options = self::createApplicationOptionsPointer($api, $name, $threads);
 
         try {
-            return $this->api->saucer_application_init($options);
+            return $api->saucer_application_init($options);
         } finally {
-            $this->api->saucer_options_free($options);
+            $api->saucer_options_free($options);
         }
     }
 
@@ -320,28 +399,17 @@ final class Application implements EventListenerProviderInterface
      * @param int<1, max>|null $threads
      */
     #[RequiresDealloc]
-    private function createApplicationOptionsPointer(string $name, ?int $threads): CData
+    private static function createApplicationOptionsPointer(LibSaucer $api, string $name, ?int $threads): CData
     {
-        $options = $this->api->saucer_options_new($name);
+        $options = $api->saucer_options_new($name);
 
         $threads = ThreadsCountResolver::resolve($threads);
+
         if ($threads !== null) {
-            $this->api->saucer_options_set_threads($options, $threads);
+            $api->saucer_options_set_threads($options, $threads);
         }
 
         return $options;
-    }
-
-    /**
-     * Returns a list of quit handlers (intercepts alternative
-     * application shutdown commands) for the application.
-     *
-     * @return iterable<array-key, QuitHandlerInterface>
-     */
-    private function getQuitHandlers(): iterable
-    {
-        yield new WindowsQuitHandler();
-        yield new PcntlQuitHandler();
     }
 
     /**
@@ -349,13 +417,9 @@ final class Application implements EventListenerProviderInterface
      *
      * This ensures that the application can be properly terminated.
      */
-    private function registerQuitHandlersIfNotRegistered(): void
+    private function registerQuitHandlers(): void
     {
-        if ($this->quitHandlerIsRegistered) {
-            return;
-        }
-
-        foreach ($this->getQuitHandlers() as $handler) {
+        foreach ($this->quitHandlers as $handler) {
             if ($handler->isSupported === false) {
                 continue;
             }
@@ -363,18 +427,6 @@ final class Application implements EventListenerProviderInterface
             // Register EVERY quit handler
             $handler->register($this->quit(...));
         }
-
-        $this->quitHandlerIsRegistered = true;
-    }
-
-    /**
-     * Returns a list of defer runners for the application.
-     *
-     * @return iterable<array-key, DeferRunnerInterface>
-     */
-    private function getDeferRunners(): iterable
-    {
-        yield new NativeShutdownFunctionRunner();
     }
 
     /**
@@ -383,23 +435,21 @@ final class Application implements EventListenerProviderInterface
      * This allows the application to be started automatically
      * after script execution.
      */
-    private function registerDeferRunnerIfNotRegistered(): void
+    private function registerDeferRunner(): void
     {
-        if ($this->deferRunnerIsRegistered) {
+        if ($this->info->autorun === false) {
             return;
         }
 
-        foreach ($this->getDeferRunners() as $runner) {
+        foreach ($this->deferRunners as $runner) {
             if ($runner->isSupported === false) {
                 continue;
             }
 
-            // Register FIRST deferred runner
+            // Register FIRST supported deferred runner
             $runner->register($this->runIfNotEverRunning(...));
             break;
         }
-
-        $this->deferRunnerIsRegistered = true;
     }
 
     /**
@@ -430,7 +480,7 @@ final class Application implements EventListenerProviderInterface
             return true;
         }
 
-        $intention = $this->dispatcher->dispatch(new ApplicationStarting($this));
+        $this->listener->dispatch($intention = new ApplicationStarting($this));
 
         return $intention->isCancelled;
     }
@@ -453,12 +503,7 @@ final class Application implements EventListenerProviderInterface
         $this->isRunning = true;
         $this->wasEverRunning = true;
 
-        $this->registerQuitHandlersIfNotRegistered();
-
-        // Resolve main window lazy proxy
-        $_ = $this->window->isClosed;
-
-        $this->dispatcher->dispatch(new ApplicationStarted($this));
+        $this->listener->dispatch(new ApplicationStarted($this));
 
         while ($this->poller->next()) {
             \usleep(1);
@@ -471,7 +516,7 @@ final class Application implements EventListenerProviderInterface
      */
     private function shouldNotStop(): bool
     {
-        $intention = $this->dispatcher->dispatch(new ApplicationStopping($this));
+        $this->listener->dispatch($intention = new ApplicationStopping($this));
 
         return $intention->isCancelled;
     }
@@ -491,7 +536,7 @@ final class Application implements EventListenerProviderInterface
         $this->isRunning = false;
         $this->api->saucer_application_quit($this->id->ptr);
 
-        $this->dispatcher->dispatch(new ApplicationStopped($this));
+        $this->listener->dispatch(new ApplicationStopped($this));
     }
 
     /**

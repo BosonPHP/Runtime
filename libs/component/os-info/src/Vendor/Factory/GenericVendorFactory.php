@@ -12,49 +12,39 @@ use Boson\Component\OsInfo\Vendor\VendorInfo;
  */
 final readonly class GenericVendorFactory implements VendorFactoryInterface
 {
-    /**
-     * @var non-empty-string
-     */
-    public const string DEFAULT_OS_NAME = 'Generic OS';
-
-    /**
-     * @var non-empty-string
-     */
-    public const string DEFAULT_OS_VERSION = '0.0.0';
-
-    public function __construct(
-        private VendorInfo $default = new VendorInfo(
-            name: self::DEFAULT_OS_NAME,
-            version: self::DEFAULT_OS_VERSION,
-        ),
-    ) {}
-
     public function createVendor(FamilyInterface $family): VendorInfo
     {
-        $name = \php_uname('s');
+        return new VendorInfo(
+            name: self::getDefaultName(),
+            version: self::getDefaultVersion(),
+        );
+    }
 
-        if ($name === '') {
-            $name = $this->default->name;
-        }
+    /**
+     * @return non-empty-string
+     */
+    public static function getDefaultName(): string
+    {
+        /** @var non-empty-string */
+        return \php_uname('s');
+    }
 
+    /**
+     * @return non-empty-string
+     */
+    public static function getDefaultVersion(): string
+    {
         $version = \php_uname('r');
 
-        if ($version === '') {
-            $version = $this->default->version;
-        }
-
-        return new VendorInfo(
-            name: $name,
-            version: self::parseVersion($version) ?? $version,
-            codename: $this->default->codename,
-            edition: $this->default->edition,
-        );
+        /** @var non-empty-string */
+        return self::tryParseVersion($version)
+            ?? $version;
     }
 
     /**
      * @return non-empty-string|null
      */
-    public static function parseVersion(string $version): ?string
+    public static function tryParseVersion(string $version): ?string
     {
         \preg_match('/^\d+(?:\.\d+){0,3}/', $version, $matches);
 

@@ -1,0 +1,39 @@
+<?php
+
+namespace Boson\Component\CpuInfo\Architecture {
+
+    const X86 = new BuiltinArchitecture('x86');
+    const AMD64 = new BuiltinArchitecture('amd64', X86);
+    const ARM = new BuiltinArchitecture('arm');
+    const ARM64 = new BuiltinArchitecture('aarch64', ARM);
+    const ITANIUM = new BuiltinArchitecture('ia64');
+    const RISCV32 = new BuiltinArchitecture('riscv32');
+    const RISCV64 = new BuiltinArchitecture('riscv64', RISCV32);
+    const MIPS = new BuiltinArchitecture('mips');
+    const MIPS64 = new BuiltinArchitecture('mips64', MIPS);
+    const PPC = new BuiltinArchitecture('ppc');
+    const PPC64 = new BuiltinArchitecture('ppc64', PPC);
+    const SPARC = new BuiltinArchitecture('sparc');
+    const SPARC64 = new BuiltinArchitecture('sparc64', SPARC);
+
+}
+
+namespace Boson\Component\CpuInfo\InstructionSet {
+
+    const MMX = new BuiltinInstructionSet('mmx');
+    const SSE = new BuiltinInstructionSet('sse');
+    const SSE2 = new BuiltinInstructionSet('sse2');
+    const SSE3 = new BuiltinInstructionSet('sse3');
+    const SSSE3 = new BuiltinInstructionSet('ssse3');
+    const SSE4_1 = new BuiltinInstructionSet('sse4.1');
+    const SSE4_2 = new BuiltinInstructionSet('sse4.2');
+    const FMA3 = new BuiltinInstructionSet('fma3');
+    const AVX = new BuiltinInstructionSet('avx');
+    const AVX2 = new BuiltinInstructionSet('avx2');
+    const AVX512F = new BuiltinInstructionSet('avx512f');
+    const AES = new BuiltinInstructionSet('aes');
+    const EM64T = new BuiltinInstructionSet('em64t');
+    const POPCNT = new BuiltinInstructionSet('popcnt');
+    const F16C = new BuiltinInstructionSet('f16c');
+
+}

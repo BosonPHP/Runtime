@@ -4,16 +4,23 @@ declare(strict_types=1);
 
 namespace Boson\Component\OsInfo\Family\Factory;
 
+use Boson\Component\OsInfo\Family;
 use Boson\Component\OsInfo\FamilyInterface;
 
-final readonly class EnvFamilyFactory extends FamilyByNameFactory
+/**
+ * Factory that attempts to detect the OS family from environment variables.
+ */
+final readonly class EnvFamilyFactory implements FamilyFactoryInterface
 {
     /**
      * @var non-empty-string
      */
-    public const string DEFAULT_OVERRIDE_ENV_NAME = 'BOSON_OS_NAME';
+    public const string DEFAULT_OVERRIDE_ENV_FAMILY = 'BOSON_OS_FAMILY';
 
     public function __construct(
+        /**
+         * Default family factory delegate to
+         */
         private FamilyFactoryInterface $delegate,
         /**
          * @var list<non-empty-string>
@@ -21,17 +28,21 @@ final readonly class EnvFamilyFactory extends FamilyByNameFactory
         private array $envVariableNames = [],
     ) {}
 
+    /**
+     * Creates an instance configured to use the default override
+     * environment variable.
+     */
     public static function createForOverrideEnvVariables(FamilyFactoryInterface $delegate): self
     {
         return new self($delegate, [
-            self::DEFAULT_OVERRIDE_ENV_NAME,
+            self::DEFAULT_OVERRIDE_ENV_FAMILY,
         ]);
     }
 
     /**
      * @return non-empty-string|null
      */
-    private function tryGetNameFromEnvironment(): ?string
+    private function tryGetFamilyFromEnvironmentAsString(): ?string
     {
         foreach ($this->envVariableNames as $name) {
             $server = $_SERVER[$name] ?? null;
@@ -46,12 +57,13 @@ final readonly class EnvFamilyFactory extends FamilyByNameFactory
 
     public function createFamily(): FamilyInterface
     {
-        $name = $this->tryGetNameFromEnvironment();
+        $name = $this->tryGetFamilyFromEnvironmentAsString();
 
         if ($name === null) {
             return $this->delegate->createFamily();
         }
 
-        return $this->createFromName($name);
+        return Family::tryFrom($name)
+            ?? $this->delegate->createFamily();
     }
 }

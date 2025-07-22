@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Boson\Dispatcher\Subscription;
 
+use Boson\Contracts\EventListener\Subscription\SubscriptionInterface;
+
 /**
  * @template T of object
  *

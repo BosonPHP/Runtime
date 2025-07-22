@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Boson\Internal\BootHandler;
 
-use Boson\Internal\Win32\LibKernel32;
+use Boson\Internal\Win32\Kernel32;
 
 final class WindowsDetachConsoleBootHandler implements BootHandlerInterface
 {
@@ -15,7 +15,7 @@ final class WindowsDetachConsoleBootHandler implements BootHandlerInterface
             return;
         }
 
-        $kernel32 = new LibKernel32();
+        $kernel32 = new Kernel32();
         $kernel32->FreeConsole();
     }
 }

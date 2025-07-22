@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Boson\WebView\Api\Battery;
 
-use Boson\Dispatcher\EventDispatcherInterface;
+use Boson\Dispatcher\EventListener;
 use Boson\Internal\Saucer\LibSaucer;
 use Boson\Shared\Marker\ExpectsSecurityContext;
 use Boson\WebView\Api\Battery\Event\BatteryChargingStateChanged;
@@ -16,7 +16,7 @@ use Boson\WebView\Api\Battery\Exception\BatteryNotReadyException;
 use Boson\WebView\Api\Battery\Exception\InsecureBatteryContextException;
 use Boson\WebView\Api\BatteryApiInterface;
 use Boson\WebView\Api\Data\Exception\WebViewIsNotReadyException;
-use Boson\WebView\Api\WebViewApi;
+use Boson\WebView\Api\WebViewExtension;
 use Boson\WebView\WebView;
 
 /**
@@ -28,7 +28,7 @@ use Boson\WebView\WebView;
  * }
  */
 #[ExpectsSecurityContext]
-final class WebViewBattery extends WebViewApi implements BatteryApiInterface
+final class WebViewBattery extends WebViewExtension implements BatteryApiInterface
 {
     public float $level {
         /** @phpstan-ignore-next-line : data can never be null */
@@ -57,23 +57,36 @@ final class WebViewBattery extends WebViewApi implements BatteryApiInterface
      * @var BatteryInfoType
      */
     private ?array $data = null {
-        get => $this->data ??= $this->get();
+        get => match (true) {
+            $this->data === null => $this->data = $this->get(),
+            $this->isEventsEnabled => $this->data,
+            default => $this->get(),
+        };
     }
 
-    public function __construct(LibSaucer $api, WebView $webview, EventDispatcherInterface $dispatcher)
-    {
-        parent::__construct($api, $webview, $dispatcher);
+    /**
+     * Whether to enable battery-related events.
+     */
+    private readonly bool $isEventsEnabled;
 
-        $this->registerDefaultFunctions();
-        $this->registerDefaultClientEventListeners();
+    public function __construct(LibSaucer $api, WebView $context, EventListener $listener)
+    {
+        parent::__construct($api, $context, $listener);
+
+        $this->isEventsEnabled = $this->context->info->battery->enableEvents;
+
+        if ($this->isEventsEnabled) {
+            $this->registerDefaultFunctions();
+            $this->registerDefaultClientEventListeners();
+        }
     }
 
     private function registerDefaultFunctions(): void
     {
-        $this->webview->bindings->bind('boson.battery.onLevelChange', $this->onLevelChange(...));
-        $this->webview->bindings->bind('boson.battery.onChargingChange', $this->onChargingChange(...));
-        $this->webview->bindings->bind('boson.battery.onChargingTimeChange', $this->onChargingTimeChange(...));
-        $this->webview->bindings->bind('boson.battery.onDischargingTimeChange', $this->onDischargingTimeChange(...));
+        $this->context->bindings->bind('boson.battery.onLevelChange', $this->onLevelChange(...));
+        $this->context->bindings->bind('boson.battery.onChargingChange', $this->onChargingChange(...));
+        $this->context->bindings->bind('boson.battery.onChargingTimeChange', $this->onChargingTimeChange(...));
+        $this->context->bindings->bind('boson.battery.onDischargingTimeChange', $this->onDischargingTimeChange(...));
     }
 
     /**
@@ -81,7 +94,7 @@ final class WebViewBattery extends WebViewApi implements BatteryApiInterface
      */
     private function registerDefaultClientEventListeners(): void
     {
-        $this->webview->scripts->add(<<<'JS'
+        $this->context->scripts->add(<<<'JS'
             document.addEventListener('levelchange', () => boson.battery.onLevelChange());
             document.addEventListener('chargingchange', () => boson.battery.onChargingChange());
             document.addEventListener('chargingtimechange', () => boson.battery.onChargingTimeChange());
@@ -94,7 +107,7 @@ final class WebViewBattery extends WebViewApi implements BatteryApiInterface
         $this->flushState();
 
         $this->dispatch(new BatteryLevelChanged(
-            subject: $this->webview,
+            subject: $this->context,
             level: $this->level,
         ));
     }
@@ -104,7 +117,7 @@ final class WebViewBattery extends WebViewApi implements BatteryApiInterface
         $this->flushState();
 
         $this->dispatch(new BatteryChargingStateChanged(
-            subject: $this->webview,
+            subject: $this->context,
             isCharging: $this->isCharging,
         ));
     }
@@ -114,7 +127,7 @@ final class WebViewBattery extends WebViewApi implements BatteryApiInterface
         $this->flushState();
 
         $this->dispatch(new BatteryChargingTimeChanged(
-            subject: $this->webview,
+            subject: $this->context,
             chargingTime: $this->chargingTime,
         ));
     }
@@ -124,7 +137,7 @@ final class WebViewBattery extends WebViewApi implements BatteryApiInterface
         $this->flushState();
 
         $this->dispatch(new BatteryDischargingTimeChanged(
-            subject: $this->webview,
+            subject: $this->context,
             dischargingTime: $this->dischargingTime,
         ));
     }
@@ -139,12 +152,12 @@ final class WebViewBattery extends WebViewApi implements BatteryApiInterface
      */
     private function get(): array
     {
-        if (!$this->webview->security->isSecureContext) {
+        if (!$this->context->security->isSecureContext) {
             throw InsecureBatteryContextException::becauseContextIsInsecure();
         }
 
         try {
-            if ($this->webview->data->get('navigator.getBattery instanceof Function') !== true) {
+            if ($this->context->data->get('navigator.getBattery instanceof Function') !== true) {
                 throw BatteryNotAvailableException::becauseBatteryNotAvailable();
             }
         } catch (WebViewIsNotReadyException $e) {
@@ -152,7 +165,7 @@ final class WebViewBattery extends WebViewApi implements BatteryApiInterface
         }
 
         /** @var BatteryInfoType */
-        return $this->webview->data->get('navigator.getBattery()
+        return $this->context->data->get('navigator.getBattery()
             .then((manager) => ({
                 level: manager.level,
                 charging: manager.charging,
