@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Boson\Bridge\Laravel\Http\Tests;
+namespace Boson\Bridge\Laravel\Provider\Tests;
 
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase as BaseTestCase;

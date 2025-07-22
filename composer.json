@@ -13,7 +13,7 @@
         "boson-php/cpu-info": "^0.15",
         "boson-php/globals-provider": "^0.15",
         "boson-php/http": "^0.15",
-        "boson-php/laravel-provider": "^0.13",
+        "boson-php/laravel-provider": "^0.15",
         "boson-php/http-body-decoder": "^0.15",
         "boson-php/http-bridge": "^0.15",
         "boson-php/http-contracts": "^0.15",

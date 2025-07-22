@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Boson\Bridge\Laravel\Provider;
 
-
 use Illuminate\Support\ServiceProvider;
 
 final class LaravelServiceProvider extends ServiceProvider
