@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Boson\Bridge\Spiral\Internal;
 
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Spiral\Core\Container;
 use Spiral\Core\Scope;
 
 /**
  * Exposes an ability to act in a specific Container scope without exiting the scope.
  *
- * @template TRequest of RequestInterface
+ * @template TRequest of ServerRequestInterface
  * @template-covariant TResponse of ResponseInterface
  *
  * @internal this is an internal library class, please do not use it in your code
@@ -37,12 +37,12 @@ final readonly class ScopeHandler
      *
      * @param Container $container core container
      * @param string|\BackedEnum|null $scope container scope name
-     * @param \Closure(mixed ...): (callable(TArgRequest): TArgResponse) $factory
+     * @param \Closure(mixed ...): (callable(TArgRequest): ?TArgResponse) $factory
      *        Handler factory that returns an instance of a handler.
      *        The {@see ScopeHandler} doesn't process exceptions from the
      *        handler, so you should handle them yourself.
      *
-     * @return static<TArgRequest, TArgResponse>
+     * @return self<TArgRequest, TArgResponse>
      * @throws \Throwable exception from the factory
      */
     public static function create(
@@ -93,17 +93,11 @@ final readonly class ScopeHandler
      *
      * @param TRequest $request the request object
      *
-     * @return TResponse the response object
+     * @return TResponse|null the response object
      * @throws \Throwable if an error occurs during request handling
      */
-    public function __invoke(RequestInterface $request): ResponseInterface
+    public function __invoke(ServerRequestInterface $request): ?ResponseInterface
     {
-        $response = $this->fiber->resume($request);
-
-        if ($response === null) {
-            throw new \LogicException('Could not process response');
-        }
-
-        return $response;
+        return $this->fiber->resume($request);
     }
 }

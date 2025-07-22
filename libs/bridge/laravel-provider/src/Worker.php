@@ -7,6 +7,7 @@ namespace Boson\Bridge\Laravel\Provider;
 use Boson\Application as Boson;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\View\Engines\EngineResolver;
 use Laravel\Octane\ApplicationFactory;
 use Laravel\Octane\ApplicationGateway;
 use Laravel\Octane\Contracts\Worker as WorkerContract;
@@ -31,6 +32,9 @@ class Worker implements WorkerContract
         private readonly Boson $boson,
     ) {}
 
+    /**
+     * @param array<string, mixed> $initialInstances
+     */
     public function boot(array $initialInstances = []): void
     {
         $this->app = $app = $this->appFactory->createApplication($initialInstances);
@@ -57,8 +61,12 @@ class Worker implements WorkerContract
         } finally {
             $sandbox->flush();
 
-            $this->app->make('view.engine.resolver')->forget('blade');
-            $this->app->make('view.engine.resolver')->forget('php');
+            $resolver = $this->app->make('view.engine.resolver');
+
+            if ($resolver instanceof EngineResolver) {
+                $resolver->forget('blade');
+                $resolver->forget('php');
+            }
 
             unset($gateway, $sandbox);
 
