@@ -50,9 +50,13 @@ final class HttpBootloader extends SpiralBootloader
 
         /**
          * @var callable(ServerRequestInterface): ResponseInterface $httpHandler
+         *
          * @phpstan-ignore-next-line : Known usage of internal enum case
          */
-        $httpHandler = ScopeHandler::create($container, Spiral::Http, static fn(
+        $httpHandler = ScopeHandler::create(
+            $container,
+            Spiral::Http,
+            static fn(
                 Http $http,
                 ExceptionHandlerInterface $exceptionHandler,
                 FinalizerInterface $finalizer,
