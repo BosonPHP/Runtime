@@ -14,7 +14,7 @@ use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Spiral\Boot\Bootloader\Bootloader as SpiralBootloader;
 use Spiral\Boot\FinalizerInterface;
-use Spiral\Bootloader\Http\HttpBootloader;
+use Spiral\Bootloader\Http\HttpBootloader as SpiralHttpBootloader;
 use Spiral\Core\BinderInterface;
 use Spiral\Core\Config\Inflector;
 use Spiral\Core\Container;
@@ -22,12 +22,12 @@ use Spiral\Exceptions\ExceptionHandlerInterface;
 use Spiral\Framework\Spiral;
 use Spiral\Http\Http;
 
-final class BosonHttpBootloader extends SpiralBootloader
+final class HttpBootloader extends SpiralBootloader
 {
     public function defineDependencies(): array
     {
         return [
-            HttpBootloader::class,
+            SpiralHttpBootloader::class,
         ];
     }
 

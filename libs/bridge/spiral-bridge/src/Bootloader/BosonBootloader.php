@@ -16,7 +16,7 @@ use Spiral\Core\BinderInterface;
 /**
  * Extend this class to create your own Boson application.
  */
-class Bootloader extends SpiralBootloader
+class BosonBootloader extends SpiralBootloader
 {
     /**
      * Feel free to override this method to disable or override the dependencies.
@@ -24,7 +24,10 @@ class Bootloader extends SpiralBootloader
     public function defineDependencies(): array
     {
         return [
-            BosonHttpBootloader::class,
+            // Console commands
+            CommandBootloader::class,
+            // HTTP handler
+            HttpBootloader::class,
         ];
     }
 
