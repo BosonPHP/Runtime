@@ -43,14 +43,24 @@ return [
     ],
 
     /**
-     * The URL to initialize the application.
+     * The start application URL.
      */
     'init-url' => 'http://localhost/',
 
     /**
-     * list of scheme names that the application will handle.
+     * Application create configuration.
      */
-    'schemes' => ['http'],
+    'application' => new \Boson\ApplicationCreateInfo(
+        schemes: ['http'],
+        debug: false,
+        window: new \Boson\Window\WindowCreateInfo(
+            title: 'My Application',
+            resizable: true,
+            webview: new \Boson\WebView\WebViewCreateInfo(
+                contextMenu: true,
+            ),
+        ),
+    ),
 ];
 ```
 

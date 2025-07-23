@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Boson\Bridge\Spiral\Config;
 
+use Boson\ApplicationCreateInfo;
 use Spiral\Core\InjectableConfig;
 
 final class BosonConfig extends InjectableConfig
@@ -15,8 +16,8 @@ final class BosonConfig extends InjectableConfig
      *
      * @var array{
      *     init-url: non-empty-string,
-     *     schemes: list<non-empty-string>,
-     *     static: list<non-empty-string>|non-empty-string
+     *     static: list<non-empty-string>|non-empty-string,
+     *     application: ApplicationCreateInfo|null,
      * }
      */
     protected array $config = [
@@ -31,9 +32,11 @@ final class BosonConfig extends InjectableConfig
         'init-url' => 'http://localhost/',
 
         /**
-         * list of scheme names that the application will handle.
+         * Application create configuration.
+         *
+         * @see getApplicationCreateInfo
          */
-        'schemes' => ['http'],
+        'application' => null,
     ];
 
     /**
@@ -56,13 +59,8 @@ final class BosonConfig extends InjectableConfig
         return $this->config['init-url'];
     }
 
-    /**
-     * List of scheme names that the application will handle.
-     *
-     * @return list<non-empty-string>
-     */
-    public function getSchemes(): array
+    public function getApplicationCreateInfo(): ApplicationCreateInfo
     {
-        return $this->config['schemes'];
+        return $this->config['application'] ?? new ApplicationCreateInfo();
     }
 }
