@@ -8,6 +8,7 @@ use Boson\Application;
 use Boson\ApplicationCreateInfo;
 use Boson\Bridge\Spiral\BosonScope;
 use Boson\Bridge\Spiral\Command\StartCommand;
+use Boson\Bridge\Spiral\Config\BosonConfig;
 use Boson\WebView\WebViewCreateInfo;
 use Boson\Window\WindowCreateInfo;
 use Spiral\Boot\Bootloader\Bootloader as SpiralBootloader;
@@ -47,11 +48,12 @@ class BosonBootloader extends SpiralBootloader
     /**
      * Feel free to override this method to customize the application.
      */
-    protected function createApplication(): Application
-    {
+    protected function createApplication(
+        BosonConfig $config,
+    ): Application {
         $app = new Application(
             new ApplicationCreateInfo(
-                schemes: ['http'],
+                schemes: $config->getSchemes(),
                 window: new WindowCreateInfo(
                     title: 'My Application',
                     webview: new WebViewCreateInfo(
@@ -61,7 +63,7 @@ class BosonBootloader extends SpiralBootloader
             ),
         );
 
-        $app->webview->url = 'http://localhost/';
+        $app->webview->url = $config->getInitUrl();
 
         return $app;
     }

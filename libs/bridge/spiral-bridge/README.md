@@ -41,8 +41,20 @@ return [
     'static' => [
         'app/public',
     ],
+
+    /**
+     * The URL to initialize the application.
+     */
+    'init-url' => 'http://localhost/',
+
+    /**
+     * list of scheme names that the application will handle.
+     */
+    'schemes' => ['http'],
 ];
 ```
+
+Add bootloader `BosonBootloader` to your Spiral application.
 
 ## Documentation
 
