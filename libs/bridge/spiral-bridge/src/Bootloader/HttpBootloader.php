@@ -76,6 +76,7 @@ final class HttpBootloader extends SpiralBootloader
 
                 if ($response !== null) {
                     $e->response = $psr7->createResponse($response);
+                    $e->stopPropagation();
                 }
             },
         );

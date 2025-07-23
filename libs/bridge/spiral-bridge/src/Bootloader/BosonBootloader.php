@@ -26,6 +26,8 @@ class BosonBootloader extends SpiralBootloader
         return [
             // Console commands
             CommandBootloader::class,
+            // Static file serving
+            StaticBootloader::class,
             // HTTP handler
             HttpBootloader::class,
         ];
