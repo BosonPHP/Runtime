@@ -24,6 +24,26 @@ be installed using the following command in the root of your project:
 composer require boson-php/spiral-bridge
 ```
 
+Create `boson.php` configuration file with the following content:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @see \Boson\Bridge\Spiral\Config\BosonConfig
+ */
+return [
+    /**
+     * List of directories to serve static files from.
+     */
+    'static' => [
+        'app/public',
+    ],
+];
+```
+
 ## Documentation
 
 - You can learn more [about what a Boson is](https://bosonphp.com/introduction.html).
