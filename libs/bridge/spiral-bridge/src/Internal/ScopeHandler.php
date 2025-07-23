@@ -35,7 +35,7 @@ final readonly class ScopeHandler
      *
      * @param Container $container core container
      * @param string|\BackedEnum|null $scope container scope name
-     * @param \Closure(mixed ...): (callable(TArgRequest): ?TArgResponse) $factory
+     * @param \Closure(mixed...): (\Closure(TArgRequest): TArgResponse) $factory
      *        Handler factory that returns an instance of a handler.
      *        The {@see ScopeHandler} doesn't process exceptions from the
      *        handler, so you should handle them yourself.
@@ -91,11 +91,12 @@ final readonly class ScopeHandler
      *
      * @param TRequest $request the request object
      *
-     * @return TResponse|null the response object
+     * @return TResponse the response object
      * @throws \Throwable if an error occurs during request handling
      */
     public function __invoke(mixed $request): mixed
     {
+        /** @var TResponse */
         return $this->fiber->resume($request);
     }
 }
