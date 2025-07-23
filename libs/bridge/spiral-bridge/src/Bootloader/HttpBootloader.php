@@ -24,6 +24,11 @@ use Spiral\Http\Http;
 
 final class HttpBootloader extends SpiralBootloader
 {
+    /**
+     * Temporary flag to prevent multiple listener registration.
+     */
+    private bool $registered = false;
+
     public function defineDependencies(): array
     {
         return [
@@ -35,14 +40,19 @@ final class HttpBootloader extends SpiralBootloader
     {
         $binder
             ->getBinder(BosonScope::Boson)
-            ->bind(Application::class, new Inflector($this->createApplication(...)));
+            ->bind(Application::class, new Inflector($this->registerHandler(...)));
     }
 
-    private function createApplication(
+    private function registerHandler(
         Application $app,
         ServerRequestFactoryInterface $factory,
         Container $container,
     ): Application {
+        if ($this->registered) {
+            return $app;
+        }
+
+        $this->registered = true;
         // Create PSR-7 HTTP adapter
         $psr7 = new Psr7HttpAdapter(
             requestFactory: $factory,
@@ -54,37 +64,49 @@ final class HttpBootloader extends SpiralBootloader
         $httpHandler = ScopeHandler::create(
             $container,
             $scope,
-            static fn(
-                Http $http,
-                ExceptionHandlerInterface $exceptionHandler,
-                FinalizerInterface $finalizer,
-            ) => static function (ServerRequestInterface $request) use (
-                $http,
-                $exceptionHandler,
-                $finalizer,
-            ): ?ResponseInterface {
-                try {
-                    return $http->handle($request);
-                } catch (\Throwable $e) {
-                    $exceptionHandler->report($e);
+            self::handlerFactory(...),
+        );
 
-                    return null;
-                } finally {
-                    $finalizer->finalize();
+        // Subscribe to receive a request
+        $app->addEventListener(
+            SchemeRequestReceived::class,
+            static function (SchemeRequestReceived $e) use ($psr7, $httpHandler): void {
+                $request = $psr7->createRequest($e->request);
+                $response = $httpHandler($request);
+
+                if ($response !== null) {
+                    $e->response = $psr7->createResponse($response);
                 }
             },
         );
 
-        // Subscribe to receive a request
-        $app->on(static function (SchemeRequestReceived $e) use ($psr7, $httpHandler): void {
-            $request = $psr7->createRequest($e->request);
-            $response = $httpHandler($request);
-
-            if ($response !== null) {
-                $e->response = $psr7->createResponse($response);
-            }
-        });
-
         return $app;
+    }
+
+    /**
+     * Creates a handler for the HTTP requests.
+     *
+     * @return \Closure(ServerRequestInterface): (ResponseInterface|null)
+     */
+    private static function handlerFactory(
+        Http $http,
+        ExceptionHandlerInterface $exceptionHandler,
+        FinalizerInterface $finalizer,
+    ): \Closure {
+        return static function (ServerRequestInterface $request) use (
+            $http,
+            $exceptionHandler,
+            $finalizer,
+        ): ?ResponseInterface {
+            try {
+                return $http->handle($request);
+            } catch (\Throwable $e) {
+                $exceptionHandler->report($e);
+
+                return null;
+            } finally {
+                $finalizer->finalize();
+            }
+        };
     }
 }
