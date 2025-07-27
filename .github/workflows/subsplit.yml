@@ -62,6 +62,8 @@ jobs:
             split_repository: 'http-contracts'
           - local_path: 'contracts/id-contracts'
             split_repository: 'id-contracts'
+          - local_path: 'contracts/uri-contracts'
+            split_repository: 'uri-contracts'
           - local_path: 'contracts/value-object-contracts'
             split_repository: 'value-object-contracts'
     steps:

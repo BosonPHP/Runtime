@@ -42,6 +42,7 @@ parameters:
     - libs/contracts/event-listener-contracts/src
     - libs/contracts/http-contracts/src
     - libs/contracts/id-contracts/src
+    - libs/contracts/uri-contracts/src
     - libs/contracts/value-object-contracts/src
   excludePaths:
     - libs/component/os-info/src/Vendor/Factory/Win32/Advapi32.php

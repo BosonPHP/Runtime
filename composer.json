@@ -30,6 +30,7 @@
         "boson-php/event-listener-contracts": "^0.15",
         "boson-php/http-contracts": "^0.15",
         "boson-php/id-contracts": "^0.15",
+        "boson-php/uri-contracts": "^0.15",
         "boson-php/value-object-contracts": "^0.15"
     },
     "require-dev": {
@@ -65,6 +66,7 @@
             "Boson\\Contracts\\EventListener\\Tests\\": "libs/contracts/event-listener-contracts/tests",
             "Boson\\Contracts\\Http\\Tests\\": "libs/contracts/http-contracts/tests",
             "Boson\\Contracts\\Id\\Tests\\": "libs/contracts/id-contracts/tests",
+            "Boson\\Contracts\\Uri\\Tests\\": "libs/contracts/uri-contracts/tests",
             "Boson\\Contracts\\ValueObject\\Tests\\": "libs/contracts/value-object-contracts/tests"
         }
     },
