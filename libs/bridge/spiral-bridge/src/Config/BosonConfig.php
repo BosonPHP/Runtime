@@ -9,6 +9,9 @@ use Spiral\Core\InjectableConfig;
 
 final class BosonConfig extends InjectableConfig
 {
+    /**
+     * @var non-empty-string
+     */
     public const CONFIG = 'boson';
 
     /**
@@ -18,7 +21,10 @@ final class BosonConfig extends InjectableConfig
      *     init-url: non-empty-string,
      *     static: list<non-empty-string>|non-empty-string,
      *     application: ApplicationCreateInfo|null,
+     *     ...
      * }
+     *
+     * @phpstan-ignore-next-line : Invalid 3rd party phpdoc override
      */
     protected array $config = [
         /**

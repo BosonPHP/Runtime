@@ -64,6 +64,7 @@ final class HttpBootloader extends SpiralBootloader
         $httpHandler = ScopeHandler::create(
             $container,
             $scope,
+            /** @phpstan-ignore-next-line : Known suppressed issue */
             self::handlerFactory(...),
         );
 
