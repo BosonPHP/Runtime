@@ -23,8 +23,8 @@ interface SchemeInterface extends StringValueObjectInterface
      *
      * Scheme names consist of a sequence of characters beginning with a
      * letter and followed by any combination of letters, digits, plus
-     * ("+"), period ("."), or hyphen ("-"). Although schemes are case-
-     * insensitive, the canonical form is lowercase and documents that
+     * ("+"), period ("."), or hyphen ("-"). Although schemes are
+     * case-insensitive, the canonical form is lowercase and documents that
      * specify schemes must do so with lowercase letters. An implementation
      * should accept uppercase letters as equivalent to lowercase in scheme
      * names (e.g., allow "HTTP" as well as "http") for the sake of

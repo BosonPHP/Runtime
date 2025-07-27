@@ -15,7 +15,7 @@ use Boson\Contracts\ValueObject\StringValueObjectInterface;
 interface AuthorityInterface extends StringValueObjectInterface
 {
     /**
-     * The userinfo subcomponent may consist of a user name and, optionally,
+     * The userinfo subcomponent may consist of a username and, optionally,
      * scheme-specific information about how to gain authorization to access
      * the resource. The user information, if present, is followed by a
      * commercial at-sign (`@`) that delimits it from the host.
@@ -33,8 +33,8 @@ interface AuthorityInterface extends StringValueObjectInterface
 
     /**
      * The host subcomponent of authority is identified by an IP literal
-     * encapsulated within square brackets, an IPv4 address in dotted-
-     * decimal form, or a registered name.
+     * encapsulated within square brackets, an IPv4 address in
+     * dotted-decimal form, or a registered name.
      *
      * ```
      * abc://user:pass@example.com:123/path/data?k=val&k2=val2#frag
