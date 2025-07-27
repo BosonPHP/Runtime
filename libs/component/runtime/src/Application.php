@@ -8,6 +8,7 @@ use Boson\Api\ApplicationExtension;
 use Boson\Api\Dialog\ApplicationDialog;
 use Boson\Api\DialogApiInterface;
 use Boson\Contracts\EventListener\EventListenerInterface;
+use Boson\Contracts\Id\IdentifiableInterface;
 use Boson\Dispatcher\DelegateEventListener;
 use Boson\Dispatcher\EventListener;
 use Boson\Dispatcher\EventListenerProvider;
@@ -36,9 +37,11 @@ use FFI\CData;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 /**
- * @api
+ * @template-implements IdentifiableInterface<ApplicationId>
  */
-final class Application implements EventListenerInterface
+final class Application implements
+    IdentifiableInterface,
+    EventListenerInterface
 {
     use EventListenerProvider;
 

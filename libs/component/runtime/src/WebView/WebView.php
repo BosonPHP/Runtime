@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Boson\WebView;
 
 use Boson\Contracts\EventListener\EventListenerInterface;
+use Boson\Contracts\Id\IdentifiableInterface;
 use Boson\Dispatcher\DelegateEventListener;
 use Boson\Dispatcher\EventListener;
 use Boson\Dispatcher\EventListenerProvider;
@@ -35,7 +36,12 @@ use Boson\Window\WindowId;
 use JetBrains\PhpStorm\Language;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
-final class WebView implements EventListenerInterface
+/**
+ * @template-implements IdentifiableInterface<WebViewId>
+ */
+final class WebView implements
+    IdentifiableInterface,
+    EventListenerInterface
 {
     use EventListenerProvider;
 

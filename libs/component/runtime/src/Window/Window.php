@@ -6,6 +6,7 @@ namespace Boson\Window;
 
 use Boson\Application;
 use Boson\Contracts\EventListener\EventListenerInterface;
+use Boson\Contracts\Id\IdentifiableInterface;
 use Boson\Dispatcher\DelegateEventListener;
 use Boson\Dispatcher\EventListener;
 use Boson\Dispatcher\EventListenerProvider;
@@ -28,9 +29,11 @@ use FFI\CData;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 /**
- * @api
+ * @template-implements IdentifiableInterface<WindowId>
  */
-final class Window implements EventListenerInterface
+final class Window implements
+    IdentifiableInterface,
+    EventListenerInterface
 {
     use EventListenerProvider;
 

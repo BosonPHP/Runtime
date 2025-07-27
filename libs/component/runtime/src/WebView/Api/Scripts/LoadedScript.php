@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Boson\WebView\Api\Scripts;
 
+use Boson\Contracts\Id\IdentifiableInterface;
 use Boson\Internal\Saucer\LibSaucer;
 use JetBrains\PhpStorm\Language;
 
-final readonly class LoadedScript implements \Stringable
+final readonly class LoadedScript implements
+    IdentifiableInterface,
+    \Stringable
 {
     public function __construct(
         private LibSaucer $api,

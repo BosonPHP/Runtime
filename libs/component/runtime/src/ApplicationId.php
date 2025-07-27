@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Boson;
 
 use Boson\Internal\Saucer\LibSaucer;
-use Boson\Shared\ValueObject\Id\StructPointerId;
+use Boson\Internal\StructPointerId;
 use FFI\CData;
 
 final readonly class ApplicationId extends StructPointerId

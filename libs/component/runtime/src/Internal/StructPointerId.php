@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Boson\Shared\ValueObject\Id;
+namespace Boson\Internal;
 
 use Boson\Contracts\Id\IntIdInterface;
 use Boson\Internal\Saucer\LibSaucer;

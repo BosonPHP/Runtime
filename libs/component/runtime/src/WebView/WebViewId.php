@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Boson\WebView;
 
-use Boson\Shared\ValueObject\Id\StructPointerId;
+use Boson\Internal\StructPointerId;
 use Boson\Window\WindowId;
 
 final readonly class WebViewId extends StructPointerId
