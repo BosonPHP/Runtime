@@ -1,0 +1,14 @@
+<?php
+
+namespace Boson\Component\Uri\Component\Scheme {
+
+    const HTTP = new StandardScheme('http', 80);
+    const HTTPS = new StandardScheme('https', 443);
+    const DATA = new StandardScheme('data');
+    const FILE = new StandardScheme('file');
+    const FTP = new StandardScheme('ftp', 21);
+    const GOPHER = new StandardScheme('gopher', 70);
+    const WS = new StandardScheme('ws', 80);
+    const WSS = new StandardScheme('wss', 443);
+
+}

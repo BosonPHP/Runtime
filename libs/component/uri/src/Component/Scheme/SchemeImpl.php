@@ -21,6 +21,7 @@ trait SchemeImpl
      */
     public function __construct(string $name)
     {
+        /** @phpstan-ignore-next-line : The "$name" property may be defined through trait's alias */
         $this->name = \strtolower($name);
     }
 
