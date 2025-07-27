@@ -119,9 +119,9 @@ final class CompatibilityTest extends TestCase
 
             public function get(string $key, ?string $default = null): ?string {}
 
-            public function int(string $key, ?int $default = null): ?int {}
+            public function getAsInt(string $key, ?int $default = null): ?int {}
 
-            public function array(string $key, array $default = []): array {}
+            public function getAsArray(string $key, array $default = []): array {}
 
             public function toArray(): array {}
 
