@@ -22,6 +22,7 @@ $files = PhpCsFixer\Finder::create()
         __DIR__ . '/libs/component/runtime/src',
         __DIR__ . '/libs/component/weak-types/src',
         // Contracts
+        __DIR__ . '/libs/contracts/event-listener-contracts/src',
         __DIR__ . '/libs/contracts/http-contracts/src',
     ])
     ->filter(static fn (\SplFileInfo $file): bool
