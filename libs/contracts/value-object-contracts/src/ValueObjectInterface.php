@@ -12,7 +12,7 @@ interface ValueObjectInterface extends \Stringable
     /**
      * Checks if the current value is equal to another value object.
      *
-     * @param mixed $other The value to compare with.
+     * @param mixed $other the value to compare with
      */
     public function equals(mixed $other): bool;
 

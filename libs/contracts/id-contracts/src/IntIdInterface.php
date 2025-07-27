@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Boson\Shared\ValueObject\Id;
+namespace Boson\Contracts\Id;
 
 use Boson\Contracts\ValueObject\IntValueObjectInterface;
 
 /**
- * Representation of all int-like identifiers.
+ * Representation of all int-like identifiers
  *
  * Note: All {@see int} identifiers also supports {@see string}
- *       representation features.
+ *       representation features
  *
  * @template-covariant T of int = int
  *

@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Boson\Contracts\ValueObject\Tests;
+namespace Boson\Contracts\Id\Tests;
 
-use Boson\Contracts\ValueObject\ValueObjectInterface;
-use Boson\Contracts\ValueObject\StringValueObjectInterface;
-use Boson\Contracts\ValueObject\IntValueObjectInterface;
+use Boson\Contracts\Id\IdInterface;
+use Boson\Contracts\Id\StringIdInterface;
+use Boson\Contracts\Id\IntIdInterface;
+use Boson\Contracts\Id\IdentifiableInterface;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -14,13 +15,13 @@ use PHPUnit\Framework\Attributes\Group;
  * Note: Changing the behavior of these tests is allowed ONLY when updating
  *       a MAJOR version of the package.
  */
-#[Group('boson-php/value-object-contracts')]
+#[Group('boson-php/id-contracts')]
 final class CompatibilityTest extends TestCase
 {
     #[DoesNotPerformAssertions]
-    public function testValueObjectInterfaceCompatibility(): void
+    public function testIdInterfaceCompatibility(): void
     {
-        new class implements ValueObjectInterface {
+        new class implements IdInterface {
             public function equals(mixed $other): bool {}
 
             public function __toString(): string {}
@@ -28,9 +29,9 @@ final class CompatibilityTest extends TestCase
     }
 
     #[DoesNotPerformAssertions]
-    public function testStringValueObjectInterfaceCompatibility(): void
+    public function testStringIdInterfaceCompatibility(): void
     {
-        new class implements StringValueObjectInterface {
+        new class implements StringIdInterface {
             public function equals(mixed $other): bool {}
 
             public function __toString(): string {}
@@ -40,9 +41,9 @@ final class CompatibilityTest extends TestCase
     }
 
     #[DoesNotPerformAssertions]
-    public function testIntValueObjectInterfaceCompatibility(): void
+    public function testIntIdInterfaceCompatibility(): void
     {
-        new class implements IntValueObjectInterface {
+        new class implements IntIdInterface {
             public function equals(mixed $other): bool {}
 
             public function __toString(): string {}
@@ -50,6 +51,16 @@ final class CompatibilityTest extends TestCase
             public function toString(): string {}
 
             public function toInteger(): int {}
+        };
+    }
+
+    #[DoesNotPerformAssertions]
+    public function testIdentifiableInterfaceCompatibility(): void
+    {
+        new class implements IdentifiableInterface {
+            public IdInterface $id {
+                get {}
+            }
         };
     }
 }

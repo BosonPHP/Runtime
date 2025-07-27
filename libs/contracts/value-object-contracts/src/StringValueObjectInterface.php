@@ -8,8 +8,6 @@ namespace Boson\Contracts\ValueObject;
  * Represents string value object types.
  *
  * @template-covariant T of string = string
- *
- * @template-extends ValueObjectInterface<T>
  */
 interface StringValueObjectInterface extends ValueObjectInterface
 {

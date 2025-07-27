@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Boson\Shared\ValueObject\Id;
+namespace Boson\Contracts\Id;
 
 use Boson\Contracts\ValueObject\StringValueObjectInterface;
 
 /**
- * Representation of all string-like identifiers.
+ * Representation of all string-like identifiers
+ *
+ * @template-extends StringValueObjectInterface<string>
  */
 interface StringIdInterface extends
     StringValueObjectInterface,
