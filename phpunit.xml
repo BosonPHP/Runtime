@@ -27,6 +27,7 @@
             <directory>libs/component/http-static-provider/tests</directory>
             <directory>libs/component/os-info/tests</directory>
             <directory>libs/component/pasm/tests</directory>
+            <directory>libs/component/uri/tests</directory>
             <directory>libs/component/runtime/tests</directory>
             <directory>libs/component/weak-types/tests</directory>
         </testsuite>
@@ -62,6 +63,7 @@
             <directory>libs/component/os-info/src</directory>
             <directory>libs/component/pasm/src</directory>
             <directory>libs/component/runtime/src</directory>
+            <directory>libs/component/uri/src</directory>
             <directory>libs/component/weak-types/src</directory>
             <!-- contracts -->
             <directory>libs/contracts/event-listener-contracts/src</directory>
