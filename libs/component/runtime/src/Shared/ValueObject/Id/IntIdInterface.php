@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Boson\Shared\ValueObject\Id;
 
-use Boson\Shared\ValueObject\IntValueObjectInterface;
+use Boson\Contracts\ValueObject\IntValueObjectInterface;
 
 /**
  * Representation of all int-like identifiers.

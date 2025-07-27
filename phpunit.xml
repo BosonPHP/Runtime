@@ -33,6 +33,7 @@
         <testsuite name="contracts">
             <directory>libs/contracts/event-listener-contracts/tests</directory>
             <directory>libs/contracts/http-contracts/tests</directory>
+            <directory>libs/contracts/value-object-contracts/tests</directory>
         </testsuite>
     </testsuites>
 
@@ -62,6 +63,7 @@
             <!-- contracts -->
             <directory>libs/contracts/event-listener-contracts/src</directory>
             <directory>libs/contracts/http-contracts/src</directory>
+            <directory>libs/contracts/value-object-contracts/src</directory>
         </include>
     </source>
 

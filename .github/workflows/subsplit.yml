@@ -60,6 +60,8 @@ jobs:
             split_repository: 'event-listener-contracts'
           - local_path: 'contracts/http-contracts'
             split_repository: 'http-contracts'
+          - local_path: 'contracts/value-object-contracts'
+            split_repository: 'value-object-contracts'
     steps:
       - uses: actions/checkout@v4
 

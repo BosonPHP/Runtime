@@ -50,10 +50,10 @@ abstract readonly class StructPointerId implements IntIdInterface
         return (string) $this->id;
     }
 
-    public function equals(mixed $object): bool
+    public function equals(mixed $other): bool
     {
-        return $object === $this
-            || ($object instanceof self && $this->id === $object->id);
+        return $other === $this
+            || ($other instanceof self && $this->id === $other->id);
     }
 
     public function __serialize(): array
