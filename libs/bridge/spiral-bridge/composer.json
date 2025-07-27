@@ -54,6 +54,9 @@
         "optimize-autoloader": true,
         "preferred-install": {
             "*": "dist"
+        },
+        "allow-plugins": {
+            "spiral/composer-publish-plugin": false
         }
     },
     "minimum-stability": "dev",
