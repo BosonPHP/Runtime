@@ -61,7 +61,7 @@ final readonly class Path implements PathInterface, \IteratorAggregate
         $result = [];
 
         foreach ($this->segments as $segment) {
-            $result[] = \urlencode($segment);
+            $result[] = \rawurlencode($segment);
         }
 
         return self::SEGMENT_DELIMITER

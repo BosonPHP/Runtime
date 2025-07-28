@@ -113,9 +113,9 @@ final class Query implements QueryInterface, \IteratorAggregate
         $result = [];
 
         foreach ($this as $key => $value) {
-            $result[] = \urlencode($key)
+            $result[] = \rawurlencode((string) $key)
                 . self::QUERY_PARAMETER_VALUE_DELIMITER
-                . \urlencode($value);
+                . \rawurlencode((string) $value);
         }
 
         return \implode(self::QUERY_PARAMETER_DELIMITER, $result);

@@ -129,7 +129,7 @@ final class Uri implements UriInterface
         }
 
         if ($this->fragment !== null) {
-            $result .= self::URI_FRAGMENT_PREFIX . \urlencode($this->fragment);
+            $result .= self::URI_FRAGMENT_PREFIX . \rawurlencode($this->fragment);
         }
 
         return $result;
