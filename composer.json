@@ -70,6 +70,7 @@
             "Boson\\Contracts\\Http\\Tests\\": "libs/contracts/http-contracts/tests",
             "Boson\\Contracts\\Id\\Tests\\": "libs/contracts/id-contracts/tests",
             "Boson\\Contracts\\Uri\\Tests\\": "libs/contracts/uri-contracts/tests",
+            "Boson\\Contracts\\Uri\\Factory\\Tests\\": "libs/contracts/uri-factory-contracts/tests",
             "Boson\\Contracts\\ValueObject\\Tests\\": "libs/contracts/value-object-contracts/tests"
         }
     },
