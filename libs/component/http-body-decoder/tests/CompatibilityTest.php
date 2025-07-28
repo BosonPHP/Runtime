@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Boson\Component\Http\Body\Tests;
 
-use Boson\Component\Http\Tests\TestCase;
 use Boson\Contracts\Http\Body\BodyProviderInterface;
 use Boson\Contracts\Http\Body\MutableBodyProviderInterface;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
