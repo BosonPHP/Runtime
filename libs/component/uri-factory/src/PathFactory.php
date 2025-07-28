@@ -16,7 +16,11 @@ final readonly class PathFactory implements PathFactoryInterface
 
     public function createPathFromString(string $path): Path
     {
-        return new Path(self::segments($path));
+        return new Path(
+            segments: self::segments($path),
+            isAbsolute: \str_starts_with($path, '/'),
+            hasTrailingSlash: $path !== '/' && \str_ends_with($path, '/'),
+        );
     }
 
     /**

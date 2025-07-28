@@ -26,8 +26,11 @@ final readonly class Path implements PathInterface, \IteratorAggregate
     /**
      * @param iterable<mixed, non-empty-string> $segments
      */
-    public function __construct(iterable $segments = [])
-    {
+    public function __construct(
+        iterable $segments = [],
+        public bool $isAbsolute = true,
+        public bool $hasTrailingSlash = false,
+    ) {
         $this->segments = \iterator_to_array($segments, false);
     }
 
@@ -58,13 +61,22 @@ final readonly class Path implements PathInterface, \IteratorAggregate
 
     public function __toString(): string
     {
-        $result = [];
+        $segments = [];
 
         foreach ($this->segments as $segment) {
-            $result[] = \rawurlencode($segment);
+            $segments[] = \rawurlencode($segment);
         }
 
-        return self::PATH_SEGMENT_DELIMITER
-            . \implode(self::PATH_SEGMENT_DELIMITER, $result);
+        $path = \implode(self::PATH_SEGMENT_DELIMITER, $segments);
+
+        if ($this->isAbsolute) {
+            $path = self::PATH_SEGMENT_DELIMITER . $path;
+        }
+
+        if ($segments !== [] && $this->hasTrailingSlash) {
+            $path .= self::PATH_SEGMENT_DELIMITER;
+        }
+
+        return $path;
     }
 }

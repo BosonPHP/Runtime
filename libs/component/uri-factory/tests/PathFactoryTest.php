@@ -30,14 +30,14 @@ final class PathFactoryTest extends TestCase
     {
         $path = $this->factory->createPathFromString('');
 
-        self::assertSame('/', $path->toString());
+        self::assertSame('', $path->toString());
     }
 
     public function testCreatePathFromStringWithMultipleDelimiters(): void
     {
         $path = $this->factory->createPathFromString('///a//b///c/');
 
-        self::assertSame('/a/b/c', $path->toString());
+        self::assertSame('/a/b/c/', $path->toString());
     }
 
     public function testCreatePathFromStringWithEncodedSegments(): void

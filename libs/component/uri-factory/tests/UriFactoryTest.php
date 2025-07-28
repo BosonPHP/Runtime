@@ -50,7 +50,7 @@ final class UriFactoryTest extends TestCase
 
         self::assertNull($uri->scheme);
         self::assertNull($uri->authority);
-        self::assertSame('/%21%40', $uri->path->toString());
+        self::assertSame('%21%40', $uri->path->toString());
         self::assertSame('', $uri->query->toString());
         self::assertSame('$%^&*()', $uri->fragment);
     }

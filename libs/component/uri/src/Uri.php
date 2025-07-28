@@ -119,7 +119,8 @@ final class Uri implements UriInterface
         }
 
         if ($this->authority !== null) {
-            $result .= self::URI_AUTHORITY_PREFIX . $this->authority;
+            $result .= self::URI_AUTHORITY_PREFIX
+                . $this->authority;
         }
 
         $result .= $this->path;
