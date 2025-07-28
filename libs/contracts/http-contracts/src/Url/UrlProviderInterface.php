@@ -10,7 +10,7 @@ namespace Boson\Contracts\Http\Url;
 interface UrlProviderInterface
 {
     /**
-     * Gets URI string of the this instance.
+     * Gets URI string of this instance.
      *
      * @var UrlOutputType
      */
