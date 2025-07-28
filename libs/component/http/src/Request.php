@@ -30,7 +30,7 @@ use Boson\Contracts\Http\Url\UrlProviderInterface;
  * @phpstan-import-type BodyInputType from MutableBodyProviderInterface
  * @phpstan-import-type BodyOutputType from BodyProviderInterface
  */
-final readonly class Request implements RequestInterface
+class Request implements RequestInterface
 {
     use MethodProviderImpl;
     use UrlProviderImpl;
