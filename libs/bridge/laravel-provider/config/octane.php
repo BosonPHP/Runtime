@@ -37,7 +37,6 @@ return [
         ],
 
         RequestHandled::class => [
-            //
         ],
 
         RequestTerminated::class => [
@@ -46,20 +45,16 @@ return [
 
         TaskReceived::class => [
             ...Octane::prepareApplicationForNextOperation(),
-            //
         ],
 
         TaskTerminated::class => [
-            //
         ],
 
         TickReceived::class => [
             ...Octane::prepareApplicationForNextOperation(),
-            //
         ],
 
         TickTerminated::class => [
-            //
         ],
 
         OperationTerminated::class => [

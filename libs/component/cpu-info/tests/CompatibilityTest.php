@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Boson\Component\CpuInfo\Tests;
 
-use Boson\Component\CpuInfo\ArchitectureInterface;
-use Boson\Component\CpuInfo\InstructionSetInterface;
-use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\DetectorInterface;
 use Boson\Component\CpuInfo\Architecture\Factory\ArchitectureFactoryInterface;
+use Boson\Component\CpuInfo\ArchitectureInterface;
+use Boson\Component\CpuInfo\CentralProcessor;
+use Boson\Component\CpuInfo\Factory\CentralProcessorFactoryInterface;
+use Boson\Component\CpuInfo\InstructionSet\Factory\CpuId\DetectorInterface;
 use Boson\Component\CpuInfo\InstructionSet\Factory\InstructionSetFactoryInterface;
 use Boson\Component\CpuInfo\InstructionSet\Factory\OptionalInstructionSetFactoryInterface;
-use Boson\Component\CpuInfo\Factory\CentralProcessorFactoryInterface;
+use Boson\Component\CpuInfo\InstructionSetInterface;
 use Boson\Component\CpuInfo\Vendor\Factory\VendorFactoryInterface;
-use Boson\Component\Pasm\ExecutorInterface;
-use Boson\Component\CpuInfo\CentralProcessor;
 use Boson\Component\CpuInfo\Vendor\VendorInfo;
+use Boson\Component\Pasm\ExecutorInterface;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -35,7 +35,9 @@ final class CompatibilityTest extends TestCase
             public ?ArchitectureInterface $parent {
                 get {}
             }
+
             public function is(ArchitectureInterface $arch): bool {}
+
             public function __toString(): string {}
         };
     }
@@ -47,6 +49,7 @@ final class CompatibilityTest extends TestCase
             public string $name {
                 get {}
             }
+
             public function __toString(): string {}
         };
     }
@@ -56,6 +59,7 @@ final class CompatibilityTest extends TestCase
     {
         new class implements DetectorInterface {
             public function isSupported(ArchitectureInterface $arch): bool {}
+
             public function detect(ExecutorInterface $executor): ?InstructionSetInterface {}
         };
     }

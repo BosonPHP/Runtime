@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Boson\Contracts\ValueObject\Tests;
 
-use Boson\Contracts\ValueObject\ValueObjectInterface;
-use Boson\Contracts\ValueObject\StringValueObjectInterface;
 use Boson\Contracts\ValueObject\IntValueObjectInterface;
+use Boson\Contracts\ValueObject\StringValueObjectInterface;
+use Boson\Contracts\ValueObject\ValueObjectInterface;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\Attributes\Group;
 

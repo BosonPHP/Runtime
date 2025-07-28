@@ -22,4 +22,4 @@ final class CompatibilityTest extends TestCase
             public function compile(string $signature, string $code): callable {}
         };
     }
-} 
+}

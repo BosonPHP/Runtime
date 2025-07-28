@@ -23,4 +23,4 @@ final class CompatibilityTest extends TestCase
             public function getServerGlobals(RequestInterface $request): array {}
         };
     }
-} 
+}

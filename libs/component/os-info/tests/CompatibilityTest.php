@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Boson\Component\OsInfo\Tests;
 
-use Boson\Component\OsInfo\StandardInterface;
 use Boson\Component\OsInfo\FamilyInterface;
+use Boson\Component\OsInfo\StandardInterface;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -26,7 +26,9 @@ final class CompatibilityTest extends TestCase
             public ?StandardInterface $parent {
                 get {}
             }
+
             public function isSupports(StandardInterface $standard): bool {}
+
             public function __toString(): string {}
         };
     }
@@ -41,8 +43,10 @@ final class CompatibilityTest extends TestCase
             public ?FamilyInterface $parent {
                 get {}
             }
+
             public function is(FamilyInterface $family): bool {}
+
             public function __toString(): string {}
         };
     }
-} 
+}

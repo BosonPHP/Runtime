@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Boson\Contracts\Id\Tests;
 
-use Boson\Contracts\Id\IdInterface;
-use Boson\Contracts\Id\StringIdInterface;
-use Boson\Contracts\Id\IntIdInterface;
 use Boson\Contracts\Id\IdentifiableInterface;
+use Boson\Contracts\Id\IdInterface;
+use Boson\Contracts\Id\IntIdInterface;
+use Boson\Contracts\Id\StringIdInterface;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\Attributes\Group;
 

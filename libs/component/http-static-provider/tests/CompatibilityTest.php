@@ -24,4 +24,4 @@ final class CompatibilityTest extends TestCase
             public function findFileByRequest(RequestInterface $request): ?ResponseInterface {}
         };
     }
-} 
+}

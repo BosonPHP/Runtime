@@ -9,7 +9,6 @@ use FFI\CType;
 
 /**
  * @mixin \FFI
- *
  * @seal-properties
  * @seal-methods
  */

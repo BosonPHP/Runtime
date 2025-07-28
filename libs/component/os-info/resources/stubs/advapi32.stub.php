@@ -9,7 +9,6 @@ use FFI\CType;
 
 /**
  * @mixin \FFI
- *
  * @seal-properties
  * @seal-methods
  *
@@ -36,6 +35,7 @@ final readonly class Advapi32
      * @param UInt32PointerType|null $pdwType
      * @param VoidPointerType|null $pvData
      * @param UInt32PointerType|null $pcbData
+     *
      * @return int<-2147483648, 2147483647>
      */
     public function RegGetValueA(

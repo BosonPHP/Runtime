@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Boson\Contracts\Uri\Factory\Tests;
 
-use Boson\Contracts\Uri\Factory\UriFactoryInterface;
-use Boson\Contracts\Uri\Factory\SchemeFactoryInterface;
-use Boson\Contracts\Uri\Factory\QueryFactoryInterface;
-use Boson\Contracts\Uri\Factory\PathFactoryInterface;
-use Boson\Contracts\Uri\UriInterface;
-use Boson\Contracts\Uri\Component\SchemeInterface;
-use Boson\Contracts\Uri\Component\QueryInterface;
 use Boson\Contracts\Uri\Component\PathInterface;
+use Boson\Contracts\Uri\Component\QueryInterface;
+use Boson\Contracts\Uri\Component\SchemeInterface;
+use Boson\Contracts\Uri\Factory\PathFactoryInterface;
+use Boson\Contracts\Uri\Factory\QueryFactoryInterface;
+use Boson\Contracts\Uri\Factory\SchemeFactoryInterface;
+use Boson\Contracts\Uri\Factory\UriFactoryInterface;
+use Boson\Contracts\Uri\UriInterface;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -53,4 +53,4 @@ final class CompatibilityTest extends TestCase
             public function createPathFromString(string $path): PathInterface {}
         };
     }
-} 
+}
