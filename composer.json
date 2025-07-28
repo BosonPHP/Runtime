@@ -27,6 +27,7 @@
         "boson-php/pasm": "^0.15",
         "boson-php/runtime": "^0.15",
         "boson-php/uri": "^0.15",
+        "boson-php/uri-factory": "^0.15",
         "boson-php/weak-types": "^0.15",
         "boson-php/event-listener-contracts": "^0.15",
         "boson-php/http-contracts": "^0.15",

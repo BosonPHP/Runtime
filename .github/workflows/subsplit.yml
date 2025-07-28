@@ -55,6 +55,8 @@ jobs:
             split_repository: 'runtime'
           - local_path: 'component/uri'
             split_repository: 'uri'
+          - local_path: 'component/uri-factory'
+            split_repository: 'uri-factory'
           - local_path: 'component/weak-types'
             split_repository: 'weak-types'
           # Contracts

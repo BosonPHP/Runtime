@@ -39,6 +39,7 @@ parameters:
     - libs/component/pasm/src
     - libs/component/runtime/src
     - libs/component/uri/src
+    - libs/component/uri-factory/src
     - libs/component/weak-types/src
     # Contracts
     - libs/contracts/event-listener-contracts/src
