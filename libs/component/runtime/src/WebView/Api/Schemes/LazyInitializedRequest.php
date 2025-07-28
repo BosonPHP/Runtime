@@ -77,8 +77,8 @@ final class LazyInitializedRequest implements RequestInterface
      */
     private function fetchRawHeadersIterable(): iterable
     {
-        $names = $this->api->new('char[32][256]');
-        $values = $this->api->new('char[32][4096]');
+        $names = $this->api->new('char**');
+        $values = $this->api->new('char**');
         $count = $this->api->new('size_t');
 
         $this->api->saucer_scheme_request_headers(
@@ -96,7 +96,13 @@ final class LazyInitializedRequest implements RequestInterface
                 /** @phpstan-ignore-next-line : PHPStan false-positive */
                 yield $header => \FFI::string($values[$i]);
             }
+
+            $this->api->saucer_memory_free($names[$i]);
+            $this->api->saucer_memory_free($values[$i]);
         }
+
+        $this->api->saucer_memory_free($names);
+        $this->api->saucer_memory_free($values);
     }
 
     private function fetchRawBodyString(): string
