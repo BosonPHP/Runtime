@@ -12,5 +12,5 @@ interface QueryFactoryInterface
      * Creates a new {@see QueryInterface} instance from
      * passed {@see string} argument.
      */
-    public function createQueryFromString(string $query): QueryInterface;
+    public function createQueryFromString(string|\Stringable $query): QueryInterface;
 }

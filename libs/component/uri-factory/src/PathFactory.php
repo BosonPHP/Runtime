@@ -14,8 +14,12 @@ final readonly class PathFactory implements PathFactoryInterface
      */
     private const string SEGMENT_DELIMITER = Path::PATH_SEGMENT_DELIMITER;
 
-    public function createPathFromString(string $path): Path
+    public function createPathFromString(string|\Stringable $path): Path
     {
+        if ($path instanceof \Stringable) {
+            $path = (string) $path;
+        }
+
         return new Path(
             segments: self::segments($path),
             isAbsolute: \str_starts_with($path, '/'),

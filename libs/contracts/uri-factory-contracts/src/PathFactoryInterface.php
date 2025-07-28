@@ -11,5 +11,5 @@ interface PathFactoryInterface
     /**
      * Returns {@see PathInterface} from {@see string} path representation.
      */
-    public function createPathFromString(string $path): PathInterface;
+    public function createPathFromString(string|\Stringable $path): PathInterface;
 }

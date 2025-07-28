@@ -49,9 +49,9 @@ final readonly class UriFactory implements UriFactoryInterface
         private QueryFactoryInterface $queries = new QueryFactory(),
     ) {}
 
-    public function createUriFromString(string $uri): Uri
+    public function createUriFromString(string|\Stringable $uri): Uri
     {
-        $components = \parse_url($uri);
+        $components = \parse_url((string) $uri);
 
         if ($components === false) {
             $components = self::URI_COMPONENTS;

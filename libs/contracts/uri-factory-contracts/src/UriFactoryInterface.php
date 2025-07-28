@@ -11,5 +11,5 @@ interface UriFactoryInterface
     /**
      * Parse given URL/URI string to an {@see UriInterface} instance.
      */
-    public function createUriFromString(string $uri): UriInterface;
+    public function createUriFromString(string|\Stringable $uri): UriInterface;
 }

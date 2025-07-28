@@ -9,9 +9,9 @@ use Boson\Contracts\Uri\Factory\QueryFactoryInterface;
 
 final readonly class QueryFactory implements QueryFactoryInterface
 {
-    public function createQueryFromString(string $query): Query
+    public function createQueryFromString(string|\Stringable $query): Query
     {
-        return new Query(self::components($query));
+        return new Query(self::components((string) $query));
     }
 
     /**

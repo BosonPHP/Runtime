@@ -10,8 +10,12 @@ use Boson\Contracts\Uri\Factory\SchemeFactoryInterface;
 
 final readonly class SchemeFactory implements SchemeFactoryInterface
 {
-    public function createSchemeFromString(string $scheme): SchemeInterface
+    public function createSchemeFromString(string|\Stringable $scheme): SchemeInterface
     {
+        if ($scheme instanceof \Stringable) {
+            $scheme = (string) $scheme;
+        }
+
         return Scheme::tryFrom(\strtolower($scheme))
             ?? $this->createUserDefinedScheme($scheme);
     }
