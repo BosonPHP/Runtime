@@ -37,25 +37,6 @@ final class WebViewSecurity extends WebViewExtension implements SecurityApiInter
     private array $realSecurityValuesForSchemes = [];
 
     /**
-     * Parses the current WebView URL and returns its scheme in lowercase.
-     *
-     * Returns {@see null} if the scheme cannot be parsed or is empty.
-     *
-     * @return non-empty-lowercase-string|null
-     */
-    private function findCurrentScheme(): ?string
-    {
-        $scheme = \parse_url($this->context->url, \PHP_URL_SCHEME);
-
-        if ($scheme === '' || !\is_string($scheme)) {
-            return null;
-        }
-
-        /** @var non-empty-lowercase-string */
-        return \strtolower($scheme);
-    }
-
-    /**
      * Determines the security context of the WebView.
      *
      * If the WebView state is ready, it attempts to get the real security
@@ -65,7 +46,7 @@ final class WebViewSecurity extends WebViewExtension implements SecurityApiInter
     private function getSecurityContext(): bool
     {
         if ($this->context->state === WebViewState::Ready) {
-            $scheme = $this->findCurrentScheme();
+            $scheme = $this->context->url->scheme?->name;
 
             if ($scheme === null) {
                 return false;
@@ -97,11 +78,7 @@ final class WebViewSecurity extends WebViewExtension implements SecurityApiInter
      */
     private function getSoftwareSecurity(): bool
     {
-        $scheme = $this->findCurrentScheme();
-
-        if ($scheme === null) {
-            return false;
-        }
+        $scheme = $this->context->url->scheme?->name;
 
         return !\in_array($scheme, self::DEFAULT_SOFTWARE_INSECURE_SCHEMES, true);
     }
