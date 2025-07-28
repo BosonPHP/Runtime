@@ -89,16 +89,20 @@ final class LazyInitializedRequest implements RequestInterface
         );
 
         for ($i = 0; $i < $count->cdata; ++$i) {
-            /** @phpstan-ignore-next-line : PHPStan false-positive */
-            $header = \FFI::string($names[$i]);
+            /** @var CData $name */
+            $name = $names[$i];
+
+            /** @var CData $value */
+            $value = $values[$i];
+
+            $header = \FFI::string($name);
 
             if ($header !== '') {
-                /** @phpstan-ignore-next-line : PHPStan false-positive */
-                yield $header => \FFI::string($values[$i]);
+                yield $header => \FFI::string($value);
             }
 
-            $this->api->saucer_memory_free($names[$i]);
-            $this->api->saucer_memory_free($values[$i]);
+            $this->api->saucer_memory_free($name);
+            $this->api->saucer_memory_free($value);
         }
 
         $this->api->saucer_memory_free($names);
