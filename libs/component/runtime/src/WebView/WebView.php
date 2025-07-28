@@ -123,7 +123,7 @@ final class WebView implements
             $result = $this->api->saucer_webview_url($this->id->ptr);
 
             try {
-                return $this->info->uri->createUriFromString(
+                return $this->info->uriFactory->createUriFromString(
                     uri: \FFI::string($result),
                 );
             } finally {
