@@ -31,6 +31,7 @@ final class LazyInitializedRequest implements RequestInterface
      * @var non-empty-string
      */
     public string $url {
+        // TODO: String casting must be omitted after implement UriInterface
         get => $this->url ??= ((string) $this->uriFactory->createUriFromString(
             uri: $this->fetchRawUriString(),
         ));
