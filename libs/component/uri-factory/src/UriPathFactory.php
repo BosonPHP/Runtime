@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Boson\Component\Uri\Factory;
 
 use Boson\Component\Uri\Component\Path;
-use Boson\Contracts\Uri\Factory\PathFactoryInterface;
+use Boson\Contracts\Uri\Factory\UriPathFactoryInterface;
 
-final readonly class PathFactory implements PathFactoryInterface
+final readonly class UriPathFactory implements UriPathFactoryInterface
 {
     /**
      * @var non-empty-string

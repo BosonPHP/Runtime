@@ -6,9 +6,9 @@ namespace Boson\Component\Uri\Factory;
 
 use Boson\Component\Uri\Component\Scheme;
 use Boson\Contracts\Uri\Component\SchemeInterface;
-use Boson\Contracts\Uri\Factory\SchemeFactoryInterface;
+use Boson\Contracts\Uri\Factory\UriSchemeFactoryInterface;
 
-final readonly class SchemeFactory implements SchemeFactoryInterface
+final readonly class UriSchemeFactory implements UriSchemeFactoryInterface
 {
     public function createSchemeFromString(string|\Stringable $scheme): SchemeInterface
     {

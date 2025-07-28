@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Boson\Component\Uri\Factory;
 
 use Boson\Component\Uri\Component\Query;
-use Boson\Contracts\Uri\Factory\QueryFactoryInterface;
+use Boson\Contracts\Uri\Factory\UriQueryFactoryInterface;
 
-final readonly class QueryFactory implements QueryFactoryInterface
+final readonly class UriQueryFactory implements UriQueryFactoryInterface
 {
     public function createQueryFromString(string|\Stringable $query): Query
     {

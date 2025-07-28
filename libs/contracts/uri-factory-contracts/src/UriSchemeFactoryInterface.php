@@ -6,7 +6,7 @@ namespace Boson\Contracts\Uri\Factory;
 
 use Boson\Contracts\Uri\Component\SchemeInterface;
 
-interface SchemeFactoryInterface
+interface UriSchemeFactoryInterface
 {
     /**
      * Returns {@see SchemeInterface} instance from passed

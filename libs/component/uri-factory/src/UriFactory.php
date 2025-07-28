@@ -8,9 +8,9 @@ use Boson\Component\Uri\Component\Authority;
 use Boson\Component\Uri\Component\UserInfo;
 use Boson\Component\Uri\Uri;
 use Boson\Contracts\Uri\Component\SchemeInterface;
-use Boson\Contracts\Uri\Factory\PathFactoryInterface;
-use Boson\Contracts\Uri\Factory\QueryFactoryInterface;
-use Boson\Contracts\Uri\Factory\SchemeFactoryInterface;
+use Boson\Contracts\Uri\Factory\UriPathFactoryInterface;
+use Boson\Contracts\Uri\Factory\UriQueryFactoryInterface;
+use Boson\Contracts\Uri\Factory\UriSchemeFactoryInterface;
 use Boson\Contracts\Uri\Factory\UriFactoryInterface;
 
 /**
@@ -44,9 +44,9 @@ final readonly class UriFactory implements UriFactoryInterface
     ];
 
     public function __construct(
-        private SchemeFactoryInterface $schemes = new SchemeFactory(),
-        private PathFactoryInterface $paths = new PathFactory(),
-        private QueryFactoryInterface $queries = new QueryFactory(),
+        private UriSchemeFactoryInterface $schemes = new UriSchemeFactory(),
+        private UriPathFactoryInterface $paths = new UriPathFactory(),
+        private UriQueryFactoryInterface $queries = new UriQueryFactory(),
     ) {}
 
     public function createUriFromString(string|\Stringable $uri): Uri

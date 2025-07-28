@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Boson\Component\Uri\Factory\Tests;
 
-use Boson\Component\Uri\Factory\PathFactory;
+use Boson\Component\Uri\Factory\UriPathFactory;
 use PHPUnit\Framework\Attributes\Before;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('boson-php/uri-factory')]
 final class PathFactoryTest extends TestCase
 {
-    private PathFactory $factory;
+    private UriPathFactory $factory;
 
     #[Before]
     protected function createPathFactory(): void
     {
-        $this->factory = new PathFactory();
+        $this->factory = new UriPathFactory();
     }
 
     public function testCreatePathFromStringWithSimplePath(): void

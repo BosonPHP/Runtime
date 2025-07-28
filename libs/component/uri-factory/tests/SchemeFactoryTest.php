@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Boson\Component\Uri\Factory\Tests;
 
-use Boson\Component\Uri\Factory\SchemeFactory;
+use Boson\Component\Uri\Factory\UriSchemeFactory;
 use Boson\Component\Uri\Component\Scheme;
 use PHPUnit\Framework\Attributes\Before;
 use PHPUnit\Framework\Attributes\Group;
@@ -12,12 +12,12 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('boson-php/uri-factory')]
 final class SchemeFactoryTest extends TestCase
 {
-    private SchemeFactory $factory;
+    private UriSchemeFactory $factory;
 
     #[Before]
     protected function createPathFactory(): void
     {
-        $this->factory = new SchemeFactory();
+        $this->factory = new UriSchemeFactory();
     }
 
     public function testCreateSchemeFromStringWithStandardScheme(): void

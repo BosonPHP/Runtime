@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Boson\Component\Uri\Factory\Tests;
 
-use Boson\Component\Uri\Factory\QueryFactory;
+use Boson\Component\Uri\Factory\UriQueryFactory;
 use PHPUnit\Framework\Attributes\Before;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('boson-php/uri-factory')]
 final class QueryFactoryTest extends TestCase
 {
-    private QueryFactory $factory;
+    private UriQueryFactory $factory;
 
     #[Before]
     protected function createPathFactory(): void
     {
-        $this->factory = new QueryFactory();
+        $this->factory = new UriQueryFactory();
     }
 
     public function testCreateQueryFromStringWithSimpleQuery(): void

@@ -6,7 +6,7 @@ namespace Boson\Contracts\Uri\Factory;
 
 use Boson\Contracts\Uri\Component\PathInterface;
 
-interface PathFactoryInterface
+interface UriPathFactoryInterface
 {
     /**
      * Returns {@see PathInterface} from {@see string} path representation.

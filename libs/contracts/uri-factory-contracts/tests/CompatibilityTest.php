@@ -7,9 +7,9 @@ namespace Boson\Contracts\Uri\Factory\Tests;
 use Boson\Contracts\Uri\Component\PathInterface;
 use Boson\Contracts\Uri\Component\QueryInterface;
 use Boson\Contracts\Uri\Component\SchemeInterface;
-use Boson\Contracts\Uri\Factory\PathFactoryInterface;
-use Boson\Contracts\Uri\Factory\QueryFactoryInterface;
-use Boson\Contracts\Uri\Factory\SchemeFactoryInterface;
+use Boson\Contracts\Uri\Factory\UriPathFactoryInterface;
+use Boson\Contracts\Uri\Factory\UriQueryFactoryInterface;
+use Boson\Contracts\Uri\Factory\UriSchemeFactoryInterface;
 use Boson\Contracts\Uri\Factory\UriFactoryInterface;
 use Boson\Contracts\Uri\UriInterface;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
@@ -33,7 +33,7 @@ final class CompatibilityTest extends TestCase
     #[DoesNotPerformAssertions]
     public function testSchemeFactoryInterfaceCompatibility(): void
     {
-        new class implements SchemeFactoryInterface {
+        new class implements UriSchemeFactoryInterface {
             public function createSchemeFromString(string|\Stringable $scheme): SchemeInterface {}
         };
     }
@@ -41,7 +41,7 @@ final class CompatibilityTest extends TestCase
     #[DoesNotPerformAssertions]
     public function testQueryFactoryInterfaceCompatibility(): void
     {
-        new class implements QueryFactoryInterface {
+        new class implements UriQueryFactoryInterface {
             public function createQueryFromString(string|\Stringable $query): QueryInterface {}
         };
     }
@@ -49,7 +49,7 @@ final class CompatibilityTest extends TestCase
     #[DoesNotPerformAssertions]
     public function testPathFactoryInterfaceCompatibility(): void
     {
-        new class implements PathFactoryInterface {
+        new class implements UriPathFactoryInterface {
             public function createPathFromString(string|\Stringable $path): PathInterface {}
         };
     }

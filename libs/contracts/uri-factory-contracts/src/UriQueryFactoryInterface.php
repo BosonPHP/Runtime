@@ -6,7 +6,7 @@ namespace Boson\Contracts\Uri\Factory;
 
 use Boson\Contracts\Uri\Component\QueryInterface;
 
-interface QueryFactoryInterface
+interface UriQueryFactoryInterface
 {
     /**
      * Creates a new {@see QueryInterface} instance from
