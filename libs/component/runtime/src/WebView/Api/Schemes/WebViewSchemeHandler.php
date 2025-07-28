@@ -7,6 +7,7 @@ namespace Boson\WebView\Api\Schemes;
 use Boson\ApplicationPollerInterface;
 use Boson\Contracts\Http\RequestInterface;
 use Boson\Contracts\Http\ResponseInterface;
+use Boson\Contracts\Uri\Factory\UriFactoryInterface;
 use Boson\Dispatcher\EventListener;
 use Boson\Internal\Saucer\LibSaucer;
 use Boson\Internal\Saucer\SaucerLaunch;
@@ -27,6 +28,8 @@ final class WebViewSchemeHandler extends WebViewExtension implements SchemesApiI
 
     private readonly ApplicationPollerInterface $poller;
 
+    private readonly UriFactoryInterface $uriFactory;
+
     public function __construct(
         LibSaucer $api,
         WebView $context,
@@ -40,6 +43,7 @@ final class WebViewSchemeHandler extends WebViewExtension implements SchemesApiI
 
         $this->mimeTypes = new MimeTypeReader();
 
+        $this->uriFactory = $context->info->uriFactory;
         $this->poller = $context->window->app->poller;
         $this->schemes = $context->window->app->info->schemes;
 
@@ -107,7 +111,11 @@ final class WebViewSchemeHandler extends WebViewExtension implements SchemesApiI
 
     private function createRequest(CData $request): RequestInterface
     {
-        return new LazyInitializedRequest($this->api, $request);
+        return new LazyInitializedRequest(
+            api: $this->api,
+            ptr: $request,
+            uriFactory: $this->uriFactory,
+        );
     }
 
     private function dispatchRequest(ResponseInterface $response, CData $executor): void
