@@ -11,8 +11,9 @@ use Boson\Component\Uri\Component\Scheme;
 use Boson\Component\Uri\Component\UserInfo;
 use Boson\Component\Uri\Uri;
 use Boson\Contracts\Uri\UriInterface;
+use PHPUnit\Framework\Attributes\Group;
 
-#[Group('boson-php/runtime')]
+#[Group('boson-php/uri')]
 final class UriTest extends TestCase
 {
     public function testConstructorWithPathOnly(): void

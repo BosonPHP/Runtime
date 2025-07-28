@@ -7,8 +7,9 @@ namespace Boson\Component\Uri\Tests\Component\Scheme;
 use Boson\Component\Uri\Component\Scheme\StandardScheme;
 use Boson\Component\Uri\Tests\TestCase;
 use Boson\Contracts\Uri\Component\SchemeInterface;
+use PHPUnit\Framework\Attributes\Group;
 
-#[Group('boson-php/runtime')]
+#[Group('boson-php/uri')]
 final class StandardSchemeTest extends TestCase
 {
     public function testConstructorWithNameOnly(): void
