@@ -16,7 +16,7 @@ final readonly class Path implements PathInterface, \IteratorAggregate
      *
      * @var non-empty-string
      */
-    private const string SEGMENT_DELIMITER = '/';
+    public const string PATH_SEGMENT_DELIMITER = '/';
 
     /**
      * @var list<non-empty-string>
@@ -64,7 +64,7 @@ final readonly class Path implements PathInterface, \IteratorAggregate
             $result[] = \rawurlencode($segment);
         }
 
-        return self::SEGMENT_DELIMITER
-            . \implode(self::SEGMENT_DELIMITER, $result);
+        return self::PATH_SEGMENT_DELIMITER
+            . \implode(self::PATH_SEGMENT_DELIMITER, $result);
     }
 }

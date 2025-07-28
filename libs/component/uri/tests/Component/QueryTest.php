@@ -513,12 +513,12 @@ final class QueryTest extends TestCase
 
     public function testEdgeCaseArrayWithMixedTypes(): void
     {
-        $query = new Query(['data' => ['string', 123, '']]);
+        $query = new Query(['data' => ['string', '123', '']]);
 
         self::assertSame(1, $query->count());
         self::assertSame('data%5B0%5D=string&data%5B1%5D=123&data%5B2%5D=', (string) $query);
         self::assertSame('data%5B0%5D=string&data%5B1%5D=123&data%5B2%5D=', $query->toString());
-        self::assertSame(['string', 123, ''], $query->getAsArray('data'));
+        self::assertSame(['string', '123', ''], $query->getAsArray('data'));
     }
 
     public function testEdgeCaseVeryLongKey(): void

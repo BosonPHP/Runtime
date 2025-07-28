@@ -16,22 +16,22 @@ final class Uri implements UriInterface
     /**
      * @var non-empty-string
      */
-    private const string URI_SCHEMA_SUFFIX = ':';
+    public const string URI_SCHEMA_SUFFIX = ':';
 
     /**
      * @var non-empty-string
      */
-    private const string URI_AUTHORITY_PREFIX = '//';
+    public const string URI_AUTHORITY_PREFIX = '//';
 
     /**
      * @var non-empty-string
      */
-    private const string URI_QUERY_PREFIX = '?';
+    public const string URI_QUERY_PREFIX = '?';
 
     /**
      * @var non-empty-string
      */
-    private const string URI_FRAGMENT_PREFIX = '#';
+    public const string URI_FRAGMENT_PREFIX = '#';
 
     /**
      * Gets the user component of the URI.

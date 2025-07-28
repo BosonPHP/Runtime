@@ -12,12 +12,12 @@ final class Authority implements AuthorityInterface
     /**
      * @var non-empty-string
      */
-    private const string HOST_PORT_DELIMITER = ':';
+    public const string AUTHORITY_HOST_PORT_DELIMITER = ':';
 
     /**
      * @var non-empty-string
      */
-    private const string USER_INFO_DELIMITER = '@';
+    public const string AUTHORITY_USER_INFO_DELIMITER = '@';
 
     /**
      * Gets the user component of the URI.
@@ -73,11 +73,11 @@ final class Authority implements AuthorityInterface
         $result = $this->host;
 
         if ($this->port !== null) {
-            $result .= self::HOST_PORT_DELIMITER . $this->port;
+            $result .= self::AUTHORITY_HOST_PORT_DELIMITER . $this->port;
         }
 
         if ($this->userInfo !== null) {
-            return $this->userInfo . self::USER_INFO_DELIMITER . $result;
+            return $this->userInfo . self::AUTHORITY_USER_INFO_DELIMITER . $result;
         }
 
         return $result;

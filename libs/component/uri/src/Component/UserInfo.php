@@ -11,7 +11,7 @@ final readonly class UserInfo implements UserInfoInterface
     /**
      * @var non-empty-string
      */
-    private const string USER_INFO_USER_PASSWORD_DELIMITER = ':';
+    public const string USER_INFO_USER_PASSWORD_DELIMITER = ':';
 
     public function __construct(
         /**

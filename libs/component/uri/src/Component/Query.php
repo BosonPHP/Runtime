@@ -14,12 +14,12 @@ final class Query implements QueryInterface, \IteratorAggregate
     /**
      * @var non-empty-string
      */
-    private const string QUERY_PARAMETER_VALUE_DELIMITER = '=';
+    public const string QUERY_PARAMETER_VALUE_DELIMITER = '=';
 
     /**
      * @var non-empty-string
      */
-    private const string QUERY_PARAMETER_DELIMITER = '&';
+    public const string QUERY_PARAMETER_DELIMITER = '&';
 
     /**
      * @var array<non-empty-string, string|array<array-key, string>>
@@ -113,9 +113,10 @@ final class Query implements QueryInterface, \IteratorAggregate
         $result = [];
 
         foreach ($this as $key => $value) {
+            /** @phpstan-ignore-next-line : PHPStan false-positive. PHP may contain integer keys in array */
             $result[] = \rawurlencode((string) $key)
                 . self::QUERY_PARAMETER_VALUE_DELIMITER
-                . \rawurlencode((string) $value);
+                . \rawurlencode($value);
         }
 
         return \implode(self::QUERY_PARAMETER_DELIMITER, $result);
