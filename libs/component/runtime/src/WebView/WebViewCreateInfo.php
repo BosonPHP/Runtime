@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Boson\WebView;
 
 use Boson\Application;
+use Boson\Component\Uri\Factory\UriFactory;
+use Boson\Contracts\Uri\Factory\UriFactoryInterface;
 use Boson\WebView\Api\BatteryApiCreateInfo;
 use Boson\WebView\Api\BindingsApiCreateInfo;
 use Boson\WebView\Api\DataApiCreateInfo;
@@ -112,6 +114,10 @@ final readonly class WebViewCreateInfo
          *  - Dev Tools will bew disabled if debug mode is disabled.
          */
         public ?bool $devTools = null,
+        /**
+         * Contains URI factory for webview
+         */
+        public UriFactoryInterface $uri = new UriFactory(),
         /**
          * Contains Battery API configuration options.
          */

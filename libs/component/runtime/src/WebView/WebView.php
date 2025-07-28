@@ -6,6 +6,7 @@ namespace Boson\WebView;
 
 use Boson\Contracts\EventListener\EventListenerInterface;
 use Boson\Contracts\Id\IdentifiableInterface;
+use Boson\Contracts\Uri\UriInterface;
 use Boson\Dispatcher\DelegateEventListener;
 use Boson\Dispatcher\EventListener;
 use Boson\Dispatcher\EventListenerProvider;
@@ -110,7 +111,7 @@ final class WebView implements
     /**
      * Contains webview URI instance.
      */
-    public string $url {
+    public UriInterface $url {
         /**
          * Gets current webview URI instance.
          *
@@ -122,7 +123,9 @@ final class WebView implements
             $result = $this->api->saucer_webview_url($this->id->ptr);
 
             try {
-                return \FFI::string($result);
+                return $this->info->uri->createUriFromString(
+                    uri: \FFI::string($result),
+                );
             } finally {
                 \FFI::free($result);
             }
