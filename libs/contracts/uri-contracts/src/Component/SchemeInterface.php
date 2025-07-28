@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Boson\Contracts\Uri\Component;
 
 use Boson\Contracts\Uri\UriInterface;
-use Boson\Contracts\ValueObject\StringValueObjectInterface;
 
 /**
  * Represents the scheme component of an {@see UriInterface}.
  *
  * @link https://datatracker.ietf.org/doc/html/rfc3986#section-3.1
  */
-interface SchemeInterface extends StringValueObjectInterface
+interface SchemeInterface extends UriComponentInterface
 {
     /**
      * Each {@see UriInterface URI} begins with a scheme name that refers to

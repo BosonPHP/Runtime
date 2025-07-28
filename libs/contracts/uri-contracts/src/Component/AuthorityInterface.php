@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Boson\Contracts\Uri\Component;
 
 use Boson\Contracts\Uri\UriInterface;
-use Boson\Contracts\ValueObject\StringValueObjectInterface;
 
 /**
  * Represents the authority component of an {@see UriInterface}.
  *
  * @link https://tools.ietf.org/html/rfc3986#section-3.2
  */
-interface AuthorityInterface extends StringValueObjectInterface
+interface AuthorityInterface extends UriComponentInterface
 {
     /**
      * The userinfo subcomponent may consist of a username and, optionally,

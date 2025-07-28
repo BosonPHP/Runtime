@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace Boson\Contracts\Uri\Component;
 
-use Boson\Contracts\ValueObject\StringValueObjectInterface;
-
 /**
  * Represents the user information component of an {@see AuthorityInterface}.
  *
  * @link https://datatracker.ietf.org/doc/html/rfc3986#section-3.2.1
  */
-interface UserInfoInterface extends StringValueObjectInterface
+interface UserInfoInterface extends UriComponentInterface
 {
     /**
-     * Gets user name of the user information component.
+     * Gets username of the user information component.
      *
      * ```
      * abc://user:pass@example.com:123/path/data?k=val&k2=val2#frag

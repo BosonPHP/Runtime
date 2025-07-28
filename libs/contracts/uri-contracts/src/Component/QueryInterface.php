@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Boson\Contracts\Uri\Component;
 
-use Boson\Contracts\ValueObject\StringValueObjectInterface;
-
 /**
  * @template-extends \Traversable<non-empty-string, string>
  */
 interface QueryInterface extends
-    StringValueObjectInterface,
+    UriComponentInterface,
     \Traversable,
     \Countable
 {
