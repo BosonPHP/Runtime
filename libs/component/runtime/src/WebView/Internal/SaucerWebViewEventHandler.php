@@ -6,6 +6,7 @@ namespace Boson\WebView\Internal;
 
 use Boson\ApplicationPollerInterface;
 use Boson\Component\Http\Request;
+use Boson\Contracts\Uri\Factory\UriFactoryInterface;
 use Boson\Internal\Saucer\LibSaucer;
 use Boson\Internal\Saucer\SaucerPolicy;
 use Boson\Internal\Saucer\SaucerState;
@@ -56,6 +57,8 @@ final class SaucerWebViewEventHandler
      */
     private readonly ApplicationPollerInterface $poller;
 
+    private readonly UriFactoryInterface $uriFactory;
+
     public function __construct(
         private readonly LibSaucer $api,
         private readonly WebView $webview,
@@ -66,6 +69,7 @@ final class SaucerWebViewEventHandler
         private WebViewState &$state,
     ) {
         $this->poller = $this->webview->window->app->poller;
+        $this->uriFactory = $this->webview->info->uriFactory;
 
         $this->handlers = $this->createEventHandlers();
 
@@ -152,7 +156,7 @@ final class SaucerWebViewEventHandler
         try {
             $this->dispatcher->dispatch(new WebViewNavigated(
                 subject: $this->webview,
-                url: Request::castUrl($url),
+                url: $this->uriFactory->createUriFromString($url),
             ));
         } catch (\Throwable $e) {
             $this->poller->fail($e);
@@ -177,7 +181,7 @@ final class SaucerWebViewEventHandler
         try {
             $this->dispatcher->dispatch($intention = new WebViewNavigating(
                 subject: $this->webview,
-                url: Request::castUrl($url),
+                url: $this->uriFactory->createUriFromString($url),
                 isNewWindow: $this->api->saucer_navigation_new_window($navigation),
                 isRedirection: $this->api->saucer_navigation_redirection($navigation),
                 isUserInitiated: $this->api->saucer_navigation_user_initiated($navigation),

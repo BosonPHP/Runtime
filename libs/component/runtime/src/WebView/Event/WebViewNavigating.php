@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Boson\WebView\Event;
 
+use Boson\Contracts\Uri\UriInterface;
 use Boson\Shared\Marker\AsWebViewIntention;
 use Boson\WebView\WebView;
 
@@ -12,10 +13,7 @@ final class WebViewNavigating extends WebViewIntention
 {
     public function __construct(
         WebView $subject,
-        /**
-         * @var non-empty-string
-         */
-        public readonly string $url,
+        public readonly UriInterface $url,
         public readonly bool $isNewWindow,
         public readonly bool $isRedirection,
         public readonly bool $isUserInitiated,

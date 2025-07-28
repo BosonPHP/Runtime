@@ -117,7 +117,7 @@ final readonly class WebViewCreateInfo
         /**
          * Contains URI factory for webview
          */
-        public UriFactoryInterface $uri = new UriFactory(),
+        public UriFactoryInterface $uriFactory = new UriFactory(),
         /**
          * Contains Battery API configuration options.
          */
