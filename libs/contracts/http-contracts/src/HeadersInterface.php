@@ -34,7 +34,7 @@ interface HeadersInterface extends \Traversable, \Countable
 
     /**
      * Returns {@see true} if the given HTTP header contains
-     * the given case sensitive value.
+     * the given case-sensitive value.
      *
      * @param non-empty-string $name case-insensitive header field name to find
      */
