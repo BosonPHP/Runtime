@@ -44,9 +44,9 @@ final readonly class FilesystemStaticProvider implements StaticProviderInterface
      */
     private function findPathnameForExistingFile(RequestInterface $request): ?string
     {
-        $path = \parse_url($request->url, \PHP_URL_PATH);
+        $path = $request->url->path->toString();
 
-        if (!\is_string($path) || $path === '') {
+        if ($path === '') {
             return null;
         }
 

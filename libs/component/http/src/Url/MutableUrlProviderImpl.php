@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Boson\Component\Http\Url;
 
-use Boson\Component\Http\Request;
 use Boson\Contracts\Http\Url\MutableUrlProviderInterface;
 
 /**
@@ -37,6 +36,10 @@ trait MutableUrlProviderImpl
      */
     public static function castMutableUrl(string|\Stringable $url): string
     {
-        return Request::castUrl($url);
+        if (($urlScalarValue = (string) $url) === '') {
+            return MutableUrlProviderInterface::DEFAULT_URL;
+        }
+
+        return $urlScalarValue;
     }
 }

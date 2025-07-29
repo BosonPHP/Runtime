@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Boson\Contracts\Http\Url;
 
+use Boson\Contracts\Uri\UriInterface;
+
 /**
  * @phpstan-import-type UrlOutputType from UrlProviderInterface
  *
@@ -24,7 +26,7 @@ interface MutableUrlProviderInterface extends UrlProviderInterface
      *
      * @var MutableUrlOutputType
      */
-    public string $url {
+    public UriInterface $url {
         get;
         /**
          * Also allows to set empty or non-normalized URL/URI string or object

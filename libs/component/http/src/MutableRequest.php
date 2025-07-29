@@ -7,13 +7,15 @@ namespace Boson\Component\Http;
 use Boson\Component\Http\Body\MutableBodyProviderImpl;
 use Boson\Component\Http\Headers\MutableHeadersProviderImpl;
 use Boson\Component\Http\Method\MutableMethodProviderImpl;
-use Boson\Component\Http\Url\MutableUrlProviderImpl;
+use Boson\Component\Uri\Factory\UriFactory;
 use Boson\Contracts\Http\Body\MutableBodyProviderInterface;
 use Boson\Contracts\Http\Headers\MutableHeadersProviderInterface;
 use Boson\Contracts\Http\Method\MutableMethodProviderInterface;
 use Boson\Contracts\Http\MutableRequestInterface;
 use Boson\Contracts\Http\RequestInterface;
 use Boson\Contracts\Http\Url\MutableUrlProviderInterface;
+use Boson\Contracts\Uri\Factory\UriFactoryInterface;
+use Boson\Contracts\Uri\UriInterface;
 
 /**
  * @phpstan-import-type MethodInputType from MutableMethodProviderInterface
@@ -26,9 +28,19 @@ use Boson\Contracts\Http\Url\MutableUrlProviderInterface;
 class MutableRequest implements MutableRequestInterface
 {
     use MutableMethodProviderImpl;
-    use MutableUrlProviderImpl;
     use MutableHeadersProviderImpl;
     use MutableBodyProviderImpl;
+
+    /**
+     * @var MutableUrlOutputType
+     */
+    public UriInterface $url {
+        get => $this->url;
+        /**
+         * @param UrlInputType $url
+         */
+        set(string|\Stringable $url) => $this->uriFactory->createUriFromString($url);
+    }
 
     /**
      * @param MethodInputType $method
@@ -41,6 +53,7 @@ class MutableRequest implements MutableRequestInterface
         string|\Stringable $url = MutableUrlProviderInterface::DEFAULT_URL,
         iterable $headers = MutableHeadersProviderInterface::DEFAULT_HEADERS,
         string|\Stringable $body = MutableBodyProviderInterface::DEFAULT_BODY,
+        protected UriFactoryInterface $uriFactory = new UriFactory(),
     ) {
         $this->method = $method;
         $this->url = $url;

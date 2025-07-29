@@ -93,16 +93,7 @@ abstract readonly class HttpAdapter implements
      */
     protected function getQueryParameters(RequestInterface $request): array
     {
-        $query = \parse_url($request->url, \PHP_URL_QUERY);
-
-        if (!\is_string($query) || $query === '') {
-            return [];
-        }
-
-        \parse_str($query, $result);
-
-        /** @var array<non-empty-string, string|array<array-key, string>> */
-        return $result;
+        return $request->url->query->toArray();
     }
 
     /**

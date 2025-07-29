@@ -38,7 +38,7 @@ readonly class Psr7HttpAdapter extends HttpAdapter
         /** @var TRequest */
         return $this->requestFactory->createServerRequest(
             $request->method,
-            $request->url,
+            (string) $request->url,
             $this->getServerParameters($request),
         );
     }

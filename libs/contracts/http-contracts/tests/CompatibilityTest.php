@@ -20,6 +20,7 @@ use Boson\Contracts\Http\StatusCode\MutableStatusCodeProviderInterface;
 use Boson\Contracts\Http\StatusCode\StatusCodeProviderInterface;
 use Boson\Contracts\Http\Url\MutableUrlProviderInterface;
 use Boson\Contracts\Http\Url\UrlProviderInterface;
+use Boson\Contracts\Uri\UriInterface;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -118,7 +119,7 @@ final class CompatibilityTest extends TestCase
     public function testUrlProviderCompatibility(): void
     {
         new class implements UrlProviderInterface {
-            public string $url {
+            public UriInterface $url {
                 get => $value;
             }
         };
@@ -128,7 +129,7 @@ final class CompatibilityTest extends TestCase
     public function testMutableUrlProviderCompatibility(): void
     {
         new class implements MutableUrlProviderInterface {
-            public string $url {
+            public UriInterface $url {
                 get => $value;
                 set(string|\Stringable $url) => $url;
             }
@@ -195,7 +196,7 @@ final class CompatibilityTest extends TestCase
                 get => $value;
             }
 
-            public string $url {
+            public UriInterface $url {
                 get => $value;
             }
         };
@@ -220,7 +221,7 @@ final class CompatibilityTest extends TestCase
                 set(string|\Stringable $method) => $method;
             }
 
-            public string $url {
+            public UriInterface $url {
                 get => $value;
                 set(string|\Stringable $url) => $url;
             }

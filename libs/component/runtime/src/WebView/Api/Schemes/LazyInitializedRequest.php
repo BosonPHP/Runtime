@@ -9,6 +9,7 @@ use Boson\Component\Http\Request;
 use Boson\Contracts\Http\HeadersInterface;
 use Boson\Contracts\Http\RequestInterface;
 use Boson\Contracts\Uri\Factory\UriFactoryInterface;
+use Boson\Contracts\Uri\UriInterface;
 use Boson\Internal\Saucer\LibSaucer;
 use FFI\CData;
 
@@ -27,14 +28,10 @@ final class LazyInitializedRequest implements RequestInterface
         );
     }
 
-    /**
-     * @var non-empty-string
-     */
-    public string $url {
-        // TODO: String casting must be omitted after implement UriInterface
-        get => $this->url ??= ((string) $this->uriFactory->createUriFromString(
+    public UriInterface $url {
+        get => $this->url ??= $this->uriFactory->createUriFromString(
             uri: $this->fetchRawUriString(),
-        ));
+        );
     }
 
     public HeadersInterface $headers {

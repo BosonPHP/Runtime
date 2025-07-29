@@ -15,7 +15,7 @@ final class MutableRequestTest extends TestCase
         $request = new MutableRequest();
 
         self::assertSame('GET', $request->method);
-        self::assertSame('about:blank', $request->url);
+        self::assertSame('about:blank', (string) $request->url);
         self::assertCount(0, $request->headers);
         self::assertSame('', $request->body);
     }
@@ -25,7 +25,7 @@ final class MutableRequestTest extends TestCase
         $request = new MutableRequest('POST');
 
         self::assertSame('POST', $request->method);
-        self::assertSame('about:blank', $request->url);
+        self::assertSame('about:blank', (string) $request->url);
         self::assertCount(0, $request->headers);
         self::assertSame('', $request->body);
     }
@@ -38,7 +38,7 @@ final class MutableRequestTest extends TestCase
         );
 
         self::assertSame('GET', $request->method);
-        self::assertSame('https://example.com/api', $request->url);
+        self::assertSame('https://example.com/api', (string) $request->url);
         self::assertCount(0, $request->headers);
         self::assertSame('', $request->body);
     }
@@ -55,7 +55,7 @@ final class MutableRequestTest extends TestCase
         );
 
         self::assertSame('GET', $request->method);
-        self::assertSame('/', $request->url);
+        self::assertSame('/', (string) $request->url);
         self::assertCount(2, $request->headers);
         self::assertTrue($request->headers->has('content-type'));
         self::assertSame('application/json', $request->headers->first('content-type'));
@@ -74,7 +74,7 @@ final class MutableRequestTest extends TestCase
         );
 
         self::assertSame('POST', $request->method);
-        self::assertSame('/', $request->url);
+        self::assertSame('/', (string) $request->url);
         self::assertCount(0, $request->headers);
         self::assertSame('{"key": "value"}', $request->body);
     }
@@ -92,7 +92,7 @@ final class MutableRequestTest extends TestCase
         $request = new MutableRequest();
         $request->url = 'https://example.com/api/v2';
 
-        self::assertSame('https://example.com/api/v2', $request->url);
+        self::assertSame('https://example.com/api/v2', (string) $request->url);
     }
 
     public function testModifyHeaders(): void
@@ -130,7 +130,7 @@ final class MutableRequestTest extends TestCase
         $request = MutableRequest::createFromRequest($original);
 
         self::assertSame('POST', $request->method);
-        self::assertSame('https://example.com/api', $request->url);
+        self::assertSame('https://example.com/api', (string) $request->url);
         self::assertCount(1, $request->headers);
         self::assertTrue($request->headers->has('content-type'));
         self::assertSame('application/json', $request->headers->first('content-type'));
@@ -171,7 +171,7 @@ final class MutableRequestTest extends TestCase
         $request->body = '{"key": "value"}';
 
         self::assertSame('PUT', $request->method);
-        self::assertSame('https://example.com/api/v2', $request->url);
+        self::assertSame('https://example.com/api/v2', (string) $request->url);
         self::assertTrue($request->headers->has('content-type'));
         self::assertSame('application/json', $request->headers->first('content-type'));
         self::assertSame('{"key": "value"}', $request->body);

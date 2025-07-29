@@ -46,18 +46,21 @@ final readonly class DefaultServerGlobalsProvider implements ServerGlobalsProvid
      */
     private function getRequestInfo(RequestInterface $request): array
     {
-        $segments = \parse_url($request->url);
+        $query = $request->url->query->toString();
+        $path = $request->url->path->toString();
+        $host = $request->url->authority->host ?? '127.0.0.1';
+        $port = $request->url->authority->port ?? 80;
 
-        if (!\is_array($segments)) {
-            $segments = ['path' => '/'];
+        if ($path === '') {
+            $path = '/';
         }
 
         return [
             'REQUEST_METHOD' => $request->method,
-            'QUERY_STRING' => $query = $segments['query'] ?? '',
-            'PATH_INFO' => $path = $segments['path'] ?? '/',
-            'REMOTE_ADDR' => $host = $segments['host'] ?? '127.0.0.1',
-            'REMOTE_PORT' => $port = $segments['port'] ?? 80,
+            'QUERY_STRING' => $query,
+            'PATH_INFO' => $path,
+            'REMOTE_ADDR' => $host,
+            'REMOTE_PORT' => $port,
             // compound parameters
             'REQUEST_URI' => $path . ($query === '' ? '' : '?' . $query),
             'HTTP_HOST' => $host . ':' . $port,

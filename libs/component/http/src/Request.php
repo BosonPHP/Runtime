@@ -7,7 +7,7 @@ namespace Boson\Component\Http;
 use Boson\Component\Http\Body\BodyProviderImpl;
 use Boson\Component\Http\Headers\HeadersProviderImpl;
 use Boson\Component\Http\Method\MethodProviderImpl;
-use Boson\Component\Http\Url\UrlProviderImpl;
+use Boson\Component\Uri\Factory\UriFactory;
 use Boson\Contracts\Http\Body\BodyProviderInterface;
 use Boson\Contracts\Http\Body\MutableBodyProviderInterface;
 use Boson\Contracts\Http\Headers\HeadersProviderInterface;
@@ -17,6 +17,8 @@ use Boson\Contracts\Http\Method\MutableMethodProviderInterface;
 use Boson\Contracts\Http\RequestInterface;
 use Boson\Contracts\Http\Url\MutableUrlProviderInterface;
 use Boson\Contracts\Http\Url\UrlProviderInterface;
+use Boson\Contracts\Uri\Factory\UriFactoryInterface;
+use Boson\Contracts\Uri\UriInterface;
 
 /**
  * An implementation of immutable request instance.
@@ -33,9 +35,13 @@ use Boson\Contracts\Http\Url\UrlProviderInterface;
 class Request implements RequestInterface
 {
     use MethodProviderImpl;
-    use UrlProviderImpl;
     use HeadersProviderImpl;
     use BodyProviderImpl;
+
+    /**
+     * @var UrlOutputType
+     */
+    public readonly UriInterface $url;
 
     /**
      * @param MethodInputType $method
@@ -48,9 +54,10 @@ class Request implements RequestInterface
         string|\Stringable $url = MutableUrlProviderInterface::DEFAULT_URL,
         iterable $headers = MutableHeadersProviderInterface::DEFAULT_HEADERS,
         string|\Stringable $body = MutableBodyProviderInterface::DEFAULT_BODY,
+        UriFactoryInterface $uriFactory = new UriFactory(),
     ) {
         $this->method = self::castMethod($method);
-        $this->url = self::castUrl($url);
+        $this->url = $uriFactory->createUriFromString($url);
         $this->headers = self::castHeaders($headers);
         $this->body = self::castBody($body);
     }

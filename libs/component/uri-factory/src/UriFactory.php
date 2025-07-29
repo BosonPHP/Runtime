@@ -8,10 +8,10 @@ use Boson\Component\Uri\Component\Authority;
 use Boson\Component\Uri\Component\UserInfo;
 use Boson\Component\Uri\Uri;
 use Boson\Contracts\Uri\Component\SchemeInterface;
+use Boson\Contracts\Uri\Factory\UriFactoryInterface;
 use Boson\Contracts\Uri\Factory\UriPathFactoryInterface;
 use Boson\Contracts\Uri\Factory\UriQueryFactoryInterface;
 use Boson\Contracts\Uri\Factory\UriSchemeFactoryInterface;
-use Boson\Contracts\Uri\Factory\UriFactoryInterface;
 
 /**
  * @phpstan-type ComponentsArrayType array{

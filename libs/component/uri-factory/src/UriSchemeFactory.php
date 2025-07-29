@@ -16,6 +16,10 @@ final readonly class UriSchemeFactory implements UriSchemeFactoryInterface
             $scheme = (string) $scheme;
         }
 
+        if ($scheme === '') {
+            throw new \InvalidArgumentException('Scheme cannot be empty');
+        }
+
         return Scheme::tryFrom(\strtolower($scheme))
             ?? $this->createUserDefinedScheme($scheme);
     }
