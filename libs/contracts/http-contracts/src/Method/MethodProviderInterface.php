@@ -10,7 +10,7 @@ namespace Boson\Contracts\Http\Method;
 interface MethodProviderInterface
 {
     /**
-     * Gets HTTP method of the this instance.
+     * Gets HTTP method of this instance.
      *
      * @link https://httpwg.org/specs/rfc9110.html#method.definitions
      *
