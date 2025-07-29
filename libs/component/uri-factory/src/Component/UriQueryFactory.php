@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Boson\Component\Uri\Factory;
+namespace Boson\Component\Uri\Factory\Component;
 
 use Boson\Component\Uri\Component\Query;
-use Boson\Contracts\Uri\Factory\UriQueryFactoryInterface;
+use Boson\Contracts\Uri\Factory\Component\UriQueryFactoryInterface;
 
 final readonly class UriQueryFactory implements UriQueryFactoryInterface
 {

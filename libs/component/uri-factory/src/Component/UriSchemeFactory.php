@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Boson\Component\Uri\Factory;
+namespace Boson\Component\Uri\Factory\Component;
 
 use Boson\Component\Uri\Component\Scheme;
 use Boson\Contracts\Uri\Component\SchemeInterface;
-use Boson\Contracts\Uri\Factory\UriSchemeFactoryInterface;
+use Boson\Contracts\Uri\Factory\Component\UriSchemeFactoryInterface;
 
 final readonly class UriSchemeFactory implements UriSchemeFactoryInterface
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Boson\Contracts\Uri\Factory;
+namespace Boson\Contracts\Uri\Factory\Component;
 
 use Boson\Contracts\Uri\Component\QueryInterface;
 

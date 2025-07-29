@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Boson\Component\Uri\Factory\Tests;
 
-use Boson\Component\Uri\Factory\UriPathFactory;
+use Boson\Component\Uri\Factory\Component\UriPathFactory;
 use PHPUnit\Framework\Attributes\Before;
 use PHPUnit\Framework\Attributes\Group;
 

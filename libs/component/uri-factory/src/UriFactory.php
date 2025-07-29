@@ -6,12 +6,15 @@ namespace Boson\Component\Uri\Factory;
 
 use Boson\Component\Uri\Component\Authority;
 use Boson\Component\Uri\Component\UserInfo;
+use Boson\Component\Uri\Factory\Component\UriPathFactory;
+use Boson\Component\Uri\Factory\Component\UriQueryFactory;
+use Boson\Component\Uri\Factory\Component\UriSchemeFactory;
 use Boson\Component\Uri\Uri;
 use Boson\Contracts\Uri\Component\SchemeInterface;
+use Boson\Contracts\Uri\Factory\Component\UriPathFactoryInterface;
+use Boson\Contracts\Uri\Factory\Component\UriQueryFactoryInterface;
+use Boson\Contracts\Uri\Factory\Component\UriSchemeFactoryInterface;
 use Boson\Contracts\Uri\Factory\UriFactoryInterface;
-use Boson\Contracts\Uri\Factory\UriPathFactoryInterface;
-use Boson\Contracts\Uri\Factory\UriQueryFactoryInterface;
-use Boson\Contracts\Uri\Factory\UriSchemeFactoryInterface;
 
 /**
  * @phpstan-type ComponentsArrayType array{

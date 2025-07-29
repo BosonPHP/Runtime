@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Boson\Component\Uri\Factory\Tests;
 
-use Boson\Component\Uri\Factory\UriSchemeFactory;
 use Boson\Component\Uri\Component\Scheme;
+use Boson\Component\Uri\Factory\Component\UriSchemeFactory;
 use PHPUnit\Framework\Attributes\Before;
 use PHPUnit\Framework\Attributes\Group;
 

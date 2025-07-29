@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Boson\Component\Uri\Factory;
+namespace Boson\Component\Uri\Factory\Component;
 
 use Boson\Component\Uri\Component\Path;
-use Boson\Contracts\Uri\Factory\UriPathFactoryInterface;
+use Boson\Contracts\Uri\Factory\Component\UriPathFactoryInterface;
 
 final readonly class UriPathFactory implements UriPathFactoryInterface
 {
