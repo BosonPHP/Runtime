@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Boson\Component\Uri\Factory\Component;
 
 use Boson\Component\Uri\Component\Scheme;
+use Boson\Component\Uri\Factory\Exception\InvalidUriSchemeComponentException;
 use Boson\Contracts\Uri\Component\SchemeInterface;
 use Boson\Contracts\Uri\Factory\Component\UriSchemeFactoryInterface;
 
@@ -17,7 +18,7 @@ final readonly class UriSchemeFactory implements UriSchemeFactoryInterface
         }
 
         if ($scheme === '') {
-            throw new \InvalidArgumentException('Scheme cannot be empty');
+            throw InvalidUriSchemeComponentException::becauseUriSchemeComponentIsEmpty();
         }
 
         return Scheme::tryFrom(\strtolower($scheme))

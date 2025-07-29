@@ -9,11 +9,13 @@ use Boson\Component\Uri\Component\UserInfo;
 use Boson\Component\Uri\Factory\Component\UriPathFactory;
 use Boson\Component\Uri\Factory\Component\UriQueryFactory;
 use Boson\Component\Uri\Factory\Component\UriSchemeFactory;
+use Boson\Component\Uri\Factory\Exception\InvalidUriException;
 use Boson\Component\Uri\Uri;
 use Boson\Contracts\Uri\Component\SchemeInterface;
 use Boson\Contracts\Uri\Factory\Component\UriPathFactoryInterface;
 use Boson\Contracts\Uri\Factory\Component\UriQueryFactoryInterface;
 use Boson\Contracts\Uri\Factory\Component\UriSchemeFactoryInterface;
+use Boson\Contracts\Uri\Factory\Exception\InvalidUriComponentExceptionInterface;
 use Boson\Contracts\Uri\Factory\UriFactoryInterface;
 
 /**
@@ -62,11 +64,17 @@ final readonly class UriFactory implements UriFactoryInterface
             $components += self::URI_COMPONENTS;
         }
 
-        return $this->createFromComponents($components);
+        try {
+            return $this->createFromComponents($components);
+        } catch (InvalidUriComponentExceptionInterface $e) {
+            throw InvalidUriException::becauseUriComponentIsInvalid($e);
+        }
     }
 
     /**
      * @param ComponentsArrayType $components
+     *
+     * @throws InvalidUriComponentExceptionInterface
      */
     private function createSchemeFromComponents(array $components): ?SchemeInterface
     {
@@ -111,7 +119,7 @@ final readonly class UriFactory implements UriFactoryInterface
     /**
      * @param ComponentsArrayType $components
      *
-     * @return non-empty-string
+     * @return non-empty-string|null
      */
     private function createFragmentFromComponents(array $components): ?string
     {
@@ -124,6 +132,8 @@ final readonly class UriFactory implements UriFactoryInterface
 
     /**
      * @param ComponentsArrayType $components
+     *
+     * @throws InvalidUriComponentExceptionInterface
      */
     private function createFromComponents(array $components): Uri
     {

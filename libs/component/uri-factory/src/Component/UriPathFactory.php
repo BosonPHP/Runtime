@@ -20,6 +20,10 @@ final readonly class UriPathFactory implements UriPathFactoryInterface
             $path = (string) $path;
         }
 
+        if ($path === '') {
+            return new Path(isAbsolute: false);
+        }
+
         return new Path(
             segments: self::segments($path),
             isAbsolute: \str_starts_with($path, '/'),

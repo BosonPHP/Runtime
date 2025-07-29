@@ -11,7 +11,15 @@ final readonly class UriQueryFactory implements UriQueryFactoryInterface
 {
     public function createQueryFromString(string|\Stringable $query): Query
     {
-        return new Query(self::components((string) $query));
+        if ($query instanceof \Stringable) {
+            $query = (string) $query;
+        }
+
+        if ($query === '') {
+            return new Query();
+        }
+
+        return new Query(self::components($query));
     }
 
     /**
