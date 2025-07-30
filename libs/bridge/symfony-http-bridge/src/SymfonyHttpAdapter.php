@@ -39,7 +39,7 @@ readonly class SymfonyHttpAdapter extends HttpAdapter
     {
         $symfony = SymfonyPatchedRequest::create(
             uri: (string) $request->url,
-            method: $request->method,
+            method: (string) $request->method,
             parameters: $this->getQueryParameters($request),
             server: $this->getServerParameters($request),
             content: $request->body,

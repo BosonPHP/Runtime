@@ -5,6 +5,12 @@ declare(strict_types=1);
 namespace Boson\WebView\Api\Schemes;
 
 use Boson\ApplicationPollerInterface;
+use Boson\Component\Http\Component\BodyFactory;
+use Boson\Component\Http\Component\HeadersFactory;
+use Boson\Component\Http\Component\MethodFactory;
+use Boson\Contracts\Http\Factory\Component\BodyFactoryInterface;
+use Boson\Contracts\Http\Factory\Component\HeadersFactoryInterface;
+use Boson\Contracts\Http\Factory\Component\MethodFactoryInterface;
 use Boson\Contracts\Http\RequestInterface;
 use Boson\Contracts\Http\ResponseInterface;
 use Boson\Contracts\Uri\Factory\UriFactoryInterface;
@@ -28,7 +34,13 @@ final class WebViewSchemeHandler extends WebViewExtension implements SchemesApiI
 
     private readonly ApplicationPollerInterface $poller;
 
+    private readonly MethodFactoryInterface $methodFactory;
+
     private readonly UriFactoryInterface $uriFactory;
+
+    private readonly HeadersFactoryInterface $headersFactory;
+
+    private readonly BodyFactoryInterface $bodyFactory;
 
     public function __construct(
         LibSaucer $api,
@@ -44,6 +56,11 @@ final class WebViewSchemeHandler extends WebViewExtension implements SchemesApiI
         $this->mimeTypes = new MimeTypeReader();
 
         $this->uriFactory = $context->info->uriFactory;
+        // TODO: Should be moved into configs
+        $this->methodFactory = new MethodFactory();
+        $this->headersFactory = new HeadersFactory();
+        $this->bodyFactory = new BodyFactory();
+
         $this->poller = $context->window->app->poller;
         $this->schemes = $context->window->app->info->schemes;
 
@@ -114,7 +131,10 @@ final class WebViewSchemeHandler extends WebViewExtension implements SchemesApiI
         return new LazyInitializedRequest(
             api: $this->api,
             ptr: $request,
+            methodFactory: $this->methodFactory,
             uriFactory: $this->uriFactory,
+            headersFactory: $this->headersFactory,
+            bodyFactory: $this->bodyFactory,
         );
     }
 
@@ -134,7 +154,9 @@ final class WebViewSchemeHandler extends WebViewExtension implements SchemesApiI
         $mime = $this->mimeTypes->getFromResponse($response);
         $struct = $this->api->saucer_scheme_response_new($stash, $mime);
 
-        $this->api->saucer_scheme_response_set_status($struct, $response->status);
+        $status = \max(-2147483648, \min(2147483647, $response->status->code));
+
+        $this->api->saucer_scheme_response_set_status($struct, $status);
 
         foreach ($response->headers as $header => $value) {
             $this->api->saucer_scheme_response_add_header($struct, $header, $value);

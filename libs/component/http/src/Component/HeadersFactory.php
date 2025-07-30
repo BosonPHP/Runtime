@@ -22,7 +22,10 @@ final readonly class HeadersFactory implements HeadersFactoryInterface
             return clone $headers;
         }
 
-        return new HeadersMap($this->format($headers));
+        /** @var HeadersListInputType $formatted */
+        $formatted = $this->format($headers);
+
+        return new HeadersMap($formatted);
     }
 
     /**
@@ -30,7 +33,7 @@ final readonly class HeadersFactory implements HeadersFactoryInterface
      *
      * @return HeadersListInputType
      */
-    protected function format(iterable $headers): array
+    protected function format(iterable $headers): iterable
     {
         $formatted = [];
 
@@ -63,6 +66,7 @@ final readonly class HeadersFactory implements HeadersFactoryInterface
             ++$index;
         }
 
+        /** @var HeadersListInputType */
         return $formatted;
     }
 }

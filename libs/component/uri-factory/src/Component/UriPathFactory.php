@@ -25,6 +25,7 @@ final readonly class UriPathFactory implements UriPathFactoryInterface
         if ($path instanceof \Stringable) {
             try {
                 $scalar = (string) $path;
+            /** @phpstan-ignore-next-line : PHPStan false-positive, this is not dead catch */
             } catch (\Throwable $e) {
                 throw InvalidUriPathComponentException::becauseStringCastingErrorOccurs($path, $e);
             }

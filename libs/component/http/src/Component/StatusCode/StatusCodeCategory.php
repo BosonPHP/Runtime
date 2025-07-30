@@ -56,7 +56,7 @@ final readonly class StatusCodeCategory implements StatusCodeCategoryInterface
     public const StatusCodeCategoryInterface ServerError = Category\SERVER_ERROR;
 
     /**
-     * @var non-empty-alist<StatusCodeCategoryInterface>
+     * @var non-empty-list<StatusCodeCategoryInterface>
      */
     private const array CASES = [
         self::Informational,
@@ -76,7 +76,7 @@ final readonly class StatusCodeCategory implements StatusCodeCategoryInterface
      */
     public static function cases(): array
     {
-        return \array_values(self::CASES);
+        return self::CASES;
     }
 
     /**

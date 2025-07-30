@@ -14,6 +14,9 @@ use Boson\Contracts\Http\Component\StatusCodeInterface;
  */
 final readonly class HttpStatusCode implements StatusCodeInterface
 {
+    /**
+     * @use StatusCodeImpl<int<100, 599>>
+     */
     use StatusCodeImpl {
         StatusCodeImpl::__construct as private __statusCodeImplConstruct;
     }

@@ -12,7 +12,7 @@ use Boson\Contracts\Http\RequestInterface;
  * @phpstan-type UrlInputType string|\Stringable
  *
  * @phpstan-import-type BodyInputType from MessageFactoryInterface
- * @phpstan-import-type HeadersListInputType from MessageFactoryInterface
+ * @phpstan-import-type HeadersInputType from MessageFactoryInterface
  */
 interface RequestFactoryInterface extends MessageFactoryInterface
 {
@@ -33,7 +33,7 @@ interface RequestFactoryInterface extends MessageFactoryInterface
     /**
      * @param MethodInputType $method
      * @param UrlInputType $url
-     * @param HeadersListInputType $headers
+     * @param HeadersInputType $headers
      * @param BodyInputType $body
      *
      * @throws InvalidMessageArgumentExceptionInterface in case of invalid

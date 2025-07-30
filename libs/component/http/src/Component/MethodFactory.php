@@ -19,6 +19,7 @@ final readonly class MethodFactory implements MethodFactoryInterface
         if ($method instanceof \Stringable) {
             try {
                 $scalar = (string) $method;
+            /** @phpstan-ignore-next-line : PHPStan false-positive, this is not dead catch */
             } catch (\Throwable $e) {
                 throw InvalidMethodComponentException::becauseStringCastingErrorOccurs($method, $e);
             }

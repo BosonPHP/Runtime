@@ -9,7 +9,7 @@ use Boson\Contracts\ValueObject\IntValueObjectInterface;
 use Boson\Contracts\ValueObject\StringValueObjectInterface;
 
 /**
- * @template-covariant T of int = int
+ * @template T of int = int
  *
  * @template-extends IntValueObjectInterface<T>
  */

@@ -13,6 +13,7 @@ final readonly class BodyFactory implements BodyFactoryInterface
     {
         try {
             return (string) $body;
+        /** @phpstan-ignore-next-line : PHPStan false-positive, this is not dead catch */
         } catch (\Throwable $e) {
             throw InvalidBodyComponentException::becauseStringCastingErrorOccurs($body, $e);
         }

@@ -7,6 +7,10 @@ namespace Boson\WebView\Api\Schemes;
 use Boson\Component\Http\Component\HeadersMap;
 use Boson\Component\Http\Request;
 use Boson\Contracts\Http\Component\HeadersInterface;
+use Boson\Contracts\Http\Component\MethodInterface;
+use Boson\Contracts\Http\Factory\Component\BodyFactoryInterface;
+use Boson\Contracts\Http\Factory\Component\HeadersFactoryInterface;
+use Boson\Contracts\Http\Factory\Component\MethodFactoryInterface;
 use Boson\Contracts\Http\RequestInterface;
 use Boson\Contracts\Uri\Factory\UriFactoryInterface;
 use Boson\Contracts\Uri\UriInterface;
@@ -19,11 +23,8 @@ use FFI\CData;
  */
 final class LazyInitializedRequest implements RequestInterface
 {
-    /**
-     * @var non-empty-uppercase-string
-     */
-    public string $method {
-        get => $this->method ??= Request::castMethod(
+    public MethodInterface $method {
+        get => $this->method ??= $this->methodFactory->createMethodFromString(
             method: $this->fetchRawMethodString(),
         );
     }
@@ -35,27 +36,41 @@ final class LazyInitializedRequest implements RequestInterface
     }
 
     public HeadersInterface $headers {
-        get => $this->headers ??= HeadersMap::createFromIterable(
+        get => $this->headers ??= $this->headersFactory->createHeadersFromIterable(
             headers: $this->fetchRawHeadersIterable(),
         );
     }
 
     public string $body {
-        get => $this->body ??= $this->fetchRawBodyString();
+        get => $this->body ??= $this->bodyFactory->createBodyFromString(
+            body: $this->fetchRawBodyString()
+        );
     }
 
     public function __construct(
         private readonly LibSaucer $api,
         private readonly CData $ptr,
-        private readonly UriFactoryInterface $uriFactory,
+        private MethodFactoryInterface $methodFactory,
+        private UriFactoryInterface $uriFactory,
+        private HeadersFactoryInterface $headersFactory,
+        private BodyFactoryInterface $bodyFactory,
     ) {}
 
+    /**
+     * @return non-empty-string
+     */
     private function fetchRawMethodString(): string
     {
         $method = $this->api->saucer_scheme_request_method($this->ptr);
 
         try {
-            return \FFI::string($method);
+            $scalar = \FFI::string($method);
+
+            if ($scalar === '') {
+                return 'GET';
+            }
+
+            return $scalar;
         } finally {
             \FFI::free($method);
         }

@@ -56,7 +56,7 @@ final readonly class DefaultServerGlobalsProvider implements ServerGlobalsProvid
         }
 
         return [
-            'REQUEST_METHOD' => $request->method,
+            'REQUEST_METHOD' => (string) $request->method,
             'QUERY_STRING' => $query,
             'PATH_INFO' => $path,
             'REMOTE_ADDR' => $host,

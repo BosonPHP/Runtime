@@ -1,0 +1,105 @@
+<?php
+
+namespace Boson\Component\Http\Component\Method {
+
+    const GET = new HttpMethod('GET', true, true);
+    const HEAD = new HttpMethod('HEAD', true, true);
+    const OPTIONS = new HttpMethod('OPTIONS', true, true);
+    const TRACE = new HttpMethod('TRACE', true, true);
+    const PUT = new HttpMethod('PUT', true, false);
+    const DELETE = new HttpMethod('DELETE', true, false);
+    const POST = new HttpMethod('POST', false, false);
+    const PATCH = new HttpMethod('PATCH', false, false);
+    const CONNECT = new HttpMethod('CONNECT', false, false);
+
+}
+
+namespace Boson\Component\Http\Component\StatusCode {
+
+    // Reserved keyword
+    define('Boson\Component\Http\Component\StatusCode\CONTINUE', new HttpStatusCode(100, 'Continue'));
+
+    const SWITCHING_PROTOCOLS = new HttpStatusCode(101, 'Switching Protocols');
+    const PROCESSING = new HttpStatusCode(102, 'Processing');
+    const EARLY_HINTS = new HttpStatusCode(103, 'Early Hints');
+    const RESPONSE_IS_STALE = new HttpStatusCode(110, 'Response Is Stale');
+    const REVALIDATION_FAILED = new HttpStatusCode(111, 'Revalidation Failed');
+    const DISCONNECTED_OPERATION = new HttpStatusCode(112, 'Disconnected Operation');
+    const HEURISTIC_EXPIRATION = new HttpStatusCode(113, 'Heuristic Expiration');
+    const MISCELLANEOUS_WARNING = new HttpStatusCode(199, 'Miscellaneous Warning');
+    const OK = new HttpStatusCode(200, 'OK');
+    const CREATED = new HttpStatusCode(201, 'Created');
+    const ACCEPTED = new HttpStatusCode(202, 'Accepted');
+    const NON_AUTHORITATIVE_INFORMATION = new HttpStatusCode(203, 'Non-Authoritative Information');
+    const NO_CONTENT = new HttpStatusCode(204, 'No Content');
+    const RESET_CONTENT = new HttpStatusCode(205, 'Reset Content');
+    const PARTIAL_CONTENT = new HttpStatusCode(206, 'Partial Content');
+    const MULTI_STATUS = new HttpStatusCode(207, 'Multi-Status');
+    const ALREADY_REPORTED = new HttpStatusCode(208, 'Already Reported');
+    const TRANSFORMATION_APPLIED = new HttpStatusCode(214, 'Transformation Applied');
+    const IM_USED = new HttpStatusCode(226, 'IM Used');
+    const MISCELLANEOUS_PERSISTENT_WARNING = new HttpStatusCode(299, 'Miscellaneous Persistent Warning');
+    const MULTIPLE_CHOICES = new HttpStatusCode(300, 'Multiple Choices');
+    const MOVED_PERMANENTLY = new HttpStatusCode(301, 'Moved Permanently');
+    const FOUND = new HttpStatusCode(302, 'Found');
+    const SEE_OTHER = new HttpStatusCode(303, 'See Other');
+    const NOT_MODIFIED = new HttpStatusCode(304, 'Not Modified');
+    const USE_PROXY = new HttpStatusCode(305, 'Use Proxy');
+    const UNUSED = new HttpStatusCode(306, 'Unused');
+    const TEMPORARY_REDIRECT = new HttpStatusCode(307, 'Temporary Redirect');
+    const PERMANENT_REDIRECT = new HttpStatusCode(308, 'Permanent Redirect');
+    const BAD_REQUEST = new HttpStatusCode(400, 'Bad Request');
+    const UNAUTHORIZED = new HttpStatusCode(401, 'Unauthorized');
+    const PAYMENT_REQUIRED = new HttpStatusCode(402, 'Payment Required');
+    const FORBIDDEN = new HttpStatusCode(403, 'Forbidden');
+    const NOT_FOUND = new HttpStatusCode(404, 'Not Found');
+    const METHOD_NOT_ALLOWED = new HttpStatusCode(405, 'Method Not Allowed');
+    const NOT_ACCEPTABLE = new HttpStatusCode(406, 'Not Acceptable');
+    const PROXY_AUTHENTICATION_REQUIRED = new HttpStatusCode(407, 'Proxy Authentication Required');
+    const REQUEST_TIMEOUT = new HttpStatusCode(408, 'Request Timeout');
+    const CONFLICT = new HttpStatusCode(409, 'Conflict');
+    const GONE = new HttpStatusCode(410, 'Gone');
+    const LENGTH_REQUIRED = new HttpStatusCode(411, 'Length Required');
+    const PRECONDITION_FAILED = new HttpStatusCode(412, 'Precondition Failed');
+    const PAYLOAD_TOO_LARGE = new HttpStatusCode(413, 'Payload Too Large');
+    const URI_TOO_LONG = new HttpStatusCode(414, 'URI Too Long');
+    const UNSUPPORTED_MEDIA_TYPE = new HttpStatusCode(415, 'Unsupported Media Type');
+    const RANGE_NOT_SATISFIABLE = new HttpStatusCode(416, 'Range Not Satisfiable');
+    const EXPECTATION_FAILED = new HttpStatusCode(417, 'Expectation Failed');
+    const IM_A_TEAPOT = new HttpStatusCode(418, 'I’m A Teapot');
+    const MISDIRECTED_REQUEST = new HttpStatusCode(421, 'Misdirected Request');
+    const UNPROCESSABLE_ENTITY = new HttpStatusCode(422, 'Unprocessable Entity');
+    const ENTITY_LOCKED = new HttpStatusCode(423, 'Locked');
+    const FAILED_DEPENDENCY = new HttpStatusCode(424, 'Failed Dependency');
+    const HTTP_TOO_EARLY = new HttpStatusCode(425, 'Too Early');
+    const UPGRADE_REQUIRED = new HttpStatusCode(426, 'Upgrade Required');
+    const PRECONDITION_REQUIRED = new HttpStatusCode(428, 'Precondition Required');
+    const TOO_MANY_REQUESTS = new HttpStatusCode(429, 'Too Many Requests');
+    const REQUEST_HEADER_FIELDS_TOO_LARGE = new HttpStatusCode(431, 'Request Header Fields Too Large');
+    const CLOSE = new HttpStatusCode(444, 'No Response');
+    const UNAVAILABLE_FOR_LEGAL_REASONS = new HttpStatusCode(451, 'Unavailable For Legal Reasons');
+    const CLIENT_CLOSED_REQUEST = new HttpStatusCode(499, 'Client Closed Request');
+    const INTERNAL_SERVER_ERROR = new HttpStatusCode(500, 'Internal Server Error');
+    const NOT_IMPLEMENTED = new HttpStatusCode(501, 'Not Implemented');
+    const BAD_GATEWAY = new HttpStatusCode(502, 'Bad Gateway');
+    const SERVICE_UNAVAILABLE = new HttpStatusCode(503, 'Service Unavailable');
+    const GATEWAY_TIMEOUT = new HttpStatusCode(504, 'Gateway Timeout');
+    const HTTP_VERSION_NOT_SUPPORTED = new HttpStatusCode(505, 'HTTP Version Not Supported');
+    const HTTP_VARIANT_ALSO_NEGOTIATES = new HttpStatusCode(506, 'Variant Also Negotiates');
+    const HTTP_INSUFFICIENT_STORAGE = new HttpStatusCode(507, 'Insufficient Storage');
+    const HTTP_LOOP_DETECTED = new HttpStatusCode(508, 'Loop Detected');
+    const HTTP_NOT_EXTENDED = new HttpStatusCode(510, 'Not Extended');
+    const HTTP_NETWORK_AUTHENTICATION_REQUIRED = new HttpStatusCode(511, 'Network Authentication Required');
+    const NETWORK_CONNECT_TIMEOUT = new HttpStatusCode(599, 'Network Connect Timeout Error');
+
+}
+
+namespace Boson\Component\Http\Component\StatusCode\Category {
+
+    const INFORMATIONAL = new HttpStatusCodeCategory('Informational');
+    const SUCCESSFUL = new HttpStatusCodeCategory('Successful');
+    const REDIRECTION = new HttpStatusCodeCategory('Redirection');
+    const CLIENT_ERROR = new HttpStatusCodeCategory('Client Error');
+    const SERVER_ERROR = new HttpStatusCodeCategory('Server Error');
+
+}

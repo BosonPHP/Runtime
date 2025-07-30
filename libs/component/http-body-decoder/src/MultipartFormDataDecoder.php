@@ -6,7 +6,7 @@ namespace Boson\Component\Http\Body;
 
 use Boson\Component\Http\Body\MultipartFormData\FormDataBoundary;
 use Boson\Component\Http\Body\MultipartFormData\FormDataBoundaryFactory;
-use Boson\Component\Http\Component\MutableHeadersMap;
+use Boson\Component\Http\Component\HeadersMap;
 use Boson\Contracts\Http\Component\HeadersInterface;
 use Boson\Contracts\Http\RequestInterface;
 
@@ -192,7 +192,7 @@ final readonly class MultipartFormDataDecoder implements SpecializedBodyDecoderI
      */
     private function nextHeadersFromIterator(\Iterator $iterator): HeadersInterface
     {
-        $headers = new MutableHeadersMap();
+        $headers = [];
 
         while ($iterator->valid()) {
             $headerLine = $iterator->current();
@@ -214,10 +214,14 @@ final readonly class MultipartFormDataDecoder implements SpecializedBodyDecoderI
             $headerName = \substr($headerLine, 0, $headerValueStartsAt);
             $headerValue = \substr($headerLine, $headerValueStartsAt + 1);
 
-            $headers->add($headerName, \ltrim($headerValue));
+            if ($headerName === '') {
+                continue;
+            }
+
+            $headers[\strtolower($headerName)][] = \ltrim($headerValue);
         }
 
-        return $headers;
+        return new HeadersMap($headers);
     }
 
     public function isDecodable(RequestInterface $request): bool

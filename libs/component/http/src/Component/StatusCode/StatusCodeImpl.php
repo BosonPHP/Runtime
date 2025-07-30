@@ -8,16 +8,40 @@ use Boson\Contracts\Http\Component\StatusCode\StatusCodeCategoryInterface;
 use Boson\Contracts\Http\Component\StatusCodeInterface;
 
 /**
+ * @template T of int = int
+ *
  * @phpstan-require-implements StatusCodeInterface
  */
 trait StatusCodeImpl
 {
-    public function __construct(
-        public readonly int $code,
-        public readonly string $reason = '',
-        public readonly ?StatusCodeCategoryInterface $category = null,
-    ) {}
+    /**
+     * @var T
+     */
+    public readonly int $code;
 
+    public readonly string $reason;
+
+    public readonly ?StatusCodeCategoryInterface $category;
+
+    /**
+     * @param T $code
+     */
+    public function __construct(
+        int $code,
+        string $reason = '',
+        ?StatusCodeCategoryInterface $category = null,
+    ) {
+        /** @phpstan-ignore-next-line : PHPStan false-positive (assigned outside of constructor) */
+        $this->code = $code;
+        /** @phpstan-ignore-next-line : PHPStan false-positive (assigned outside of constructor) */
+        $this->reason = $reason;
+        /** @phpstan-ignore-next-line : PHPStan false-positive (assigned outside of constructor) */
+        $this->category = $category;
+    }
+
+    /**
+     * @return T
+     */
     public function toInteger(): int
     {
         return $this->code;

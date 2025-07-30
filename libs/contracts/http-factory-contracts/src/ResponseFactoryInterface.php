@@ -12,7 +12,7 @@ use Boson\Contracts\Http\ResponseInterface;
  * @phpstan-type StatusCodeInputType int
  *
  * @phpstan-import-type BodyInputType from MessageFactoryInterface
- * @phpstan-import-type HeadersListInputType from MessageFactoryInterface
+ * @phpstan-import-type HeadersInputType from MessageFactoryInterface
  */
 interface ResponseFactoryInterface extends MessageFactoryInterface
 {
@@ -26,7 +26,7 @@ interface ResponseFactoryInterface extends MessageFactoryInterface
 
     /**
      * @param BodyInputType $body
-     * @param HeadersListInputType $headers
+     * @param HeadersInputType $headers
      * @param StatusCodeInputType|StatusCodeInterface $status
      *
      * @throws InvalidMessageArgumentExceptionInterface in case of invalid

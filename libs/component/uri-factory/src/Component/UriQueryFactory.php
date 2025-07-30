@@ -20,6 +20,7 @@ final readonly class UriQueryFactory implements UriQueryFactoryInterface
         if ($query instanceof \Stringable) {
             try {
                 $scalar = (string) $query;
+            /** @phpstan-ignore-next-line : PHPStan false-positive, this is not dead catch */
             } catch (\Throwable $e) {
                 throw InvalidUriQueryComponentException::becauseStringCastingErrorOccurs($query, $e);
             }

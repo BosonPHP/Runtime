@@ -61,11 +61,18 @@ final readonly class UriFactory implements UriFactoryInterface
             return clone $uri;
         }
 
-        try {
-            $components = \parse_url((string) $uri);
-        } catch (\Throwable $e) {
-            throw InvalidUriException::becauseStringCastingErrorOccurs($uri, $e);
+        if ($uri instanceof \Stringable) {
+            try {
+                $scalar = (string) $uri;
+            /** @phpstan-ignore-next-line : PHPStan false-positive, this is not dead catch */
+            } catch (\Throwable $e) {
+                throw InvalidUriException::becauseStringCastingErrorOccurs($uri, $e);
+            }
+
+            $uri = $scalar;
         }
+
+        $components = \parse_url($uri);
 
         if ($components === false) {
             $components = self::URI_COMPONENTS;

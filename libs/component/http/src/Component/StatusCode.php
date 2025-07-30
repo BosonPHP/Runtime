@@ -1656,8 +1656,6 @@ final readonly class StatusCode implements StatusCodeInterface
      * it will return {@see null}.
      *
      * @api
-     *
-     * @param int<100, 599> $value
      */
     public static function tryFrom(int $value): ?StatusCodeInterface
     {
@@ -1670,8 +1668,6 @@ final readonly class StatusCode implements StatusCodeInterface
      * it will throw {@see \ValueError}.
      *
      * @api
-     *
-     * @param int<100, 599> $value
      *
      * @throws \ValueError if there is no matching case defined
      */

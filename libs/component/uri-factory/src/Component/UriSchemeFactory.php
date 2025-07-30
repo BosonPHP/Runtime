@@ -20,6 +20,7 @@ final readonly class UriSchemeFactory implements UriSchemeFactoryInterface
         if ($scheme instanceof \Stringable) {
             try {
                 $scalar = (string) $scheme;
+            /** @phpstan-ignore-next-line : PHPStan false-positive, this is not dead catch */
             } catch (\Throwable $e) {
                 throw InvalidUriSchemeComponentException::becauseStringCastingErrorOccurs($scheme, $e);
             }
