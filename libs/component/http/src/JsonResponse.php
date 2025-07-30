@@ -37,7 +37,6 @@ readonly class JsonResponse extends Response
         | \JSON_HEX_QUOT;
 
     /**
-     * @param BodyInputType $body
      * @param HeadersInputType $headers
      * @param StatusCodeInputType|StatusCodeInterface $status
      *

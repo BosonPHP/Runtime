@@ -17,10 +17,10 @@ interface HeadersFactoryInterface
 {
     /**
      * @param HeadersInputType $headers
-     * @return HeadersOutputType
      *
+     * @return HeadersOutputType
      * @throws InvalidMessageArgumentExceptionInterface in case of passed
-     *         headers is invalid.
+     *         headers is invalid
      */
     public function createHeadersFromIterable(iterable $headers): HeadersInterface;
 }

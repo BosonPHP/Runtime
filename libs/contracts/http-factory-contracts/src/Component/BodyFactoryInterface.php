@@ -16,10 +16,10 @@ interface BodyFactoryInterface
 {
     /**
      * @param BodyInputType $body
-     * @return BodyOutputType
      *
+     * @return BodyOutputType
      * @throws InvalidMessageArgumentExceptionInterface in case of
-     *         body argument is invalid and body cannot be created.
+     *         body argument is invalid and body cannot be created
      */
     public function createBodyFromString(string|\Stringable $body): string;
 }

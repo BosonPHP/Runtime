@@ -154,5 +154,4 @@ define($name = 'Boson\Component\Http\Component\StatusCode\HTTP_NETWORK_AUTHENTIC
 
 define($name = 'Boson\Component\Http\Component\StatusCode\NETWORK_CONNECT_TIMEOUT', new HttpStatusCode(599, 'Network Connect Timeout Error'));
 
-
 unset($name);

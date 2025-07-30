@@ -54,6 +54,7 @@ readonly class Response implements ResponseInterface
 
     /**
      * @param BodyInputType $body
+     *
      * @return BodyOutputType
      */
     private function createBody(BodyFactoryInterface $factory, string|\Stringable $body): string
@@ -63,6 +64,7 @@ readonly class Response implements ResponseInterface
 
     /**
      * @param HeadersInputType $headers
+     *
      * @return HeadersOutputType
      */
     private function createHeaders(HeadersFactoryInterface $factory, iterable $headers): HeadersInterface
@@ -94,6 +96,7 @@ readonly class Response implements ResponseInterface
 
     /**
      * @param StatusCodeInputType|StatusCodeInterface $code
+     *
      * @return StatusCodeOutputType
      */
     private function createCode(StatusCodeFactoryInterface $factory, int|StatusCodeInterface $code): StatusCodeInterface

@@ -17,12 +17,12 @@ interface StatusCodeFactoryInterface
 {
     /**
      * @param StatusCodeInputType $code
-     * @param string|null $reason An optional reason phrase for **new**
-     *        (non-standard) status code.
-     * @return StatusCodeOutputType
+     * @param string|null $reason an optional reason phrase for **new**
+     *        (non-standard) status code
      *
+     * @return StatusCodeOutputType
      * @throws InvalidMessageArgumentExceptionInterface in case of passed
-     *         status code argument is invalid.
+     *         status code argument is invalid
      */
     public function createStatusCode(int $code, ?string $reason = null): StatusCodeInterface;
 }

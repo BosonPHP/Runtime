@@ -7,10 +7,10 @@ namespace Boson\Component\Http\Component\StatusCode;
 use Boson\Contracts\Http\Component\StatusCodeInterface;
 
 /**
+ * @template-implements StatusCodeInterface<int<100, 599>>
+ *
  * @internal this is an internal library class, please do not use it in your code
  * @psalm-internal Boson\Component\Http\Component\StatusCode
- *
- * @template-implements StatusCodeInterface<int<100, 599>>
  */
 final readonly class HttpStatusCode implements StatusCodeInterface
 {

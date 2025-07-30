@@ -17,10 +17,10 @@ interface MethodFactoryInterface
 {
     /**
      * @param MethodInputType $method
-     * @return MethodOutputType
      *
+     * @return MethodOutputType
      * @throws InvalidMessageArgumentExceptionInterface in case of passed
-     *         method is invalid.
+     *         method is invalid
      */
     public function createMethodFromString(string|\Stringable $method): MethodInterface;
 }

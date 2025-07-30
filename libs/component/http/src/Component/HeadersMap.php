@@ -10,6 +10,7 @@ use Boson\Contracts\Http\Component\HeadersInterface;
  * An implementation of immutable headers list.
  *
  * @phpstan-type HeadersListInputType iterable<non-empty-lowercase-string, list<string>>
+ *
  * @phpstan-import-type HeadersListOutputType from HeadersInterface
  *
  * @template-implements \IteratorAggregate<non-empty-lowercase-string, string>
@@ -105,7 +106,6 @@ class HeadersMap implements HeadersInterface, \IteratorAggregate
 
         return new self($headers);
     }
-
 
     public function first(string $name, ?string $default = null): ?string
     {

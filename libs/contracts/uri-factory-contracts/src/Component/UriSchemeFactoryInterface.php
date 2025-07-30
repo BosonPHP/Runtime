@@ -16,7 +16,7 @@ interface UriSchemeFactoryInterface
      * @param non-empty-string|\Stringable $scheme
      *
      * @throws InvalidUriComponentExceptionInterface in case of invalid scheme
-     *         argument is passed.
+     *         argument is passed
      */
     public function createSchemeFromString(string|\Stringable $scheme): SchemeInterface;
 }

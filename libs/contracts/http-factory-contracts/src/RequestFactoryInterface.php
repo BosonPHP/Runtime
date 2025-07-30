@@ -10,6 +10,7 @@ use Boson\Contracts\Http\RequestInterface;
 /**
  * @phpstan-type MethodInputType non-empty-string|\Stringable
  * @phpstan-type UrlInputType string|\Stringable
+ *
  * @phpstan-import-type BodyInputType from MessageFactoryInterface
  * @phpstan-import-type HeadersListInputType from MessageFactoryInterface
  */
@@ -36,7 +37,7 @@ interface RequestFactoryInterface extends MessageFactoryInterface
      * @param BodyInputType $body
      *
      * @throws InvalidMessageArgumentExceptionInterface in case of invalid
-     *         argument is passed.
+     *         argument is passed
      */
     public function createRequest(
         string|\Stringable $method = self::DEFAULT_METHOD,

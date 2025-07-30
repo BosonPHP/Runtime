@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Boson\Contracts\Http;
 
-use Boson\Contracts\Uri\UriInterface;
 use Boson\Contracts\Http\Component\MethodInterface;
+use Boson\Contracts\Uri\UriInterface;
 
 /**
  * @phpstan-type MethodOutputType MethodInterface

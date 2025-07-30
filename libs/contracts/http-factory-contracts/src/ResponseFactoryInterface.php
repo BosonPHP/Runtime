@@ -10,6 +10,7 @@ use Boson\Contracts\Http\ResponseInterface;
 
 /**
  * @phpstan-type StatusCodeInputType int
+ *
  * @phpstan-import-type BodyInputType from MessageFactoryInterface
  * @phpstan-import-type HeadersListInputType from MessageFactoryInterface
  */
@@ -29,7 +30,7 @@ interface ResponseFactoryInterface extends MessageFactoryInterface
      * @param StatusCodeInputType|StatusCodeInterface $status
      *
      * @throws InvalidMessageArgumentExceptionInterface in case of invalid
-     *         argument is passed.
+     *         argument is passed
      */
     public function createRequest(
         string|\Stringable $body = self::DEFAULT_BODY,

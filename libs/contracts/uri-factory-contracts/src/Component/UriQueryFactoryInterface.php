@@ -14,7 +14,7 @@ interface UriQueryFactoryInterface
      * passed {@see string} or {@see \Stringable} argument.
      *
      * @throws InvalidUriComponentExceptionInterface in case of invalid query
-     *         argument is passed.
+     *         argument is passed
      */
     public function createQueryFromString(string|\Stringable $query): QueryInterface;
 }

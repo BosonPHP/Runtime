@@ -48,4 +48,3 @@ interface MethodInterface extends StringValueObjectInterface
      */
     public ?bool $isSafe { get; }
 }
-

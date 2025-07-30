@@ -12,7 +12,7 @@ final readonly class BodyFactory implements BodyFactoryInterface
     public function createBodyFromString(\Stringable|string $body): string
     {
         try {
-            return (string)$body;
+            return (string) $body;
         } catch (\Throwable $e) {
             throw InvalidBodyComponentException::becauseStringCastingErrorOccurs($body, $e);
         }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Boson\Contracts\Http\Component;
 
-use Boson\Contracts\ValueObject\IntValueObjectInterface;
 use Boson\Contracts\Http\Component\StatusCode\StatusCodeCategoryInterface;
+use Boson\Contracts\ValueObject\IntValueObjectInterface;
 use Boson\Contracts\ValueObject\StringValueObjectInterface;
 
 /**

@@ -27,6 +27,7 @@ final readonly class HeadersFactory implements HeadersFactoryInterface
 
     /**
      * @param HeadersInputType $headers
+     *
      * @return HeadersListInputType
      */
     protected function format(iterable $headers): array
