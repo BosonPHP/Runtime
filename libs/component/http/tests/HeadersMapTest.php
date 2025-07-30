@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Boson\Component\Http\Tests;
 
-use Boson\Component\Http\HeadersMap;
+use Boson\Component\Http\Component\HeadersMap;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('boson-php/http')]

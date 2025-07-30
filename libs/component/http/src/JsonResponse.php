@@ -4,21 +4,23 @@ declare(strict_types=1);
 
 namespace Boson\Component\Http;
 
-use Boson\Contracts\Http\Body\MutableBodyProviderInterface;
-use Boson\Contracts\Http\Headers\MutableHeadersProviderInterface;
-use Boson\Contracts\Http\MutableHeadersInterface;
-use Boson\Contracts\Http\MutableResponseInterface;
-use Boson\Contracts\Http\StatusCode\MutableStatusCodeProviderInterface;
+use Boson\Component\Http\Component\BodyFactory;
+use Boson\Component\Http\Component\HeadersFactory;
+use Boson\Component\Http\Component\HeadersMap;
+use Boson\Component\Http\Component\StatusCodeFactory;
+use Boson\Contracts\Http\Component\StatusCodeInterface;
+use Boson\Contracts\Http\Factory\Component\BodyFactoryInterface;
+use Boson\Contracts\Http\Factory\Component\HeadersFactoryInterface;
+use Boson\Contracts\Http\Factory\Component\StatusCodeFactoryInterface;
+use Boson\Contracts\Http\Factory\MessageFactoryInterface;
+use Boson\Contracts\Http\Factory\ResponseFactoryInterface;
 
 /**
- * @phpstan-type JsonEncodingFlagsType int<0, max>
- *
- * @phpstan-import-type StatusCodeInputType from MutableStatusCodeProviderInterface
- * @phpstan-import-type HeadersListInputType from MutableHeadersProviderInterface
- * @phpstan-import-type BodyInputType from MutableBodyProviderInterface
- * @phpstan-import-type MutableHeadersListOutputType from MutableHeadersProviderInterface
+ * @phpstan-import-type StatusCodeInputType from ResponseFactoryInterface
+ * @phpstan-import-type BodyInputType from MessageFactoryInterface
+ * @phpstan-import-type HeadersInputType from MessageFactoryInterface
  */
-class JsonResponse extends Response
+readonly class JsonResponse extends Response
 {
     /**
      * @var non-empty-lowercase-string
@@ -28,8 +30,6 @@ class JsonResponse extends Response
     /**
      * Encode <, >, ', &, and " characters in the JSON, making
      * it also safe to be embedded into HTML.
-     *
-     * @var JsonEncodingFlagsType
      */
     protected const int DEFAULT_JSON_ENCODING_FLAGS = \JSON_HEX_TAG
         | \JSON_HEX_APOS
@@ -37,42 +37,43 @@ class JsonResponse extends Response
         | \JSON_HEX_QUOT;
 
     /**
-     * @param HeadersListInputType $headers
-     * @param StatusCodeInputType $status
+     * @param BodyInputType $body
+     * @param HeadersInputType $headers
+     * @param StatusCodeInputType|StatusCodeInterface $status
      *
      * @throws \JsonException
      */
     public function __construct(
         mixed $data = null,
-        iterable $headers = [],
-        int $status = MutableResponseInterface::DEFAULT_STATUS_CODE,
+        iterable $headers = ResponseFactoryInterface::DEFAULT_HEADERS,
+        int|StatusCodeInterface $status = ResponseFactoryInterface::DEFAULT_STATUS_CODE,
         /**
          * JSON body encoding flags bit-mask.
-         *
-         * @var JsonEncodingFlagsType
          */
         protected int $jsonEncodingFlags = self::DEFAULT_JSON_ENCODING_FLAGS,
+        BodyFactoryInterface $bodyFactory = new BodyFactory(),
+        HeadersFactoryInterface $headersFactory = new HeadersFactory(),
+        StatusCodeFactoryInterface $statusCodeFactory = new StatusCodeFactory(),
     ) {
         parent::__construct(
             body: $this->formatJsonBody($data),
             headers: $headers,
             status: $status,
+            bodyFactory: $bodyFactory,
+            headersFactory: $headersFactory,
+            statusCodeFactory: $statusCodeFactory,
         );
     }
 
     /**
      * Extend headers by the "application/json" content type
      * in case of content-type header has not been defined.
-     *
-     * @param MutableHeadersListOutputType $headers
-     *
-     * @return MutableHeadersListOutputType
      */
     #[\Override]
-    protected function extendHeaders(MutableHeadersInterface $headers): MutableHeadersInterface
+    protected function extendHeaders(HeadersMap $headers): HeadersMap
     {
         if (!$headers->has('content-type')) {
-            $headers->add('content-type', self::DEFAULT_JSON_CONTENT_TYPE);
+            $headers = $headers->withAddedHeader('content-type', self::DEFAULT_JSON_CONTENT_TYPE);
         }
 
         return parent::extendHeaders($headers);

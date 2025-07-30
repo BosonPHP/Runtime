@@ -11,7 +11,8 @@ use Boson\Component\OsInfo\Standard\StandardImpl;
 require_once __DIR__ . '/Standard/constants.php';
 
 /**
- * Enum-like structure representing predefined operating system standards.
+ * Implements enum-like structure representing predefined operating
+ * system standards.
  *
  * Note: Impossible to implement via native PHP enum due to lack of support
  *       for properties: https://externals.io/message/126332

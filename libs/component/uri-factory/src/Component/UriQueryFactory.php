@@ -5,14 +5,26 @@ declare(strict_types=1);
 namespace Boson\Component\Uri\Factory\Component;
 
 use Boson\Component\Uri\Component\Query;
+use Boson\Component\Uri\Factory\Exception\InvalidUriQueryComponentException;
+use Boson\Contracts\Uri\Component\QueryInterface;
 use Boson\Contracts\Uri\Factory\Component\UriQueryFactoryInterface;
 
 final readonly class UriQueryFactory implements UriQueryFactoryInterface
 {
-    public function createQueryFromString(string|\Stringable $query): Query
+    public function createQueryFromString(string|\Stringable $query): QueryInterface
     {
+        if ($query instanceof QueryInterface) {
+            return clone $query;
+        }
+
         if ($query instanceof \Stringable) {
-            $query = (string) $query;
+            try {
+                $scalar = (string) $query;
+            } catch (\Throwable $e) {
+                throw InvalidUriQueryComponentException::becauseStringCastingErrorOccurs($query, $e);
+            }
+
+            $query = $scalar;
         }
 
         if ($query === '') {

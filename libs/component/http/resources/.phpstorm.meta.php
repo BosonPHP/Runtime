@@ -200,23 +200,23 @@ namespace PHPSTORM_META {
         | JSON_THROW_ON_ERROR
     );
 
-    expectedArguments(\Boson\Contracts\Http\HeadersInterface::first(), 0, argumentsSet('boson_http_header_name'));
-    expectedArguments(\Boson\Contracts\Http\HeadersInterface::all(), 0, argumentsSet('boson_http_header_name'));
-    expectedArguments(\Boson\Contracts\Http\HeadersInterface::has(), 0, argumentsSet('boson_http_header_name'));
-    expectedArguments(\Boson\Contracts\Http\HeadersInterface::contains(), 0, argumentsSet('boson_http_header_name'));
+    expectedArguments(\Boson\Contracts\Http\Component\HeadersInterface::first(), 0, argumentsSet('boson_http_header_name'));
+    expectedArguments(\Boson\Contracts\Http\Component\HeadersInterface::all(), 0, argumentsSet('boson_http_header_name'));
+    expectedArguments(\Boson\Contracts\Http\Component\HeadersInterface::has(), 0, argumentsSet('boson_http_header_name'));
+    expectedArguments(\Boson\Contracts\Http\Component\HeadersInterface::contains(), 0, argumentsSet('boson_http_header_name'));
 
-    expectedArguments(\Boson\Component\Http\HeadersMap::first(), 0, argumentsSet('boson_http_header_name'));
-    expectedArguments(\Boson\Component\Http\HeadersMap::all(), 0, argumentsSet('boson_http_header_name'));
-    expectedArguments(\Boson\Component\Http\HeadersMap::has(), 0, argumentsSet('boson_http_header_name'));
-    expectedArguments(\Boson\Component\Http\HeadersMap::contains(), 0, argumentsSet('boson_http_header_name'));
+    expectedArguments(\Boson\Component\Http\Component\HeadersMap::first(), 0, argumentsSet('boson_http_header_name'));
+    expectedArguments(\Boson\Component\Http\Component\HeadersMap::all(), 0, argumentsSet('boson_http_header_name'));
+    expectedArguments(\Boson\Component\Http\Component\HeadersMap::has(), 0, argumentsSet('boson_http_header_name'));
+    expectedArguments(\Boson\Component\Http\Component\HeadersMap::contains(), 0, argumentsSet('boson_http_header_name'));
 
-    expectedArguments(\Boson\Contracts\Http\MutableHeadersInterface::set(), 0, argumentsSet('boson_http_header_name'));
-    expectedArguments(\Boson\Contracts\Http\MutableHeadersInterface::add(), 0, argumentsSet('boson_http_header_name'));
-    expectedArguments(\Boson\Contracts\Http\MutableHeadersInterface::remove(), 0, argumentsSet('boson_http_header_name'));
+    expectedArguments(\Boson\Contracts\Http\Component\MutableHeadersInterface::set(), 0, argumentsSet('boson_http_header_name'));
+    expectedArguments(\Boson\Contracts\Http\Component\MutableHeadersInterface::add(), 0, argumentsSet('boson_http_header_name'));
+    expectedArguments(\Boson\Contracts\Http\Component\MutableHeadersInterface::remove(), 0, argumentsSet('boson_http_header_name'));
 
-    expectedArguments(\Boson\Component\Http\MutableHeadersMap::set(), 0, argumentsSet('boson_http_header_name'));
-    expectedArguments(\Boson\Component\Http\MutableHeadersMap::add(), 0, argumentsSet('boson_http_header_name'));
-    expectedArguments(\Boson\Component\Http\MutableHeadersMap::remove(), 0, argumentsSet('boson_http_header_name'));
+    expectedArguments(\Boson\Component\Http\Component\MutableHeadersMap::set(), 0, argumentsSet('boson_http_header_name'));
+    expectedArguments(\Boson\Component\Http\Component\MutableHeadersMap::add(), 0, argumentsSet('boson_http_header_name'));
+    expectedArguments(\Boson\Component\Http\Component\MutableHeadersMap::remove(), 0, argumentsSet('boson_http_header_name'));
 
     expectedArguments(\Boson\Component\Http\Request::__construct(), 0, argumentsSet('boson_http_method'));
     expectedArguments(\Boson\Component\Http\MutableRequest::__construct(), 0, argumentsSet('boson_http_method'));

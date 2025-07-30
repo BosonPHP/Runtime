@@ -16,6 +16,11 @@ require_once __DIR__ . '/Architecture/constants.php';
  * Provides a set of predefined CPU architectures and methods to work
  * with them. It supports both built-in architectures (like x86, ARM, etc.)
  * and custom architectures.
+ *
+ * Implements enum-like structure representing predefined CPU architectures.
+ *
+ * Note: Impossible to implement via native PHP enum due to lack of support
+ *       for properties: https://externals.io/message/126332
  */
 final readonly class Architecture implements ArchitectureInterface
 {
@@ -161,11 +166,9 @@ final readonly class Architecture implements ArchitectureInterface
     }
 
     /**
-     * Attempts to create a built-in architecture instance from a name.
-     *
-     * This method tries to match the given name against known architecture
-     * names and their aliases. For example, 'x86_64' will match the AMD64
-     * architecture.
+     * Translates a string value into the corresponding {@see Architecture}
+     * case, if any. If there is no matching case defined,
+     * it will return {@see null}.
      *
      * @api
      *
@@ -177,11 +180,9 @@ final readonly class Architecture implements ArchitectureInterface
     }
 
     /**
-     * Creates an architecture instance from a name.
-     *
-     * This method first attempts to find a matching built-in architecture.
-     * If no match is found, it creates a new custom architecture with the
-     * given name.
+     * Translates a string value into the corresponding {@see Architecture}
+     * case, if any. If there is no matching case defined,
+     * it will throw {@see \ValueError}.
      *
      * @api
      *
@@ -200,10 +201,8 @@ final readonly class Architecture implements ArchitectureInterface
     }
 
     /**
-     * Returns a list of all built-in architectures.
-     *
-     * This method returns all the predefined architecture constants
-     * defined in this class.
+     * Return a packed {@see array} of all cases in an enumeration,
+     * in order of declaration.
      *
      * @api
      *

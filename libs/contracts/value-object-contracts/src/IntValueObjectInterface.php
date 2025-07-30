@@ -8,10 +8,8 @@ namespace Boson\Contracts\ValueObject;
  * Represents integer value object types.
  *
  * @template-covariant T of int = int
- *
- * @extends StringValueObjectInterface<numeric-string>
  */
-interface IntValueObjectInterface extends StringValueObjectInterface
+interface IntValueObjectInterface extends ValueObjectInterface
 {
     /**
      * Returns inner integer value of the value object type.

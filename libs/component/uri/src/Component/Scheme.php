@@ -9,6 +9,12 @@ use Boson\Contracts\Uri\Component\SchemeInterface;
 
 require_once __DIR__ . '/Scheme/constants.php';
 
+/**
+ * Implements enum-like structure representing most popular known URI schemes.
+ *
+ * Note: Impossible to implement via native PHP enum due to lack of support
+ *       for properties: https://externals.io/message/126332
+ */
 final readonly class Scheme implements SchemeInterface
 {
     use SchemeImpl;

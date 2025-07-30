@@ -11,7 +11,8 @@ use Boson\Component\OsInfo\Family\FamilyImpl;
 require_once __DIR__ . '/Family/constants.php';
 
 /**
- * Enum-like structure representing predefined operating system families.
+ * Implements enum-like structure representing predefined
+ * operating system families.
  *
  * Note: Impossible to implement via native PHP enum due to lack of support
  *       for properties: https://externals.io/message/126332

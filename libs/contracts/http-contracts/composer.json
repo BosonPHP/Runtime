@@ -15,7 +15,8 @@
         }
     ],
     "require": {
-        "php": "^8.4"
+        "php": "^8.4",
+        "boson-php/value-object-contracts": "^0.15"
     },
     "autoload": {
         "psr-4": {

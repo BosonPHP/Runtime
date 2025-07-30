@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Boson\WebView\Api\Schemes;
 
-use Boson\Component\Http\HeadersMap;
+use Boson\Component\Http\Component\HeadersMap;
 use Boson\Component\Http\Request;
-use Boson\Contracts\Http\HeadersInterface;
+use Boson\Contracts\Http\Component\HeadersInterface;
 use Boson\Contracts\Http\RequestInterface;
 use Boson\Contracts\Uri\Factory\UriFactoryInterface;
 use Boson\Contracts\Uri\UriInterface;

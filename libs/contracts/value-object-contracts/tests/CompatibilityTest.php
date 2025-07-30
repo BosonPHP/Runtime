@@ -47,8 +47,6 @@ final class CompatibilityTest extends TestCase
 
             public function __toString(): string {}
 
-            public function toString(): string {}
-
             public function toInteger(): int {}
         };
     }

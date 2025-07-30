@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Boson\Component\Uri\Factory\Component;
 
 use Boson\Component\Uri\Component\Path;
+use Boson\Component\Uri\Factory\Exception\InvalidUriPathComponentException;
+use Boson\Contracts\Uri\Component\PathInterface;
 use Boson\Contracts\Uri\Factory\Component\UriPathFactoryInterface;
 
 final readonly class UriPathFactory implements UriPathFactoryInterface
@@ -14,10 +16,20 @@ final readonly class UriPathFactory implements UriPathFactoryInterface
      */
     private const string SEGMENT_DELIMITER = Path::PATH_SEGMENT_DELIMITER;
 
-    public function createPathFromString(string|\Stringable $path): Path
+    public function createPathFromString(string|\Stringable $path): PathInterface
     {
+        if ($path instanceof PathInterface) {
+            return clone $path;
+        }
+
         if ($path instanceof \Stringable) {
-            $path = (string) $path;
+            try {
+                $scalar = (string) $path;
+            } catch (\Throwable $e) {
+                throw InvalidUriPathComponentException::becauseStringCastingErrorOccurs($path, $e);
+            }
+
+            $path = $scalar;
         }
 
         if ($path === '') {

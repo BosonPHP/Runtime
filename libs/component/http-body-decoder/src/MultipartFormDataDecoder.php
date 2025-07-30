@@ -6,8 +6,8 @@ namespace Boson\Component\Http\Body;
 
 use Boson\Component\Http\Body\MultipartFormData\FormDataBoundary;
 use Boson\Component\Http\Body\MultipartFormData\FormDataBoundaryFactory;
-use Boson\Component\Http\MutableHeadersMap;
-use Boson\Contracts\Http\HeadersInterface;
+use Boson\Component\Http\Component\MutableHeadersMap;
+use Boson\Contracts\Http\Component\HeadersInterface;
 use Boson\Contracts\Http\RequestInterface;
 
 final readonly class MultipartFormDataDecoder implements SpecializedBodyDecoderInterface

@@ -4,63 +4,19 @@ declare(strict_types=1);
 
 namespace Boson\Component\Http;
 
-use Boson\Component\Http\Body\BodyProviderImpl;
-use Boson\Component\Http\Headers\HeadersProviderImpl;
-use Boson\Component\Http\Method\MethodProviderImpl;
-use Boson\Component\Uri\Factory\UriFactory;
-use Boson\Contracts\Http\Body\BodyProviderInterface;
-use Boson\Contracts\Http\Body\MutableBodyProviderInterface;
-use Boson\Contracts\Http\Headers\HeadersProviderInterface;
-use Boson\Contracts\Http\Headers\MutableHeadersProviderInterface;
-use Boson\Contracts\Http\Method\MethodProviderInterface;
-use Boson\Contracts\Http\Method\MutableMethodProviderInterface;
+use Boson\Contracts\Http\Component\HeadersInterface;
+use Boson\Contracts\Http\Component\MethodInterface;
 use Boson\Contracts\Http\RequestInterface;
-use Boson\Contracts\Http\Url\MutableUrlProviderInterface;
-use Boson\Contracts\Http\Url\UrlProviderInterface;
-use Boson\Contracts\Uri\Factory\UriFactoryInterface;
 use Boson\Contracts\Uri\UriInterface;
 
-/**
- * An implementation of immutable request instance.
- *
- * @phpstan-import-type MethodInputType from MutableMethodProviderInterface
- * @phpstan-import-type MethodOutputType from MethodProviderInterface
- * @phpstan-import-type UrlInputType from MutableUrlProviderInterface
- * @phpstan-import-type UrlOutputType from UrlProviderInterface
- * @phpstan-import-type HeadersListInputType from MutableHeadersProviderInterface
- * @phpstan-import-type HeadersListOutputType from HeadersProviderInterface
- * @phpstan-import-type BodyInputType from MutableBodyProviderInterface
- * @phpstan-import-type BodyOutputType from BodyProviderInterface
- */
-class Request implements RequestInterface
+readonly class Request implements RequestInterface
 {
-    use MethodProviderImpl;
-    use HeadersProviderImpl;
-    use BodyProviderImpl;
-
-    /**
-     * @var UrlOutputType
-     */
-    public readonly UriInterface $url;
-
-    /**
-     * @param MethodInputType $method
-     * @param UrlInputType $url
-     * @param HeadersListInputType $headers
-     * @param BodyInputType $body
-     */
     public function __construct(
-        string|\Stringable $method = MutableMethodProviderInterface::DEFAULT_METHOD,
-        string|\Stringable $url = MutableUrlProviderInterface::DEFAULT_URL,
-        iterable $headers = MutableHeadersProviderInterface::DEFAULT_HEADERS,
-        string|\Stringable $body = MutableBodyProviderInterface::DEFAULT_BODY,
-        UriFactoryInterface $uriFactory = new UriFactory(),
-    ) {
-        $this->method = self::castMethod($method);
-        $this->url = $uriFactory->createUriFromString($url);
-        $this->headers = self::castHeaders($headers);
-        $this->body = self::castBody($body);
-    }
+        public MethodInterface $method,
+        public UriInterface $url,
+        public HeadersInterface $headers,
+        public string $body,
+    ) {}
 
     /**
      * Creates new request instance from another one.

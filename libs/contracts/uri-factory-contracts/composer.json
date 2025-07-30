@@ -1,6 +1,6 @@
 {
     "name": "boson-php/uri-factory-contracts",
-    "description": "Provides basic URI interfaces",
+    "description": "Provides basic URI factory interfaces",
     "type": "library",
     "license": "MIT",
     "homepage": "https://bosonphp.com",

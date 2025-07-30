@@ -13,23 +13,27 @@ final readonly class UriSchemeFactory implements UriSchemeFactoryInterface
 {
     public function createSchemeFromString(string|\Stringable $scheme): SchemeInterface
     {
+        if ($scheme instanceof SchemeInterface) {
+            return $scheme;
+        }
+
         if ($scheme instanceof \Stringable) {
-            $scheme = (string) $scheme;
+            try {
+                $scalar = (string) $scheme;
+            } catch (\Throwable $e) {
+                throw InvalidUriSchemeComponentException::becauseStringCastingErrorOccurs($scheme, $e);
+            }
+
+            $scheme = $scalar;
         }
 
         if ($scheme === '') {
             throw InvalidUriSchemeComponentException::becauseUriSchemeComponentIsEmpty();
         }
 
-        return Scheme::tryFrom(\strtolower($scheme))
-            ?? $this->createUserDefinedScheme($scheme);
-    }
+        $lower = \strtolower($scheme);
 
-    /**
-     * @param non-empty-string $scheme
-     */
-    private function createUserDefinedScheme(string $scheme): Scheme
-    {
-        return new Scheme($scheme);
+        return Scheme::tryFrom($lower)
+            ?? new Scheme($lower);
     }
 }

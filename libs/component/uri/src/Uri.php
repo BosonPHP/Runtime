@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Boson\Component\Uri;
 
+use Boson\Component\Uri\Component\Path;
 use Boson\Component\Uri\Component\Query;
 use Boson\Contracts\Uri\Component\AuthorityInterface;
 use Boson\Contracts\Uri\Component\PathInterface;
@@ -78,7 +79,7 @@ final class Uri implements UriInterface
     }
 
     public function __construct(
-        public readonly PathInterface $path,
+        public readonly PathInterface $path = new Path(),
         public readonly QueryInterface $query = new Query(),
         public readonly ?SchemeInterface $scheme = null,
         public readonly ?AuthorityInterface $authority = null,

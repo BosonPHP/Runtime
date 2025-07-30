@@ -16,7 +16,9 @@
     ],
     "require": {
         "php": "^8.4",
-        "boson-php/http-contracts": "^0.15"
+        "boson-php/uri-factory": "^0.15",
+        "boson-php/http-contracts": "^0.15",
+        "boson-php/http-factory-contracts": "^0.15"
     },
     "autoload": {
         "psr-4": {

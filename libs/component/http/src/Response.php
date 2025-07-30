@@ -4,64 +4,122 @@ declare(strict_types=1);
 
 namespace Boson\Component\Http;
 
-use Boson\Component\Http\Body\MutableBodyProviderImpl;
-use Boson\Component\Http\Headers\MutableHeadersProviderImpl;
-use Boson\Component\Http\StatusCode\MutableStatusCodeProviderImpl;
-use Boson\Contracts\Http\Body\MutableBodyProviderInterface;
-use Boson\Contracts\Http\Headers\MutableHeadersProviderInterface;
-use Boson\Contracts\Http\MutableHeadersInterface;
-use Boson\Contracts\Http\MutableResponseInterface;
-use Boson\Contracts\Http\StatusCode\MutableStatusCodeProviderInterface;
+use Boson\Component\Http\Component\BodyFactory;
+use Boson\Component\Http\Component\HeadersFactory;
+use Boson\Component\Http\Component\HeadersMap;
+use Boson\Component\Http\Component\StatusCodeFactory;
+use Boson\Contracts\Http\Component\HeadersInterface;
+use Boson\Contracts\Http\Component\StatusCodeInterface;
+use Boson\Contracts\Http\Factory\Component\BodyFactoryInterface;
+use Boson\Contracts\Http\Factory\Component\HeadersFactoryInterface;
+use Boson\Contracts\Http\Factory\Component\StatusCodeFactoryInterface;
+use Boson\Contracts\Http\Factory\MessageFactoryInterface;
+use Boson\Contracts\Http\Factory\ResponseFactoryInterface;
+use Boson\Contracts\Http\MessageInterface;
+use Boson\Contracts\Http\ResponseInterface;
 
 /**
- * @phpstan-import-type StatusCodeInputType from MutableStatusCodeProviderInterface
- * @phpstan-import-type HeadersListInputType from MutableHeadersProviderInterface
- * @phpstan-import-type BodyInputType from MutableBodyProviderInterface
- * @phpstan-import-type MutableHeadersListOutputType from MutableHeadersProviderInterface
+ * @phpstan-import-type StatusCodeInputType from ResponseFactoryInterface
+ * @phpstan-import-type StatusCodeOutputType from ResponseInterface
+ * @phpstan-import-type BodyInputType from MessageFactoryInterface
+ * @phpstan-import-type BodyOutputType from MessageInterface
+ * @phpstan-import-type HeadersInputType from MessageFactoryInterface
+ * @phpstan-import-type HeadersOutputType from MessageInterface
  */
-class Response implements MutableResponseInterface
+readonly class Response implements ResponseInterface
 {
-    use MutableBodyProviderImpl;
-    use MutableHeadersProviderImpl;
-    use MutableStatusCodeProviderImpl;
+    public StatusCodeInterface $status;
+
+    public HeadersInterface $headers;
+
+    public string $body;
 
     /**
      * @param BodyInputType $body
-     * @param HeadersListInputType $headers
-     * @param StatusCodeInputType $status
+     * @param HeadersInputType $headers
+     * @param StatusCodeInputType|StatusCodeInterface $status
      */
     public function __construct(
-        string|\Stringable $body = MutableBodyProviderInterface::DEFAULT_BODY,
-        iterable $headers = MutableHeadersProviderInterface::DEFAULT_HEADERS,
-        int $status = MutableStatusCodeProviderInterface::DEFAULT_STATUS_CODE,
+        string|\Stringable $body = ResponseFactoryInterface::DEFAULT_BODY,
+        iterable $headers = ResponseFactoryInterface::DEFAULT_HEADERS,
+        int|StatusCodeInterface $status = ResponseFactoryInterface::DEFAULT_STATUS_CODE,
+        BodyFactoryInterface $bodyFactory = new BodyFactory(),
+        HeadersFactoryInterface $headersFactory = new HeadersFactory(),
+        StatusCodeFactoryInterface $statusCodeFactory = new StatusCodeFactory(),
     ) {
-        $this->body = self::castMutableBody($body);
-        $this->headers = $this->extendHeaders(
-            headers: self::castMutableHeaders($headers),
-        );
-        $this->status = self::castMutableStatusCode($status);
+        $this->body = $this->createBody($bodyFactory, $body);
+        $this->headers = $this->createHeaders($headersFactory, $headers);
+        $this->status = $this->createCode($statusCodeFactory, $status);
     }
 
     /**
-     * Extend headers by defaults.
-     *
-     * @param MutableHeadersListOutputType $headers
-     *
-     * @return MutableHeadersListOutputType
+     * @param BodyInputType $body
+     * @return BodyOutputType
      */
-    protected function extendHeaders(MutableHeadersInterface $headers): MutableHeadersInterface
+    private function createBody(BodyFactoryInterface $factory, string|\Stringable $body): string
+    {
+        return $factory->createBodyFromString($body);
+    }
+
+    /**
+     * @param HeadersInputType $headers
+     * @return HeadersOutputType
+     */
+    private function createHeaders(HeadersFactoryInterface $factory, iterable $headers): HeadersInterface
+    {
+        $map = $factory->createHeadersFromIterable($headers);
+
+        if (!$map instanceof HeadersMap) {
+            $map = HeadersMap::createFromHeaders($map);
+        }
+
+        return $this->extendHeaders($map);
+    }
+
+    protected function extendHeaders(HeadersMap $headers): HeadersMap
     {
         // Set UTF-8 text/html content header in case of
         // content-type header line is not defined.
         if (!$headers->has('content-type')) {
-            $headers->add('content-type', 'text/html; charset=utf-8');
+            $headers = $headers->withAddedHeader('content-type', 'text/html; charset=utf-8');
         }
 
         // Fix unnecessary content-length.
         if ($headers->has('transfer-encoding')) {
-            $headers->remove('content-length');
+            $headers = $headers->withoutHeader('content-length');
         }
 
         return $headers;
+    }
+
+    /**
+     * @param StatusCodeInputType|StatusCodeInterface $code
+     * @return StatusCodeOutputType
+     */
+    private function createCode(StatusCodeFactoryInterface $factory, int|StatusCodeInterface $code): StatusCodeInterface
+    {
+        if ($code instanceof StatusCodeInterface) {
+            return $code;
+        }
+
+        return $factory->createStatusCode($code);
+    }
+
+    /**
+     * Creates new response instance from another one.
+     *
+     * @api
+     */
+    public static function createFromResponse(ResponseInterface $response): self
+    {
+        if ($response instanceof self) {
+            return clone $response;
+        }
+
+        return new self(
+            body: $response->body,
+            headers: $response->headers,
+            status: $response->status,
+        );
     }
 }

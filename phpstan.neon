@@ -44,6 +44,7 @@ parameters:
     # Contracts
     - libs/contracts/event-listener-contracts/src
     - libs/contracts/http-contracts/src
+    - libs/contracts/http-factory-contracts/src
     - libs/contracts/id-contracts/src
     - libs/contracts/uri-contracts/src
     - libs/contracts/uri-factory-contracts/src

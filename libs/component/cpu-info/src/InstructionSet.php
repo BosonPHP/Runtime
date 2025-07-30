@@ -146,11 +146,9 @@ final class InstructionSet implements InstructionSetInterface
     ];
 
     /**
-     * Attempts to create a built-in instruction set instance from a name.
-     *
-     * This method tries to match the given name against known instruction set
-     * names and their aliases. For example, 'pni' will match the SSE3
-     * instruction set.
+     * Translates a string value into the corresponding {@see InstructionSet}
+     * case, if any. If there is no matching case defined,
+     * it will return {@see null}.
      *
      * @api
      *
@@ -162,11 +160,9 @@ final class InstructionSet implements InstructionSetInterface
     }
 
     /**
-     * Creates an instruction set instance from a name.
-     *
-     * This method first attempts to find a matching built-in instruction set.
-     * If no match is found, it creates a new custom instruction set with the
-     * given name.
+     * Translates a string value into the corresponding {@see InstructionSet}
+     * case, if any. If there is no matching case defined,
+     * it will throw {@see \ValueError}.
      *
      * @api
      *
@@ -185,10 +181,8 @@ final class InstructionSet implements InstructionSetInterface
     }
 
     /**
-     * Returns a list of all built-in instruction sets.
-     *
-     * This method returns all the predefined instruction set constants
-     * defined in this class.
+     * Return a packed {@see array} of all cases in an enumeration,
+     * in order of declaration.
      *
      * @api
      *

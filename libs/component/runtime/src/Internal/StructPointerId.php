@@ -43,14 +43,6 @@ abstract readonly class StructPointerId implements IntIdInterface
         return $this->id;
     }
 
-    /**
-     * @return numeric-string&non-empty-string
-     */
-    public function toString(): string
-    {
-        return (string) $this->id;
-    }
-
     public function equals(mixed $other): bool
     {
         return $other === $this
@@ -79,6 +71,6 @@ abstract readonly class StructPointerId implements IntIdInterface
      */
     public function __toString(): string
     {
-        return \sprintf('%s(%s)', static::class, $this->toString());
+        return \sprintf('%s(%d)', static::class, $this->id);
     }
 }

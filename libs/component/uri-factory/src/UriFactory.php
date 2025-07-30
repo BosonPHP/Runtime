@@ -17,6 +17,7 @@ use Boson\Contracts\Uri\Factory\Component\UriQueryFactoryInterface;
 use Boson\Contracts\Uri\Factory\Component\UriSchemeFactoryInterface;
 use Boson\Contracts\Uri\Factory\Exception\InvalidUriComponentExceptionInterface;
 use Boson\Contracts\Uri\Factory\UriFactoryInterface;
+use Boson\Contracts\Uri\UriInterface;
 
 /**
  * @phpstan-type ComponentsArrayType array{
@@ -54,9 +55,17 @@ final readonly class UriFactory implements UriFactoryInterface
         private UriQueryFactoryInterface $queries = new UriQueryFactory(),
     ) {}
 
-    public function createUriFromString(string|\Stringable $uri): Uri
+    public function createUriFromString(string|\Stringable $uri): UriInterface
     {
-        $components = \parse_url((string) $uri);
+        if ($uri instanceof UriInterface) {
+            return clone $uri;
+        }
+
+        try {
+            $components = \parse_url((string) $uri);
+        } catch (\Throwable $e) {
+            throw InvalidUriException::becauseStringCastingErrorOccurs($uri, $e);
+        }
 
         if ($components === false) {
             $components = self::URI_COMPONENTS;
